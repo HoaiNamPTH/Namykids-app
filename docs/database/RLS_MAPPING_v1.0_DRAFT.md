@@ -1,43 +1,87 @@
-# NamyKids App — RLS Mapping v1.0 DRAFT
+# NamyKids App — RLS & API Access Mapping v1.1 DRAFT
 
 Status: DRAFT / NOT APPLIED
 Date: 2026-09-21
+Supersedes: v1.0 DRAFT
+Depends on: APP-TECH-03A Shared Account & Cross-Project Data Boundary v1.0
 
-## Security invariants
-- One auth account owns one child profile.
-- Progress belongs to child; entitlement belongs to account.
-- Published content is immutable and release-pinned.
-- Client uses publishable key only; never service-role/secret.
-- No device fingerprint, Advertising ID/IDFA, or child PII as technical keys.
-- Engines/screens do not own persistence.
-- Completion mutation goes through one transactional Completion Commit boundary.
+## Security model change
 
-## RLS matrix
+The mobile App authenticates against the Web Supabase Auth authority, not the App project's Supabase Auth.
 
-| Entity | Client SELECT | Client INSERT | Client UPDATE | Client DELETE | Mutation owner |
-|---|---|---|---|---|---|
-| public.profiles | own account only | existing canonical flow | own allowed fields only | controlled deletion flow | existing shared auth/account contract |
-| public.child_profiles | own child only | existing canonical flow | parent-owned only | parent-gated deletion flow | existing shared contract |
-| content.content_release | published only | none | none | none | admin/content pipeline |
-| content.content_node_version | nodes in published release only | none | none | none | admin/content pipeline |
-| app.device_registration | own account | own account | own account | revoke, not direct delete | server/device registration flow |
-| app.activity_attempt | own child | none | none | none | Completion Commit |
-| app.activity_result | own child | none | none | none | Completion Commit |
-| app.progress_projection | own child | none | none | none | Completion Commit/projection |
-| app.resume_pointer | own child | none | none | none | Completion Commit/runtime service |
-| private.domain_outbox | none | none | none | none | privileged server worker only |
+Therefore App-project authorization MUST NOT assume that `auth.uid()` in the App project represents the NamyKids parent.
 
-## Migration-gate conditions
-- New RLS policies must use ownership predicates, not only TO authenticated.
-- UPDATE policies require USING + WITH CHECK.
-- Use (select auth.uid()) where appropriate to avoid per-row re-evaluation warnings.
-- SECURITY DEFINER, if genuinely required, must use fixed search_path, explicit ownership checks, least-privilege EXECUTE grants, and advisor review.
-- private schema must remain unexposed.
-- Legacy progress/runtime writes must have an explicit cutover so there is one canonical progress truth.
+Protected App-runtime access goes through a trusted App backend boundary that verifies the Web access token and derives `parent_user_id` from the verified token subject.
+
+## Data API posture
+
+Default posture for App runtime tables:
+- no direct mobile INSERT/UPDATE/DELETE;
+- no direct mobile SELECT for private runtime data unless a later gate explicitly approves a safe read surface;
+- grants are opt-in, not inherited broadly;
+- RLS remains enabled on exposed tables as defense in depth;
+- private/internal schemas remain unexposed.
+
+## Authority / access matrix
+
+| Entity | Direct mobile Data API | Backend/API read | Backend/API write | Canonical authority |
+|---|---|---|---|---|
+| app.identity_binding | DENY | verified parent only | provisioning/revocation only | App binding of Web identity |
+| app.entitlement_snapshot | DENY | verified parent only | trusted sync/refresh only | Web entitlement, App cache |
+| app.device_registration | DENY | verified parent only | trusted device service | App |
+| content.content_release | optional read-only published surface later | yes | admin/content pipeline only | App |
+| content.content_node_version | optional read-only published surface later | yes | admin/content pipeline only | App |
+| app.activity_attempt | DENY | verified parent/child only | Completion Commit only | App |
+| app.activity_result | DENY | verified parent/child only | Completion Commit only | App |
+| app.progress_projection | DENY by default | verified parent/child only | Completion Commit/projection only | App |
+| app.resume_pointer | DENY by default | verified parent/child only | Completion Commit/runtime service | App |
+| private.domain_outbox | DENY | privileged worker only | privileged transaction/worker only | App |
+
+## Identity enforcement
+
+- Client must never supply a trusted `parent_user_id`.
+- Trusted backend verifies Web token first.
+- Verified JWT `sub` becomes `parent_user_id`.
+- `child_id` is accepted only after server-side ownership validation against `app.identity_binding`.
+- Cross-project IDs are scalar UUIDs, not foreign keys to the Web database.
+
+## Database hardening
+
+- Revoke unnecessary grants from `anon`, `authenticated`, and PUBLIC.
+- Do not create a permissive `TO authenticated USING (true)` policy.
+- If any App table is exposed later, add explicit least-privilege GRANT + RLS together.
+- Functions callable through Data API must have explicit EXECUTE grants.
+- SECURITY DEFINER is exceptional only; if used, keep fixed `search_path`, perform explicit authorization, revoke PUBLIC execute, and run security advisors.
+- Mobile clients use only publishable keys; service/secret credentials remain server-side.
+
+## Completion Commit
+
+Protected completion mutation is server-mediated:
+1. verify Web token;
+2. derive parent identity;
+3. verify active parent↔child binding;
+4. verify entitlement/content/release rules;
+5. execute atomic attempt + result + progress + resume + outbox transaction;
+6. enforce idempotency by completion ID.
 
 ## Acceptance tests
-- Parent A cannot read Parent B child/runtime/device rows.
-- Unauthenticated user cannot invoke Completion Commit.
-- Authenticated client cannot directly mutate attempt/result/progress/resume.
-- Duplicate completion IDs remain idempotent.
-- Published content is readable; draft content is not.
+
+- App-project `auth.uid()` is not used as the NamyKids parent authority.
+- Parent A token cannot access Parent B binding/device/runtime rows.
+- Client-supplied parent UUID is ignored/rejected.
+- Invalid/expired Web token produces zero App DB writes.
+- Unverified child UUID produces zero App DB writes.
+- Mobile publishable-key client cannot directly mutate runtime tables.
+- Duplicate completion ID produces no duplicate result/progress/outbox.
+- Published content access works only through the explicitly approved surface.
+- Security advisor has no new App-project warning caused by migration.
+
+## Migration gate condition
+
+This draft becomes canonical only after:
+- schema/migration is created through approved Supabase migration workflow;
+- Web-token verification method is tested;
+- grants and RLS/API exposure are verified;
+- transaction/idempotency tests pass;
+- security/performance advisors pass with no new material findings.
+
