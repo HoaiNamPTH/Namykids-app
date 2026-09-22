@@ -1,5 +1,5 @@
 begin;
-select plan(46);
+select plan(52);
 
 select has_schema('app', 'app schema exists');
 select has_schema('content', 'content schema exists');
@@ -36,9 +36,10 @@ insert into content.content_release (id, release_key, version)
 values ('00000000-0000-0000-0000-000000000001', 'test-release', 1);
 insert into content.content_node_version (id, release_id, node_key, node_type, engine_code, engine_version, payload, content_hash)
 values ('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000001', 'select-a', 'activity', 'E01', '1.0.0', '{}'::jsonb, 'hash-a');
-update content.content_release
-set status = 'published', published_at = now()
-where id = '00000000-0000-0000-0000-000000000001';
+select lives_ok(
+  $$ update content.content_release set status = 'published' where id = '00000000-0000-0000-0000-000000000001' $$,
+  'draft release can be published'
+);
 
 select throws_ok(
   $$ update content.content_node_version set content_hash = 'changed' where id = '00000000-0000-0000-0000-000000000002' $$,
@@ -48,8 +49,28 @@ select throws_ok(
   $$ update content.content_release set release_key = 'changed' where id = '00000000-0000-0000-0000-000000000001' $$,
   '23514', 'PUBLISHED_RELEASE_IMMUTABLE', 'published release is immutable'
 );
+select throws_ok(
+  $$ update content.content_release set status = 'retired' where id = '00000000-0000-0000-0000-000000000001' $$,
+  '23514', 'PUBLISHED_RELEASE_IMMUTABLE', 'published release cannot be retired'
+);
+select throws_ok(
+  $$ delete from content.content_release where id = '00000000-0000-0000-0000-000000000001' $$,
+  '23514', 'PUBLISHED_RELEASE_IMMUTABLE', 'published release cannot be deleted'
+);
+select throws_ok(
+  $$ delete from content.content_node_version where id = '00000000-0000-0000-0000-000000000002' $$,
+  '23514', 'PUBLISHED_NODE_VERSION_IMMUTABLE', 'published node version cannot be deleted'
+);
 insert into content.content_release (id, release_key, version)
 values ('00000000-0000-0000-0000-000000000003', 'draft-engine-check', 1);
+select lives_ok(
+  $$ insert into content.content_node_version (release_id, node_key, node_type, engine_code, engine_version, payload, content_hash) values ('00000000-0000-0000-0000-000000000003', 'drag-a', 'activity', 'E02', '1.0.0', '{}'::jsonb, 'e02') $$,
+  'E02 production engine is accepted'
+);
+select lives_ok(
+  $$ insert into content.content_node_version (release_id, node_key, node_type, engine_code, engine_version, payload, content_hash) values ('00000000-0000-0000-0000-000000000003', 'trace-a', 'activity', 'E04', '1.0.0', '{}'::jsonb, 'e04') $$,
+  'E04 production engine is accepted'
+);
 select throws_ok(
   $$ insert into content.content_node_version (release_id, node_key, node_type, engine_code, engine_version, payload, content_hash) values ('00000000-0000-0000-0000-000000000003', 'bad-engine', 'activity', 'E03', '1.0.0', '{}'::jsonb, 'bad') $$,
   '23514', null, 'unsupported production engine is rejected'

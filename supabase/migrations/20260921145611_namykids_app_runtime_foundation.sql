@@ -199,15 +199,6 @@ begin
     raise exception 'PUBLISHED_RELEASE_IMMUTABLE' using errcode = 'check_violation';
   end if;
   if tg_op = 'UPDATE' and old.status in ('published', 'retired') then
-    if old.status = 'published'
-       and new.status = 'retired'
-       and new.id = old.id
-       and new.release_key = old.release_key
-       and new.version = old.version
-       and new.published_at = old.published_at
-       and new.created_at = old.created_at then
-      return new;
-    end if;
     raise exception 'PUBLISHED_RELEASE_IMMUTABLE' using errcode = 'check_violation';
   end if;
   if tg_op = 'UPDATE' and new.status = 'published' and new.published_at is null then
