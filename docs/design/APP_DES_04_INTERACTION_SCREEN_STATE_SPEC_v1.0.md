@@ -123,7 +123,7 @@ Education rule:
 - text is secondary to audio/visual cue.
 
 Visual:
-- target uppercase A clearly rendered with geometry rules;
+- ordered alphabet sequence and current missing-position pattern are rendered clearly;
 - Nami/Niko may model/encourage;
 - replay-audio control present.
 
@@ -290,7 +290,7 @@ Rules:
 |---|---|---|---|---|
 | READY | validated session + content ready | allow start | content release + entitlement | S02/S03 |
 | INSTRUCTION | unit entered | explain one action | voice asset + target metadata | S04 |
-| ACTIVE | instruction completed | perform M07 | pinned activity/version | S05/S06 |
+| ACTIVE | instruction completed | perform Missing Letters — Drag & Place | pinned activity/version | S05/S06 |
 | CORRECT | target selected | positive feedback | result candidate | commit/check |
 | INCORRECT | distractor selected | try again | attempt evidence | S04 |
 | ASSISTED | answer-revealing support used | continue without penalty language | assisted=true | S04/S05 |
@@ -358,9 +358,10 @@ Child UI:
 - decorative art excluded from accessibility tree.
 - screen-reader focus cannot be trapped by decorative layers.
 
-M07:
-- interaction objective must remain operable under accessibility requirements.
-- if scene-based exact visual discrimination cannot be equivalently assessed through a screen reader, provide an approved alternative route rather than pretending the same visual task is accessible.
+Missing Letters / E02:
+- drag/drop interaction must remain operable under accessibility requirements;
+- provide a non-drag equivalent where the learning objective can be preserved;
+- if exact spatial ordering cannot be equivalently represented for a screen-reader path, use an approved accessible alternative rather than misrepresenting the same task as equivalent.
 
 Parent Zone:
 - VoiceOver/TalkBack operable;
@@ -423,7 +424,7 @@ Production build requires:
 - production Nami raster assets;
 - production Niko raster assets;
 - approved scene/background rasters;
-- glyph geometry-master assets or deterministic render source for A/O/V;
+- canonical alphabet glyph-master assets or deterministic render source for the approved Vietnamese alphabet content scope;
 - audio manifest;
 - icon set;
 - asset manifest mapping stable IDs to versions.
