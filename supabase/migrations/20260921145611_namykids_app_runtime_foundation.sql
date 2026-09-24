@@ -91,6 +91,10 @@ create index activity_attempt_child_started_idx
   on app.activity_attempt (child_id, started_at desc);
 create index activity_attempt_release_node_idx
   on app.activity_attempt (release_id, node_version_id);
+create index activity_attempt_node_version_idx
+  on app.activity_attempt (node_version_id);
+create index activity_attempt_parent_child_idx
+  on app.activity_attempt (parent_user_id, child_id);
 
 create table app.activity_result (
   id uuid primary key default gen_random_uuid(),
@@ -116,6 +120,10 @@ create table app.progress_projection (
 );
 create index progress_projection_child_updated_idx
   on app.progress_projection (child_id, updated_at desc);
+create index progress_projection_last_result_idx
+  on app.progress_projection (last_result_id);
+create index progress_projection_release_idx
+  on app.progress_projection (release_id);
 
 create table app.resume_pointer (
   child_id uuid primary key,
@@ -126,6 +134,10 @@ create table app.resume_pointer (
   resume_payload jsonb not null,
   updated_at timestamptz not null default now()
 );
+create index resume_pointer_release_idx
+  on app.resume_pointer (release_id);
+create index resume_pointer_node_version_idx
+  on app.resume_pointer (node_version_id);
 
 create table private.domain_outbox (
   id uuid primary key default gen_random_uuid(),
