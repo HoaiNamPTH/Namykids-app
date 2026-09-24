@@ -1,6 +1,6 @@
 # APP-TECH-05B — Quality, Test, Accessibility, Performance, Offline & Observability Strategy v1.0
 
-Status: CANDIDATE FOR CMO AUDIT
+Status: APPROVED WITH CONDITIONS
 Date: 2026-09-24
 Repository: HoaiNamPTH/Namykids-app
 Depends on:
@@ -534,10 +534,22 @@ Official/current references used for quality thresholds and principles:
 - Android Developers — Accessibility: https://developer.android.com/guide/topics/ui/accessibility/apps
 - W3C — WCAG 2.2: https://www.w3.org/TR/wcag/
 
-## 18. Candidate decision
+## 18. CMO audit & decision
 
-Recommended CMO status:
-APPROVE WITH CONDITIONS
+Audit result: PASS.
+
+Checked:
+- Gate scope: this document defines quality strategy only; it does not implement Vertical Slice or reopen commerce/design.
+- Architecture invariants: preserved.
+- Privacy constraints: preserved.
+- Accessibility claims: sourced from current official platform/WCAG guidance.
+- Performance metrics: clearly labeled PROVISIONAL where NamyKids lacks measured baseline.
+- Offline/idempotency/deletion/security failure paths: represented.
+- Release blockers and ownership: explicit.
+- No human authority is needed at this step.
+
+CMO status:
+APPROVED WITH CONDITIONS
 
 Conditions:
 - provisional performance numbers must be baselined on the first release-build Vertical Slice and may be calibrated from evidence;
