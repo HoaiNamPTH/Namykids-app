@@ -47,7 +47,7 @@ Required end-to-end slice:
 7. enter Chữ cái & vần
 8. start or resume first approved activity
 9. instruction/orientation
-10. active M07 interaction
+10. active Alphabet Missing Letters — Drag & Place interaction
 11. correct/incorrect/assisted feedback
 12. Completion Commit
 13. progress/resume projection update
@@ -518,7 +518,7 @@ Required categories:
 - Child World background
 - subject path background
 - instruction scene
-- active M07 scene
+- active Missing Letters drag-and-place scene
 - correct feedback
 - retry feedback
 - completion/reward
@@ -570,9 +570,10 @@ Required:
 - decorative art hidden from accessibility tree
 - Parent Zone charts include text summaries
 
-M07 visual discrimination:
-- do not falsely claim identical screen-reader assessment if visual discrimination cannot be equivalently represented;
-- provide approved accessible alternative path where required by quality review.
+Missing Letters / E02 accessibility:
+- provide a non-drag equivalent where the learning objective can be preserved;
+- do not claim equivalence if exact spatial ordering cannot be represented faithfully for assistive technology;
+- use an approved accessible alternative path where required by quality review.
 
 ## 18. Observability
 
@@ -699,7 +700,7 @@ Against approved image only:
 - Soft CGI scene style
 - layout hierarchy
 - no flat placeholder final art
-- no superseded A/O/V/M07 leakage; Missing Letters visual behavior matches the approved concept
+- no superseded fixed-letter or M07 leakage; Missing Letters visual behavior matches the approved interaction canon
 
 ## 21. Definition of Done — implementation
 
