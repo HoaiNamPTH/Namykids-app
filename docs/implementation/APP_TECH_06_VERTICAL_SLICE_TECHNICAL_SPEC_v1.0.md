@@ -80,16 +80,16 @@ Canonical first-slice activity:
 - interaction: drag letters from a shuffled tray into the correct missing positions
 - refresh / “Lượt mới”: generate a new missing-letter set
 - technical production engine mapping: **E02 DRAG_DROP**
-- content config owns the exact letters missing in each round; no fixed A/O/V set is canonical
+- content config owns the exact letters missing in each round; no fixed legacy fixed-letter target/distractor set set is canonical
 - session completion does not equal mastery
 
 Superseded:
-- M07 Find-Object in Scene
+- legacy find-object mechanic Find-Object in Scene
 - E01 SELECT as the primary first-slice engine
-- fixed A/O/V target-distractor lock
+- fixed legacy fixed-letter target/distractor set target-distractor lock
 
 Important:
-The approved visual image may contain illustrative letter examples. They are visual examples only and must not recreate the superseded A/O/V rule.
+The approved visual image may contain illustrative letter examples. They are visual examples only and must not recreate the superseded legacy fixed-letter target/distractor set rule.
 
 ## 5. Route map
 
@@ -290,7 +290,7 @@ Round structure:
 - progression may use 2, 3, 4, then 5–6 missing letters;
 - tray order is shuffled;
 - refresh / “Lượt mới” creates a new missing-position set;
-- exact letters are content-driven, not hard-coded to A/O/V.
+- exact letters are content-driven, not hard-coded to legacy fixed-letter target/distractor set.
 
 Interaction:
 - drag a tray letter into a target gap;
@@ -500,7 +500,7 @@ Implementation rules:
 - calmer Parent Zone.
 
 Concept-art corrections:
-- illustrative letter examples → content-driven Missing Letters rounds; do not restore old A/O/V;
+- illustrative letter examples → content-driven Missing Letters rounds; do not restore old legacy fixed-letter target/distractor set;
 - +3 stars = decorative only;
 - progress percentages only if real projection supports them;
 - content counts only from approved content data;
@@ -700,7 +700,7 @@ Against approved image only:
 - Soft CGI scene style
 - layout hierarchy
 - no flat placeholder final art
-- no superseded fixed-letter or M07 leakage; Missing Letters visual behavior matches the approved interaction canon
+- no superseded fixed-letter or legacy find-object mechanic leakage; Missing Letters visual behavior matches the approved interaction canon
 
 ## 21. Definition of Done — implementation
 
@@ -724,7 +724,7 @@ Learning:
 - baseline 3 missing letters for 3–4
 - progression 2→3→4→5–6 preserved
 - tray shuffle + refresh behavior preserved
-- no fixed A/O/V lock
+- no fixed legacy fixed-letter target/distractor set lock
 - no answer cue
 - assisted semantics correct
 - voice instruction present
@@ -798,7 +798,7 @@ Goal:
 
 Do not:
 - recreate final UI from rejected Figma;
-- restore A/O/V or any fixed target-distractor set from superseded decisions or concept art;
+- restore legacy fixed-letter target/distractor set or any fixed target-distractor set from superseded decisions or concept art;
 - hard-code fake progress percentages;
 - create second Auth account;
 - write Web commerce truth into App;
@@ -832,7 +832,7 @@ Audit result: PASS.
 Checked:
 - no Product/Architecture/UX/Education decision was silently reopened;
 - Missing Letters → E02 mapping stays within approved runtime boundaries;
-- superseded M07 + A/O/V decisions are excluded;
+- superseded legacy find-object mechanic + legacy fixed-letter target/distractor set decisions are excluded;
 - Web Auth, child binding, entitlement and max-two-device rules are preserved;
 - Completion Commit signature/idempotency/outbox/resume contracts are preserved;
 - legacy Figma is explicitly excluded as visual authority;
