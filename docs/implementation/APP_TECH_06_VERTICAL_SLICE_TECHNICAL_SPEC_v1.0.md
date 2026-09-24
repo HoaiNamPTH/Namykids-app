@@ -1,6 +1,6 @@
 # APP-TECH-06 — Vertical Slice Technical Spec v1.0
 
-Status: CANDIDATE FOR CMO AUDIT
+Status: APPROVED WITH CONDITIONS
 Date: 2026-09-24
 Project: NamyKids App
 Repository: HoaiNamPTH/Namykids-app
@@ -804,10 +804,22 @@ Open but not blocking this Technical Spec:
 
 These become blockers only at the gate where they are decision-critical.
 
-## 25. Candidate CMO decision
+## 25. CMO audit & decision
 
-Recommended:
-APPROVE WITH CONDITIONS
+Audit result: PASS.
+
+Checked:
+- no Product/Architecture/UX/Education decision was silently reopened;
+- M07→E01 mapping stays within approved runtime boundaries;
+- canonical A/O/V learning-content lock overrides visual placeholder A/B/C;
+- Web Auth, child binding, entitlement and max-two-device rules are preserved;
+- Completion Commit signature/idempotency/outbox/resume contracts are preserved;
+- legacy Figma is explicitly excluded as visual authority;
+- APP-TECH-05A privacy/store constraints and APP-TECH-05B quality gates are carried forward;
+- open commerce/guardian/minOS/cutover items are correctly deferred and do not block this spec.
+
+CMO status:
+APPROVED WITH CONDITIONS
 
 Conditions:
 - build may start only from this spec plus canonical dependencies;
