@@ -1,6 +1,6 @@
 # APP-DES-04 — Interaction & Screen-State Spec v1.0
 
-Status: CANDIDATE FOR CMO AUDIT
+Status: APPROVED WITH CONDITIONS
 Date: 2026-09-24
 Project: NamyKids App
 Replaces: clickable Figma prototype requirement for this project
@@ -451,10 +451,22 @@ PASS only if:
 - asset handoff rules prevent visual substitution;
 - no requirement forces a new business/product choice.
 
-## 14. Candidate decision
+## 14. CMO audit & decision
 
-Recommended:
-APPROVE WITH CONDITIONS
+Audit result: PASS.
+
+Checked:
+- visual authority remains the user-approved image, not Figma;
+- Product / UX / Education precedence is explicit;
+- visual placeholder A/B/C is corrected to canonical A/O/V;
+- retry / hint / assisted semantics are preserved;
+- offline / resume / entitlement fail-closed states are represented;
+- Parent Zone and restricted states do not invent new commerce or PIN rules;
+- accessibility and asset handoff requirements are testable;
+- no new human Product/Business choice is required.
+
+CMO status:
+APPROVED WITH CONDITIONS
 
 Conditions carried forward:
 1. Final production raster asset pack must match the approved visual before visual QA/release.
