@@ -49,7 +49,7 @@ The approved image is visual reference only. Text or state logic shown in it can
 Canonical Vertical Slice:
 Account/session already valid → Child World → Chữ cái & vần → first approved unit → instruction/orientation → active learning interaction → feedback → progress commit → return/resume → Parent Zone.
 
-Exact first learning-content lock — superseding the older A/O/V + M07 decision:
+Exact first learning-content lock — superseding the older legacy fixed-letter target/distractor set + legacy find-object mechanic decision:
 - Canonical concept: **Alphabet Missing Letters — Drag & Place**.
 - Audience baseline: **3–4 tuổi**.
 - Learning intent: làm quen và ghi nhớ trật tự chữ cái qua chơi lặp lại; **không phải bài kiểm tra thuộc bảng chữ cái**.
@@ -63,8 +63,8 @@ Exact first learning-content lock — superseding the older A/O/V + M07 decision
 - Session completion is not mastery.
 
 Superseded:
-- M07 Find-Object in Scene = old decision, no longer the first-slice mechanic.
-- A/O/V target-distractor set = old decision, no longer canonical.
+- legacy find-object mechanic Find-Object in Scene = old decision, no longer the first-slice mechanic.
+- legacy fixed-letter target/distractor set target-distractor set = old decision, no longer canonical.
 - The approved visual concept may contain illustrative letter examples; those examples do not define the canonical missing-letter set.
 
 ## 4. Canonical screen map
@@ -148,7 +148,7 @@ Canonical interaction:
 - “Lượt mới” refreshes the missing-letter set;
 - drag/drop must preserve clear target zones and avoid accidental success from random placement;
 - wrong placement returns the item or gives gentle retry feedback without removing the challenge;
-- exact letters shown in a round come from approved content config, not from old A/O/V hard-coding.
+- exact letters shown in a round come from approved content config, not from old legacy fixed-letter target/distractor set hard-coding.
 
 Actions:
 - Correct placement → continue within S04 until the current round is complete.
@@ -408,7 +408,7 @@ The approved visual concept contains some illustrative details that are NOT cano
 
 | Visual example | Canonical correction |
 |---|---|
-| Letter examples shown in concept art | Do not infer a fixed A/O/V or A/B/C set; canonical mechanic is Missing Letters — Drag & Place with round-specific missing letters from content config |
+| Letter examples shown in concept art | Do not infer a fixed legacy fixed-letter target/distractor set or A/B/C set; canonical mechanic is Missing Letters — Drag & Place with round-specific missing letters from content config |
 | Age selection onboarding shown | Do not infer new onboarding requirement from image; follow approved account/child-profile Product flow |
 | Stars/+3 shown | Decorative reward only; no currency/economy |
 | Progress percentage | Only render if derived from approved progress model; no fabricated percent |
@@ -445,7 +445,7 @@ If a required production asset is not ready:
 PASS only if:
 - visual source of truth is explicitly the user-approved image, not Figma;
 - screen/state mapping preserves Product/UX/Education canon;
-- superseded A/O/V + M07 decision is explicitly removed and Missing Letters — Drag & Place is canonical;
+- superseded legacy fixed-letter target/distractor set + legacy find-object mechanic decision is explicitly removed and Missing Letters — Drag & Place is canonical;
 - retry/hint/assisted semantics preserved;
 - offline/resume states mapped;
 - Parent Zone and restricted states mapped;
@@ -461,7 +461,7 @@ Audit result: PASS.
 Checked:
 - visual authority remains the user-approved image, not Figma;
 - Product / UX / Education precedence is explicit;
-- older A/O/V + M07 decision is explicitly superseded by Missing Letters — Drag & Place;
+- older legacy fixed-letter target/distractor set + legacy find-object mechanic decision is explicitly superseded by Missing Letters — Drag & Place;
 - retry / hint / assisted semantics are preserved;
 - offline / resume / entitlement fail-closed states are represented;
 - Parent Zone and restricted states do not invent new commerce or PIN rules;
