@@ -49,23 +49,23 @@ The approved image is visual reference only. Text or state logic shown in it can
 Canonical Vertical Slice:
 Account/session already valid → Child World → Chữ cái & vần → first approved unit → instruction/orientation → active learning interaction → feedback → progress commit → return/resume → Parent Zone.
 
-Exact first learning-content lock:
-- Primary mechanic: M07 Find-Object in Scene.
-- Secondary: M12 Cause & Effect only for intro/orientation/reinforcement/completion acknowledgement.
-- Backup: M01 Matching.
-- Target glyph: uppercase A.
-- Initial distractors: uppercase O + V.
-- Case: uppercase only.
-- Candidate glyphs must have equivalent pre-response visual salience.
-- Glyph geometry must remain upright, front-facing, fully visible, undistorted and unobscured.
-- Background taps cannot create success.
-- Wrong choices do not disappear merely to reveal the answer.
-- Brute-force/random rapid sweep/lucky tap cannot count as independent evidence.
-- Answer-revealing support is ASSISTED.
+Exact first learning-content lock — superseding the older A/O/V + M07 decision:
+- Canonical concept: **Alphabet Missing Letters — Drag & Place**.
+- Audience baseline: **3–4 tuổi**.
+- Learning intent: làm quen và ghi nhớ trật tự chữ cái qua chơi lặp lại; **không phải bài kiểm tra thuộc bảng chữ cái**.
+- Baseline challenge: **3 chữ thiếu**.
+- Progression: **2 → 3 → 4 → 5–6 chữ thiếu**; **6–7 chữ không phải baseline**.
+- Interaction loop: kéo chữ từ tray vào đúng vị trí trống; tray được shuffle giữa lượt.
+- Refresh / “Lượt mới”: tạo một bộ vị trí chữ thiếu mới thay vì lặp đúng layout cũ.
+- Canonical technical interaction family: **E02 DRAG_DROP** for the drag-and-place behavior.
+- Hint/support must preserve learning intent and must not turn into answer-revealing auto-solve by default.
+- Random dragging / lucky placement must not be treated as independent mastery evidence.
 - Session completion is not mastery.
 
-NOTE:
-The approved concept image visually shows A/B/C in one illustrative panel. That is NOT canonical learning content. Implementation MUST use A/O/V because Education canon overrides visual-placeholder content.
+Superseded:
+- M07 Find-Object in Scene = old decision, no longer the first-slice mechanic.
+- A/O/V target-distractor set = old decision, no longer canonical.
+- The approved visual concept may contain illustrative letter examples; those examples do not define the canonical missing-letter set.
 
 ## 4. Canonical screen map
 
@@ -137,21 +137,23 @@ Must NOT:
 - add a second learning objective;
 - turn instruction into a scored attempt.
 
-### S04 — Active M07 Find-Object Scene
+### S04 — Active Alphabet Missing Letters — Drag & Place
 Purpose:
-- child finds uppercase A in a scene containing A/O/V candidates.
+- child fills missing positions in an ordered alphabet sequence by dragging the available letters into the correct gaps.
 
 Canonical interaction:
-- one valid candidate selection resolves one response opportunity;
-- candidate glyphs equal-salience before response;
-- target A and distractors O/V use approved geometry master rules;
-- scene art must not provide correct-only glow/color/size/motion/proximity cue;
-- non-target scene objects may be tappable only if they cannot create success.
+- baseline uses 3 missing positions for the 3–4 age band;
+- progression may use 2, 3, 4, then 5–6 missing positions;
+- tray order is shuffled;
+- “Lượt mới” refreshes the missing-letter set;
+- drag/drop must preserve clear target zones and avoid accidental success from random placement;
+- wrong placement returns the item or gives gentle retry feedback without removing the challenge;
+- exact letters shown in a round come from approved content config, not from old A/O/V hard-coding.
 
 Actions:
-- Tap A → S05 Correct Feedback.
-- Tap O or V → S06 Try Again.
-- Background/non-candidate tap → no success; may remain neutral.
+- Correct placement → continue within S04 until the current round is complete.
+- Wrong placement → gentle retry state without answer leakage.
+- Hint/support when eligible → remain in the same round with assisted evidence if the support reveals the answer.
 - Replay voice instruction.
 - Back → S02, preserving resumable state according to UX canon.
 
@@ -405,7 +407,7 @@ The approved visual concept contains some illustrative details that are NOT cano
 
 | Visual example | Canonical correction |
 |---|---|
-| A / B / C answer tiles | Use A target + O/V distractors for first slice |
+| Letter examples shown in concept art | Do not infer a fixed A/O/V or A/B/C set; canonical mechanic is Missing Letters — Drag & Place with round-specific missing letters from content config |
 | Age selection onboarding shown | Do not infer new onboarding requirement from image; follow approved account/child-profile Product flow |
 | Stars/+3 shown | Decorative reward only; no currency/economy |
 | Progress percentage | Only render if derived from approved progress model; no fabricated percent |
@@ -442,7 +444,7 @@ If a required production asset is not ready:
 PASS only if:
 - visual source of truth is explicitly the user-approved image, not Figma;
 - screen/state mapping preserves Product/UX/Education canon;
-- A/O/V correction is explicit;
+- superseded A/O/V + M07 decision is explicitly removed and Missing Letters — Drag & Place is canonical;
 - retry/hint/assisted semantics preserved;
 - offline/resume states mapped;
 - Parent Zone and restricted states mapped;
@@ -458,7 +460,7 @@ Audit result: PASS.
 Checked:
 - visual authority remains the user-approved image, not Figma;
 - Product / UX / Education precedence is explicit;
-- visual placeholder A/B/C is corrected to canonical A/O/V;
+- older A/O/V + M07 decision is explicitly superseded by Missing Letters — Drag & Place;
 - retry / hint / assisted semantics are preserved;
 - offline / resume / entitlement fail-closed states are represented;
 - Parent Zone and restricted states do not invent new commerce or PIN rules;
