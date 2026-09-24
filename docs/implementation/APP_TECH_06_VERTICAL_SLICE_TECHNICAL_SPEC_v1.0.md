@@ -72,16 +72,24 @@ Out of scope:
 
 Canonical first-slice activity:
 - subject: Chữ cái & vần
-- target: uppercase A
-- distractors: uppercase O + V
-- case: UPPERCASE ONLY
-- primary education mechanic: M07 Find-Object in Scene
-- technical production engine mapping: E01 SELECT for selectable candidates
-- M12 Cause & Effect is presentation/orientation/reinforcement only, not a second scored engine
-- M01 Matching remains education backup, not part of this first technical slice unless a future Decision Challenge changes the primary path
+- canonical concept: **Alphabet Missing Letters — Drag & Place**
+- audience baseline: **3–4 tuổi**
+- learning intent: familiarization and remembering alphabet order through repeated play, not prior-knowledge testing
+- baseline: **3 missing letters**
+- progression: **2 → 3 → 4 → 5–6 missing letters**; 6–7 is not baseline
+- interaction: drag letters from a shuffled tray into the correct missing positions
+- refresh / “Lượt mới”: generate a new missing-letter set
+- technical production engine mapping: **E02 DRAG_DROP**
+- content config owns the exact letters missing in each round; no fixed A/O/V set is canonical
+- session completion does not equal mastery
+
+Superseded:
+- M07 Find-Object in Scene
+- E01 SELECT as the primary first-slice engine
+- fixed A/O/V target-distractor lock
 
 Important:
-The approved visual image contains illustrative A/B/C tiles. Do not implement B/C from the visual. A/O/V is canonical.
+The approved visual image may contain illustrative letter examples. They are visual examples only and must not recreate the superseded A/O/V rule.
 
 ## 5. Route map
 
@@ -147,8 +155,9 @@ Production engines only:
 - E04 TRACE
 
 For this slice:
-- implement E01 SELECT only to the extent required for A/O/V M07.
-- do not implement E02/E04 unless shared interfaces require non-functional type definitions.
+- implement **E02 DRAG_DROP** to the extent required for Alphabet Missing Letters — Drag & Place.
+- E01 SELECT and E04 TRACE remain approved production engines but are not the primary first-slice mechanic.
+- do not expand into additional engine behaviors outside what this slice needs.
 
 Engine rules:
 - pure interaction logic;
@@ -217,19 +226,20 @@ For first slice, config must minimally support:
 - activityId
 - activityVersion
 - contentReleaseId
-- engineType = E01_SELECT
+- engineType = E02_DRAG_DROP
 - engineVersion
 - instructionAudioAssetId
 - instructionVisualAssetIds
-- target:
-  - semanticId
-  - glyph = "A"
-  - correct = true
-- distractors:
-  - glyph = "O"
-  - glyph = "V"
+- orderedSequenceId / sequence metadata
+- visibleSequence
+- missingPositions
+- trayItems
+- trayShuffleSeed or equivalent deterministic round seed where needed
+- dropTargets
+- roundDifficulty / missingCount
+- refreshableRoundConfig
 - candidate display metadata
-- salience constraints
+- equal-salience / no-answer-cue constraints
 - feedback audio/assets
 - accessibility labels/equivalents
 - requiresFull boolean
@@ -272,26 +282,31 @@ Required events:
 
 For first slice, Attempt should carry only the minimum education/runtime evidence needed; do not log unnecessary raw child-answer telemetry outside canonical persistence.
 
-## 8. M07 / E01 interaction contract
+## 8. Alphabet Missing Letters / E02 interaction contract
 
-Candidates:
-- exactly A, O, V for first-slice baseline;
-- equal pre-response salience;
-- no correct-only glow/size/color/motion/proximity cue;
-- glyph upright, front-facing, fully visible, undistorted, unobscured.
+Round structure:
+- ordered alphabet sequence with a configurable set of missing positions;
+- baseline missingCount = 3 for the 3–4 age-band slice;
+- progression may use 2, 3, 4, then 5–6 missing letters;
+- tray order is shuffled;
+- refresh / “Lượt mới” creates a new missing-position set;
+- exact letters are content-driven, not hard-coded to A/O/V.
 
 Interaction:
-- select A → correct response;
-- select O/V → incorrect response;
-- background tap → no success;
-- accidental motor near-miss should not be classified as knowledge error when technically distinguishable;
-- distractor remains available after incorrect choice;
-- answer-revealing hint marks evidence assisted=true;
-- repeated rapid/lucky tapping cannot be treated as independent evidence.
-
-Engine output:
-- semantic result only;
+- drag a tray letter into a target gap;
+- correct placement locks/acknowledges that placement according to content config;
+- wrong placement returns gently or rejects without removing the challenge;
+- random sweeping/lucky placement must not be treated as independent evidence;
+- answer-revealing support marks evidence assisted=true;
+- motor near-miss should not be classified as a knowledge error where technically distinguishable;
+- engine emits semantic drag/drop result only;
 - runtime owns persistence and navigation.
+
+Visual/education guardrails:
+- glyphs upright, fully visible, undistorted and unobscured;
+- no correct-only glow/color/size/motion/proximity cue before response;
+- drop targets large enough for the age band;
+- refresh cannot silently change an in-progress round.
 
 ## 9. Completion Commit contract
 
@@ -432,9 +447,11 @@ S03 Instruction:
 
 S04 Active:
 - reducer state ACTIVE
-- E01 engine instance
-- A/O/V config
+- E02 DRAG_DROP engine instance
+- Missing Letters round config
+- current missing positions + shuffled tray
 - replay action
+- refresh only at a valid round boundary
 
 S05 Correct:
 - CHECKING → FEEDBACK_POSITIVE → COMPLETING/ROUND_COMPLETE
@@ -483,7 +500,7 @@ Implementation rules:
 - calmer Parent Zone.
 
 Concept-art corrections:
-- A/B/C → A/O/V;
+- illustrative letter examples → content-driven Missing Letters rounds; do not restore old A/O/V;
 - +3 stars = decorative only;
 - progress percentages only if real projection supports them;
 - content counts only from approved content data;
@@ -506,7 +523,7 @@ Required categories:
 - retry feedback
 - completion/reward
 - Parent Zone decorative assets
-- glyph masters A/O/V
+- canonical alphabet glyph master set required by the approved content scope
 - audio files
 - utility icons
 
@@ -619,8 +636,8 @@ After first measured baseline:
 
 ### Unit
 - reducer transitions
-- E01 candidate evaluation
-- A/O/V schema
+- E02 drag/drop placement evaluation
+- Missing Letters round/config schema
 - hint/assisted semantics
 - idempotency helpers
 - resume serializer
@@ -650,10 +667,11 @@ Any DB change:
 ### E2E
 1. valid session → Child World
 2. Child World → Chữ cái & vần
-3. start A/O/V activity
-4. A → correct
-5. O/V → retry
+3. start Missing Letters round
+4. correct drag/place path
+5. wrong placement → retry/return
 6. assisted hint path
+7. refresh / “Lượt mới” changes the missing set
 7. completion commit
 8. reopen → progress
 9. incomplete → resume
@@ -681,7 +699,7 @@ Against approved image only:
 - Soft CGI scene style
 - layout hierarchy
 - no flat placeholder final art
-- A/O/V canonical correction applied
+- no superseded A/O/V/M07 leakage; Missing Letters visual behavior matches the approved concept
 
 ## 21. Definition of Done — implementation
 
@@ -701,9 +719,11 @@ Auth/security:
 - entitlement fail closed
 
 Learning:
-- M07 mapped to E01
-- target A / distractors O,V
-- equal salience
+- Missing Letters — Drag & Place mapped to E02
+- baseline 3 missing letters for 3–4
+- progression 2→3→4→5–6 preserved
+- tray shuffle + refresh behavior preserved
+- no fixed A/O/V lock
 - no answer cue
 - assisted semantics correct
 - voice instruction present
@@ -744,7 +764,7 @@ Build 1 — framework/runtime skeleton
 - route skeleton
 - domain types
 - reducer
-- E01 interface
+- E02 DRAG_DROP interface
 - content schema
 - local persistence abstractions
 - no final visual polish yet
@@ -759,7 +779,7 @@ Build 2 — protected integration
 
 Build 3 — Vertical Slice UI + approved asset integration
 - S01–S12 required subset
-- A/O/V activity
+- Missing Letters — Drag & Place activity
 - audio
 - Parent Zone read
 - offline/recovery
@@ -777,7 +797,7 @@ Goal:
 
 Do not:
 - recreate final UI from rejected Figma;
-- make B/C canonical distractors because they appear in concept art;
+- restore A/O/V or any fixed target-distractor set from superseded decisions or concept art;
 - hard-code fake progress percentages;
 - create second Auth account;
 - write Web commerce truth into App;
@@ -810,8 +830,8 @@ Audit result: PASS.
 
 Checked:
 - no Product/Architecture/UX/Education decision was silently reopened;
-- M07→E01 mapping stays within approved runtime boundaries;
-- canonical A/O/V learning-content lock overrides visual placeholder A/B/C;
+- Missing Letters → E02 mapping stays within approved runtime boundaries;
+- superseded M07 + A/O/V decisions are excluded;
 - Web Auth, child binding, entitlement and max-two-device rules are preserved;
 - Completion Commit signature/idempotency/outbox/resume contracts are preserved;
 - legacy Figma is explicitly excluded as visual authority;
