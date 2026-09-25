@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "name": "NamyKids Foundation",
+    "slug": "namykids-foundation",
+    "version": "0.1.0",
+    "plugins": ["expo-router"],
+    "userInterfaceStyle": "light"
+  }
+}

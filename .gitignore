@@ -9,6 +9,7 @@ temp/
 dist/
 build/
 coverage/
+*.tsbuildinfo
 *.apk
 *.aab
 *.ipa
