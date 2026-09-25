@@ -60,7 +60,6 @@ export type GameSessionEvent =
   | { type: "ABANDONED" };
 
 export type CompletionCommitRequest = {
-  parentUserId: Uuid;
   childId: Uuid;
   completionId: Uuid;
   releaseId: Uuid;

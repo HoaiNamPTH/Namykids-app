@@ -18,4 +18,11 @@ describe("Alphabet Missing Letters config", () => {
 
     expect(alphabetMissingLettersConfigSchema.safeParse(invalid).success).toBe(false);
   });
+
+  it("rejects duplicate positions in refresh choices", () => {
+    const invalid = makeMissingLettersConfig();
+    invalid.refreshableRoundConfig.alternativeMissingPositionSets = [[0, 0, 4]];
+
+    expect(alphabetMissingLettersConfigSchema.safeParse(invalid).success).toBe(false);
+  });
 });

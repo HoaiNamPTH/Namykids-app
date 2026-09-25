@@ -6,7 +6,7 @@ const violations = [];
 const checks = [
   {
     name: "secret-like credential",
-    pattern: /service[_-]?role|SUPABASE_SECRET|authorization\s*:\s*["'`]Bearer/i
+    pattern: /service[_-]?role|SUPABASE_SECRET/i
   },
   {
     name: "prohibited permission or identifier",

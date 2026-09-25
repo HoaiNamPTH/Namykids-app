@@ -69,10 +69,18 @@ export const alphabetMissingLettersConfigSchema = z
       context.addIssue({ code: "custom", message: "each drop target must reference a configured tray item" });
     }
     const currentSignature = signature(config.missingPositions);
+    const refreshSignatures = new Set<string>();
     for (const alternative of config.refreshableRoundConfig.alternativeMissingPositionSets) {
-      if (alternative.length !== config.missingCount || signature(alternative) === currentSignature) {
+      const alternativeSignature = signature(alternative);
+      if (
+        alternative.length !== config.missingCount ||
+        new Set(alternative).size !== config.missingCount ||
+        alternativeSignature === currentSignature ||
+        refreshSignatures.has(alternativeSignature)
+      ) {
         context.addIssue({ code: "custom", message: "refresh must provide a distinct missing-position set of the same difficulty" });
       }
+      refreshSignatures.add(alternativeSignature);
       if (alternative.some((position) => position >= config.visibleSequence.length)) {
         context.addIssue({ code: "custom", message: "refresh position is outside visibleSequence" });
       }

@@ -33,7 +33,7 @@ export interface SessionSnapshotRepository {
 export interface PendingCompletionRepository {
   enqueue(record: PendingCompletion): Promise<void>;
   list(parentUserId: Uuid, childId: Uuid): Promise<readonly PendingCompletion[]>;
-  remove(completionId: Uuid): Promise<void>;
+  remove(record: Pick<PendingCompletion, "parentUserId" | "childId" | "completionId">): Promise<void>;
 }
 
 export function sessionSnapshotKey(snapshot: Pick<SessionSnapshot, "parentUserId" | "pin">): string {
@@ -43,6 +43,10 @@ export function sessionSnapshotKey(snapshot: Pick<SessionSnapshot, "parentUserId
 
 export function pendingCompletionKey(record: Pick<PendingCompletion, "parentUserId" | "childId" | "completionId">): string {
   return ["namykids", "outbox", record.parentUserId, record.childId, record.completionId].join(":");
+}
+
+function pendingCompletionIndexKey(record: Pick<PendingCompletion, "parentUserId" | "childId">): string {
+  return ["namykids", "outbox-index", record.parentUserId, record.childId].join(":");
 }
 
 const prohibitedKey = /token|authorization|email|phone|nickname|payment|idfa|aaid|fingerprint/i;
@@ -72,5 +76,47 @@ export class JsonSessionSnapshotRepository implements SessionSnapshotRepository 
 
   async clear(key: string): Promise<void> {
     await this.store.removeItem(key);
+  }
+}
+
+/** A per-parent/child index keeps durable pending records discoverable after app restart. */
+export class JsonPendingCompletionRepository implements PendingCompletionRepository {
+  constructor(private readonly store: KeyValueStore) {}
+
+  async enqueue(record: PendingCompletion): Promise<void> {
+    assertPrivacySafePersistence(record);
+    const key = pendingCompletionKey(record);
+    const indexKey = pendingCompletionIndexKey(record);
+    const existing = await this.readIndex(indexKey);
+    await this.store.setItem(key, JSON.stringify(record));
+    if (!existing.includes(record.completionId)) {
+      await this.store.setItem(indexKey, JSON.stringify([...existing, record.completionId]));
+    }
+  }
+
+  async list(parentUserId: Uuid, childId: Uuid): Promise<readonly PendingCompletion[]> {
+    const identity = { parentUserId, childId };
+    const completionIds = await this.readIndex(pendingCompletionIndexKey(identity));
+    const records = await Promise.all(
+      completionIds.map(async (completionId) => {
+        const value = await this.store.getItem(pendingCompletionKey({ ...identity, completionId }));
+        return value ? (JSON.parse(value) as PendingCompletion) : null;
+      })
+    );
+    return records.filter((record): record is PendingCompletion => record !== null);
+  }
+
+  async remove(record: Pick<PendingCompletion, "parentUserId" | "childId" | "completionId">): Promise<void> {
+    const indexKey = pendingCompletionIndexKey(record);
+    const completionIds = await this.readIndex(indexKey);
+    await this.store.removeItem(pendingCompletionKey(record));
+    await this.store.setItem(indexKey, JSON.stringify(completionIds.filter((id) => id !== record.completionId)));
+  }
+
+  private async readIndex(key: string): Promise<readonly Uuid[]> {
+    const value = await this.store.getItem(key);
+    if (!value) return [];
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed) && parsed.every((item) => typeof item === "string") ? parsed : [];
   }
 }
