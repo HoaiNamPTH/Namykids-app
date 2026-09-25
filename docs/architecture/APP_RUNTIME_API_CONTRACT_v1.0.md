@@ -1,7 +1,8 @@
 # APP Runtime API Contract v1.0
 
-Status: APPROVED TECHNICAL CONTRACT / IMPLEMENTATION PENDING
+Status: SUPERSEDED — see APP_RUNTIME_API_CONTRACT_v1.1.md
 Date: 2026-09-25
+Superseded by: APP_RUNTIME_API_CONTRACT_v1.1.md — additive trusted RPC surface change
 Project: NamyKids App
 Scope: APP-BUILD-02 trusted runtime boundary
 Depends on:
