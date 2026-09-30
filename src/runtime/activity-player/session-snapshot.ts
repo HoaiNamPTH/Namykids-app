@@ -2,6 +2,7 @@ import { alphabetMissingLettersConfigSchema, signature, type AlphabetMissingLett
 import type { PublishedContentPin } from "../../data/contracts";
 import type { GameSessionState, SessionPin } from "../../domain/types";
 import type { SessionSnapshot } from "../../persistence/contracts";
+import { createRoundAssessment, restoreRoundAssessment, type RoundAssessmentState } from "./round-assessment";
 
 export function createSessionPin(childId: string, config: AlphabetMissingLettersConfig, contentPin: PublishedContentPin): SessionPin {
   return {
@@ -24,6 +25,7 @@ export function createSessionSnapshot(input: {
   config: AlphabetMissingLettersConfig;
   positions: readonly number[];
   placed: Readonly<Record<number, string>>;
+  assessment?: RoundAssessmentState;
 }): SessionSnapshot {
   return {
     parentUserId: input.parentUserId,
@@ -34,6 +36,7 @@ export function createSessionSnapshot(input: {
       config: input.config,
       positions: [...input.positions],
       placed: { ...input.placed },
+      assessment: input.assessment ?? createRoundAssessment(),
     },
   };
 }
@@ -55,6 +58,10 @@ export function restorePinnedActivitySession(snapshot: SessionSnapshot, parentUs
   return {
     ...snapshot,
     state: { ...snapshot.state, pin: snapshot.pin },
-    activityState: { ...snapshot.activityState, config: parsed.data },
+    activityState: {
+      ...snapshot.activityState,
+      config: parsed.data,
+      assessment: restoreRoundAssessment(snapshot.activityState.assessment),
+    },
   };
 }

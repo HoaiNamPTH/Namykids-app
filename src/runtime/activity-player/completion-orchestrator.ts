@@ -2,6 +2,7 @@ import { RuntimeRequestError } from "../../data/app-runtime-client";
 import type { RuntimeDataGateway } from "../../data/contracts";
 import type { CompletionCommitRequest, SessionPin } from "../../domain/types";
 import type { PendingCompletion, PendingCompletionRepository } from "../../persistence/contracts";
+import type { RoundAssessmentSummary } from "./round-assessment";
 
 export type CompletionInput = {
   parentUserId: string;
@@ -12,6 +13,7 @@ export type CompletionInput = {
   assisted: boolean;
   requiresFull: boolean;
   beginSnapshot: Record<string, unknown>;
+  assessmentSummary: RoundAssessmentSummary;
 };
 
 export async function commitOrQueueCompletion(
@@ -32,7 +34,7 @@ export async function commitOrQueueCompletion(
     score: null,
     assisted: input.assisted,
     completedAt: input.completedAt,
-    resultPayload: { engine: "E02", outcome: "completed" },
+    resultPayload: { engine: "E02", outcome: "completed", assessment: input.assessmentSummary },
     progressStatus: "completed",
     resumePayload: null,
     requiresFull: input.requiresFull,

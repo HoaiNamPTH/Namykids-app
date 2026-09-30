@@ -1,5 +1,6 @@
 import type { CompletionCommitRequest, GameSessionState, Uuid } from "../domain/types";
 import type { AlphabetMissingLettersConfig } from "../content/missing-letters/schema";
+import type { RoundAssessmentState } from "../runtime/activity-player/round-assessment";
 
 export interface KeyValueStore {
   getItem(key: string): Promise<string | null>;
@@ -16,6 +17,7 @@ export type SessionSnapshot = {
     config: AlphabetMissingLettersConfig;
     positions: readonly number[];
     placed: Readonly<Record<number, string>>;
+    assessment?: RoundAssessmentState;
   };
 };
 

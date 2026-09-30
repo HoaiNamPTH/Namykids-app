@@ -14,6 +14,7 @@ import { DevAssetNotice, NamyScene, SceneAction, SceneCard } from "../../ui/Namy
 import { idleGameSession, reduceGameSession } from "../game-session/reducer";
 import { createActivityRound, isPointInsideDropTarget, type DropTargetRect, type RoundItem } from "./activity-round";
 import { commitOrQueueCompletion } from "./completion-orchestrator";
+import { assessRoundPlacement, createRoundAssessment, isHintEligible, revealHintForRound, summarizeRoundAssessment, type RoundAssessmentState } from "./round-assessment";
 import { createSessionSnapshot } from "./session-snapshot";
 
 type ActivityStage = "instruction" | "active" | "correct" | "retry" | "complete";
@@ -34,16 +35,24 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
   const [positions, setPositions] = useState<readonly number[]>(initialSnapshot?.activityState.positions ?? config.missingPositions);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [placed, setPlaced] = useState<Readonly<Record<number, string>>>(initialSnapshot?.activityState.placed ?? {});
+  const [assessment, setAssessment] = useState<RoundAssessmentState>(() => initialSnapshot?.activityState.assessment ?? createRoundAssessment());
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
   const [completionNotice, setCompletionNotice] = useState<string | null>(initialSnapshot?.state.phase === "COMPLETING" ? "Đang giữ nguyên mã hoàn thành để thử lưu lại." : null);
   const [savingCompletion, setSavingCompletion] = useState(false);
   const targetRects = useRef<TargetRects>({});
   const startedAt = useRef<string | null>(initialSnapshot?.startedAt ?? null);
+  const assessmentRef = useRef(assessment);
   const sessions = useMemo(() => new JsonSessionSnapshotRepository(secureDeviceStore), []);
   const outbox = useMemo(() => new JsonPendingCompletionRepository(secureDeviceStore), []);
   const round = useMemo(() => createActivityRound(config, positions), [config, positions]);
   const allPlaced = positions.every((position) => placed[position] !== undefined);
   const selected = round.items.find((item) => item.id === selectedId) ?? null;
+  const hintEligible = isHintEligible(assessment);
+
+  const updateAssessment = useCallback((next: RoundAssessmentState) => {
+    assessmentRef.current = next;
+    setAssessment(next);
+  }, []);
 
   const snapshotFor = useCallback((state: GameSessionState) => createSessionSnapshot({
     parentUserId,
@@ -53,7 +62,8 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
     config,
     positions,
     placed,
-  }), [config, parentUserId, pin, placed, positions]);
+    assessment,
+  }), [assessment, config, parentUserId, pin, placed, positions]);
 
   useEffect(() => {
     if (session.phase === "IDLE" || session.phase === "COMPLETED") return;
@@ -107,6 +117,7 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
         completedAt: new Date().toISOString(),
         assisted: completingState.assisted,
         requiresFull: config.requiresFull,
+        assessmentSummary: summarizeRoundAssessment(assessmentRef.current),
         beginSnapshot: {
           node_key: "alphabet-missing-letters",
           release_id: pin.contentReleaseId,
@@ -143,8 +154,16 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
     const target = round.config.dropTargets.find((candidate) => candidate.position === targetPosition);
     if (!item || !target) return;
     const result = e02DragDropEngine.evaluateDrop(round.config, { trayItemId: item.id, targetId: target.id, inputMode, answerRevealed });
+    const assessed = assessRoundPlacement(assessmentRef.current, {
+      itemId: item.id,
+      targetId: target.id,
+      correct: result.correct,
+      answerRevealed,
+      engineIndependentlyAssessable: result.independentlyAssessable,
+    });
+    updateAssessment(assessed.state);
     setSelectedId(null);
-    dispatch({ type: "ATTEMPT", trayItemId: item.id, targetId: target.id, correct: result.correct, independentlyAssessable: result.independentlyAssessable });
+    dispatch({ type: "ATTEMPT", trayItemId: item.id, targetId: target.id, correct: result.correct, independentlyAssessable: assessed.placement.independentlyAssessable });
     dispatch({ type: "ATTEMPT_EVALUATED" });
     if (result.correct) setPlaced((current) => ({ ...current, [targetPosition]: item.glyph }));
   };
@@ -162,24 +181,25 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
   };
 
   const revealHint = () => {
+    const revealedAssessment = revealHintForRound(assessmentRef.current);
+    if (revealedAssessment === assessmentRef.current) return;
     const next = positions.find((position) => placed[position] === undefined);
     const item = round.items.find((candidate) => candidate.position === next);
     const target = round.config.dropTargets.find((candidate) => candidate.position === next);
     if (next === undefined || !item || !target || session.phase !== "ACTIVE") return;
+    updateAssessment(revealedAssessment);
     dispatch({ type: "HINT_USED", answerRevealed: true });
-    dispatch({ type: "ATTEMPT", trayItemId: item.id, targetId: target.id, correct: true, independentlyAssessable: false });
-    dispatch({ type: "ATTEMPT_EVALUATED" });
-    setPlaced((current) => ({ ...current, [next]: item.glyph }));
-    setSelectedId(null);
+    submitPlacement(item.id, next, "select_then_place", true);
     setAudioNotice("Hỗ trợ đã hiển thị một chữ; lượt này được đánh dấu hỗ trợ.");
   };
 
   const refreshRound = () => {
     if (Object.keys(placed).length > 0) return;
     const next = e02DragDropEngine.selectRefreshPositions(config, positions);
+    targetRects.current = {};
+    setSelectedId(null);
+    updateAssessment(createRoundAssessment());
     if (next.join(":") !== positions.join(":")) {
-      targetRects.current = {};
-      setSelectedId(null);
       setPositions(next);
     }
   };
@@ -190,6 +210,7 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
     setPlaced({});
     setSelectedId(null);
     setPositions(config.missingPositions);
+    updateAssessment(createRoundAssessment());
     setCompletionNotice(null);
     dispatch({ type: "RESET" });
   };
@@ -212,7 +233,7 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
     <SceneCard><Sequence sequence={config.visibleSequence} positions={positions} placed={placed} onTargetPress={selectThenPlace} onTargetMeasured={(position, rect) => { targetRects.current = { ...targetRects.current, [position]: rect }; }} selected={selected?.glyph ?? null} /><Text style={styles.helper}>{selected ? `Đã chọn ${selected.glyph}. Chọn một ô trống.` : "Kéo hoặc chọn một thẻ chữ bên dưới."}</Text></SceneCard>
     {stage === "retry" ? <SceneCard><Text accessibilityLiveRegion="polite" style={styles.feedbackTitle}>Thử lại thật nhẹ nhàng nhé</Text><Text style={styles.visualText}>Chữ vẫn ở tray để con thử một cách khác.</Text><SceneAction label="Thử lại" onPress={() => { dispatch({ type: "RETRY_REQUESTED" }); dispatch({ type: "START", pin }); }} tone="sun" /></SceneCard> : null}
     {stage === "correct" ? <SceneCard><Text accessibilityLiveRegion="polite" style={styles.feedbackTitle}>Đúng rồi!</Text><Text style={styles.visualText}>Con vừa đặt một chữ vào đúng vị trí.</Text><SceneAction label={allPlaced ? "Xem kết quả lượt chơi" : "Tiếp tục"} onPress={() => dispatch({ type: "ADVANCE_ROUND", isFinalRound: allPlaced })} tone="leaf" /></SceneCard> : null}
-    {stage === "active" ? <><View style={styles.tray}>{round.items.filter((item) => placed[item.position] === undefined).map((item) => <DraggableLetterTile key={item.id} item={item} selected={selectedId === item.id} onPress={() => setSelectedId(item.id)} onDrop={handleDrop} />)}</View><SceneAction label="Gợi ý" onPress={revealHint} tone="paper" accessibilityHint="Hiển thị một chữ và đánh dấu lượt chơi có hỗ trợ" /><SceneAction label="Lượt mới" onPress={refreshRound} tone="paper" disabled={Object.keys(placed).length > 0} accessibilityHint="Chỉ hoạt động trước khi đặt chữ đầu tiên" /></> : null}
+    {stage === "active" ? <><View style={styles.tray}>{round.items.filter((item) => placed[item.position] === undefined).map((item) => <DraggableLetterTile key={item.id} item={item} selected={selectedId === item.id} onPress={() => setSelectedId(item.id)} onDrop={handleDrop} />)}</View><SceneAction label="Gợi ý" onPress={revealHint} tone="paper" disabled={!hintEligible} accessibilityHint={hintEligible ? "Hiển thị một chữ và đánh dấu lượt chơi có hỗ trợ" : "Mở sau một lần đặt chữ chưa đúng trong lượt hiện tại"} /><SceneAction label="Lượt mới" onPress={refreshRound} tone="paper" disabled={Object.keys(placed).length > 0} accessibilityHint="Chỉ hoạt động trước khi đặt chữ đầu tiên" /></> : null}
     {audioNotice ? <Text style={styles.safeNotice}>{audioNotice}</Text> : null}<DevAssetNotice compact />
   </NamyScene>;
 }
