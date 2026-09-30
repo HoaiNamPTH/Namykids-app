@@ -4,6 +4,21 @@ export type VerifiedSession = {
   parentUserId: Uuid;
 };
 
+export type RuntimeBootstrap = {
+  childId: Uuid;
+  bindingStatus: "active";
+};
+
+export type PublishedContentPin = {
+  releaseId: Uuid;
+  nodeVersionId: Uuid;
+  nodeKey: "alphabet-missing-letters";
+  engineCode: "E02";
+  engineVersion: string;
+  payload: Record<string, unknown>;
+  contentHash: string;
+};
+
 export type EntitlementSnapshot = {
   entitlement: Entitlement;
   sourceRevision: string | null;
@@ -50,7 +65,13 @@ export interface RuntimeDataGateway {
   getEntitlement(childId: Uuid): Promise<EntitlementSnapshot>;
   registerDevice(installationId: Uuid, platform: "ios" | "android"): Promise<DeviceRegistration>;
   getProgress(childId: Uuid): Promise<RuntimeProgress>;
+  getPublishedContentPin(childId: Uuid, nodeKey: "alphabet-missing-letters"): Promise<PublishedContentPin>;
   commitActivityCompletion(request: CompletionCommitRequest): Promise<CompletionCommitResponse>;
+}
+
+/** Bootstrap is intentionally separate: it derives the child only from Web RLS, never from UI input. */
+export interface RuntimeBootstrapGateway {
+  bootstrap(): Promise<RuntimeBootstrap>;
 }
 
 export interface ProgressReadRepository {

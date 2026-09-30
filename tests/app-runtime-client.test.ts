@@ -28,6 +28,24 @@ describe("AppRuntimeClient", () => {
     );
   });
 
+  it("bootstraps only through the approved no-input endpoint", async () => {
+    const fetcher = vi.fn(async () => jsonResponse({ ok: true, child_id: ids.child, binding_status: "active" }));
+    const client = new AppRuntimeClient("https://app.example/functions/v1", "https://app.example/verify", async () => "web-token", fetcher as typeof fetch);
+
+    await expect(client.bootstrap()).resolves.toEqual({ childId: ids.child, bindingStatus: "active" });
+    expect(fetcher).toHaveBeenCalledWith(
+      "https://app.example/functions/v1/runtime-bootstrap",
+      expect.objectContaining({ body: JSON.stringify({}) })
+    );
+  });
+
+  it("requests a published pin with the verified child and stable technical node key", async () => {
+    const fetcher = vi.fn(async () => jsonResponse({ ok: true, release_id: ids.release, node_version_id: ids.node, node_key: "alphabet-missing-letters", engine_code: "E02", engine_version: "1.0.0", payload: {}, content_hash: "test-hash" }));
+    const client = new AppRuntimeClient("https://app.example/functions/v1", "https://app.example/verify", async () => "web-token", fetcher as typeof fetch);
+    await expect(client.getPublishedContentPin(ids.child, "alphabet-missing-letters")).resolves.toMatchObject({ releaseId: ids.release, nodeVersionId: ids.node });
+    expect(fetcher).toHaveBeenCalledWith("https://app.example/functions/v1/runtime-content-pin", expect.objectContaining({ body: JSON.stringify({ child_id: ids.child, node_key: "alphabet-missing-letters" }) }));
+  });
+
   it("converts completion fields to the public runtime contract and strips parent identity", async () => {
     let requestBody = "";
     const fetcher = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {

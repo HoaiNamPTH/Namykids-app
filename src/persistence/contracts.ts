@@ -1,4 +1,5 @@
 import type { CompletionCommitRequest, GameSessionState, Uuid } from "../domain/types";
+import type { AlphabetMissingLettersConfig } from "../content/missing-letters/schema";
 
 export interface KeyValueStore {
   getItem(key: string): Promise<string | null>;
@@ -11,6 +12,11 @@ export type SessionSnapshot = {
   pin: NonNullable<GameSessionState["pin"]>;
   state: GameSessionState;
   startedAt: string;
+  activityState: {
+    config: AlphabetMissingLettersConfig;
+    positions: readonly number[];
+    placed: Readonly<Record<number, string>>;
+  };
 };
 
 export type PendingCompletion = {
@@ -26,8 +32,9 @@ export type PendingCompletion = {
 
 export interface SessionSnapshotRepository {
   load(key: string): Promise<SessionSnapshot | null>;
+  loadActive(parentUserId: Uuid, childId: Uuid, activityId: string): Promise<SessionSnapshot | null>;
   save(snapshot: SessionSnapshot): Promise<void>;
-  clear(key: string): Promise<void>;
+  clear(snapshot: SessionSnapshot): Promise<void>;
 }
 
 export interface PendingCompletionRepository {
@@ -38,7 +45,11 @@ export interface PendingCompletionRepository {
 
 export function sessionSnapshotKey(snapshot: Pick<SessionSnapshot, "parentUserId" | "pin">): string {
   const { parentUserId, pin } = snapshot;
-  return ["namykids", "session", parentUserId, pin.childId, pin.contentReleaseId, pin.activityId, pin.activityVersion].join(":");
+  return ["namykids", "session", parentUserId, pin.childId, pin.contentReleaseId, pin.nodeVersionId, pin.activityId, pin.activityVersion].join(":");
+}
+
+function activeSessionIndexKey(parentUserId: Uuid, childId: Uuid, activityId: string): string {
+  return ["namykids", "session-active", parentUserId, childId, activityId].join(":");
 }
 
 export function pendingCompletionKey(record: Pick<PendingCompletion, "parentUserId" | "childId" | "completionId">): string {
@@ -69,13 +80,23 @@ export class JsonSessionSnapshotRepository implements SessionSnapshotRepository 
     return value ? (JSON.parse(value) as SessionSnapshot) : null;
   }
 
-  async save(snapshot: SessionSnapshot): Promise<void> {
-    assertPrivacySafePersistence(snapshot);
-    await this.store.setItem(sessionSnapshotKey(snapshot), JSON.stringify(snapshot));
+  async loadActive(parentUserId: Uuid, childId: Uuid, activityId: string): Promise<SessionSnapshot | null> {
+    const key = await this.store.getItem(activeSessionIndexKey(parentUserId, childId, activityId));
+    return key ? this.load(key) : null;
   }
 
-  async clear(key: string): Promise<void> {
+  async save(snapshot: SessionSnapshot): Promise<void> {
+    assertPrivacySafePersistence(snapshot);
+    const key = sessionSnapshotKey(snapshot);
+    await this.store.setItem(key, JSON.stringify(snapshot));
+    await this.store.setItem(activeSessionIndexKey(snapshot.parentUserId, snapshot.pin.childId, snapshot.pin.activityId), key);
+  }
+
+  async clear(snapshot: SessionSnapshot): Promise<void> {
+    const key = sessionSnapshotKey(snapshot);
+    const indexKey = activeSessionIndexKey(snapshot.parentUserId, snapshot.pin.childId, snapshot.pin.activityId);
     await this.store.removeItem(key);
+    if (await this.store.getItem(indexKey) === key) await this.store.removeItem(indexKey);
   }
 }
 

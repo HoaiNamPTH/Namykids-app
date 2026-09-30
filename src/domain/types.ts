@@ -24,8 +24,10 @@ export type SessionPin = {
   activityId: string;
   activityVersion: string;
   contentReleaseId: Uuid;
+  nodeVersionId: Uuid;
   engineType: EngineCode;
   engineVersion?: string;
+  contentHash?: string;
 };
 
 export type GameSessionState = {
@@ -57,6 +59,7 @@ export type GameSessionEvent =
   | { type: "ADVANCE_ROUND"; isFinalRound: boolean }
   | { type: "COMPLETED"; completionId: Uuid }
   | { type: "COMMIT_SUCCEEDED" }
+  | { type: "RESET" }
   | { type: "ABANDONED" };
 
 export type CompletionCommitRequest = {

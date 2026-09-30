@@ -1,8 +1,9 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 
-type RuntimeContext = {
+export type RuntimeContext = {
   parentUserId: string;
   appAdmin: SupabaseClient;
+  webData: SupabaseClient;
 };
 
 type ContextResult = { context: RuntimeContext } | { response: Response };
@@ -52,6 +53,11 @@ export async function authenticateRuntimeRequest(request: Request, childId?: str
   const appAdmin = createClient(appUrl, appSecretKey, {
     auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
   });
+  // The Web RLS query must execute as this verified bearer, never as a server credential.
+  const webData = createClient(webUrl, webPublishableKey, {
+    auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
+    global: { headers: { authorization: `Bearer ${token}` } },
+  });
   if (childId) {
     const { data: bindingIsActive, error: bindingError } = await appAdmin.rpc(
       "app_has_active_identity_binding",
@@ -61,7 +67,7 @@ export async function authenticateRuntimeRequest(request: Request, childId?: str
     if (bindingIsActive !== true) return { response: runtimeError(403, "child_binding_not_active") };
   }
 
-  return { context: { parentUserId: data.user.id, appAdmin } };
+  return { context: { parentUserId: data.user.id, appAdmin, webData } };
 }
 
 export function isRuntimeContext(result: ContextResult): result is { context: RuntimeContext } {

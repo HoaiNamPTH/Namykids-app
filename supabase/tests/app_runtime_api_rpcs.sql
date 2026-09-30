@@ -1,5 +1,5 @@
 begin;
-select plan(27);
+select plan(48);
 
 select has_function('public', 'get_app_runtime_entitlement', array['uuid'], 'entitlement runtime RPC exists');
 select has_function('public', 'register_app_device', array['uuid', 'uuid', 'text'], 'device runtime RPC exists');
@@ -67,6 +67,60 @@ select throws_ok(
   $$ select public.get_app_runtime_progress('30000000-0000-0000-0000-0000000000a1', '30000000-0000-0000-0000-0000000000b1') $$,
   '42501', 'APP_CHILD_BINDING_NOT_ACTIVE', 'revoked child binding is rejected'
 );
+
+select has_function('public', 'upsert_app_identity_binding', array['uuid', 'uuid'], 'bootstrap binding RPC exists');
+select is(has_function_privilege('anon', 'public.upsert_app_identity_binding(uuid,uuid)', 'execute'), false, 'anon cannot execute bootstrap binding RPC');
+select is(has_function_privilege('authenticated', 'public.upsert_app_identity_binding(uuid,uuid)', 'execute'), false, 'authenticated cannot execute bootstrap binding RPC');
+select is(has_function_privilege('service_role', 'public.upsert_app_identity_binding(uuid,uuid)', 'execute'), true, 'service role can execute bootstrap binding RPC');
+select is((select prosecdef from pg_proc where oid = 'public.upsert_app_identity_binding(uuid,uuid)'::regprocedure), false, 'bootstrap binding RPC is SECURITY INVOKER');
+select is(public.upsert_app_identity_binding('40000000-0000-0000-0000-0000000000a1', '40000000-0000-0000-0000-0000000000b1')->>'status', 'active', 'first bootstrap binding activates');
+select is(public.upsert_app_identity_binding('40000000-0000-0000-0000-0000000000a1', '40000000-0000-0000-0000-0000000000b1')->>'child_id', '40000000-0000-0000-0000-0000000000b1', 'same bootstrap binding is idempotent');
+select throws_ok(
+  $$ select public.upsert_app_identity_binding('40000000-0000-0000-0000-0000000000a1', '40000000-0000-0000-0000-0000000000b2') $$,
+  '23514', 'APP_PARENT_BINDING_CONFLICT', 'a parent cannot activate a second child binding'
+);
+select throws_ok(
+  $$ select public.upsert_app_identity_binding('40000000-0000-0000-0000-0000000000a2', '40000000-0000-0000-0000-0000000000b1') $$,
+  '23514', 'APP_CHILD_BINDING_CONFLICT', 'a child cannot activate a second parent binding'
+);
+
+select has_function('public', 'get_app_published_content_pin', array['text'], 'published content pin RPC exists');
+select is(has_function_privilege('anon', 'public.get_app_published_content_pin(text)', 'execute'), false, 'anon cannot execute content pin RPC');
+select is(has_function_privilege('authenticated', 'public.get_app_published_content_pin(text)', 'execute'), false, 'authenticated cannot execute content pin RPC');
+select is(has_function_privilege('service_role', 'public.get_app_published_content_pin(text)', 'execute'), true, 'service role can execute content pin RPC');
+select is((select prosecdef from pg_proc where oid = 'public.get_app_published_content_pin(text)'::regprocedure), false, 'content pin RPC is SECURITY INVOKER');
+select throws_ok($$ select public.get_app_published_content_pin('unpublished-test-node') $$, '23514', 'APP_CONTENT_NOT_PUBLISHED', 'no published content fails closed');
+
+-- LOCAL TEST_FIXTURE / DEV-ONLY: transaction-scoped technical pins, never production publication.
+insert into content.content_release (id, release_key, version, status, published_at) values
+  ('50000000-0000-0000-0000-000000000001', 'dev-local-only-draft', 1, 'draft', null),
+  ('50000000-0000-0000-0000-000000000002', 'dev-local-only-retired', 2, 'draft', null),
+  ('50000000-0000-0000-0000-000000000003', 'dev-local-only-first-slice-v1', 3, 'draft', null),
+  ('50000000-0000-0000-0000-000000000004', 'dev-local-only-first-slice-v2', 4, 'draft', null);
+insert into content.content_node_version (id, release_id, node_key, node_type, engine_code, engine_version, payload, content_hash) values
+  ('50000000-0000-0000-0000-000000000011', '50000000-0000-0000-0000-000000000001', 'alphabet-missing-letters', 'activity', 'E02', '1.0.0-dev', '{}'::jsonb, 'draft-fixture'),
+  ('50000000-0000-0000-0000-000000000012', '50000000-0000-0000-0000-000000000002', 'alphabet-missing-letters', 'activity', 'E02', '1.0.0-dev', '{}'::jsonb, 'retired-fixture'),
+  ('50000000-0000-0000-0000-000000000013', '50000000-0000-0000-0000-000000000003', 'alphabet-missing-letters', 'activity', 'E02', '1.0.0-dev', '{}'::jsonb, 'fixture-v1'),
+  ('50000000-0000-0000-0000-000000000014', '50000000-0000-0000-0000-000000000004', 'alphabet-missing-letters', 'activity', 'E02', '1.0.1-dev', '{}'::jsonb, 'fixture-v2'),
+  ('50000000-0000-0000-0000-000000000015', '50000000-0000-0000-0000-000000000004', 'not-e02', 'activity', 'E01', '1.0.0-dev', '{}'::jsonb, 'not-e02-fixture');
+update content.content_release
+set status = 'retired', published_at = now()
+where id = '50000000-0000-0000-0000-000000000002';
+update content.content_release set status = 'published' where id in (
+  '50000000-0000-0000-0000-000000000003',
+  '50000000-0000-0000-0000-000000000004'
+);
+select is(public.get_app_published_content_pin('alphabet-missing-letters')->>'release_id', '50000000-0000-0000-0000-000000000004', 'highest published release version is selected');
+select is(public.get_app_published_content_pin('alphabet-missing-letters')->>'node_version_id', '50000000-0000-0000-0000-000000000014', 'returned node version belongs to selected published release');
+select is(public.get_app_published_content_pin('alphabet-missing-letters')->>'content_hash', 'fixture-v2', 'returned content hash is immutable pin data');
+select is(public.get_app_published_content_pin('alphabet-missing-letters')->>'engine_code', 'E02', 'returned content pin is the approved first-slice engine');
+select throws_ok($$ select public.get_app_published_content_pin('not-e02') $$, '23514', 'APP_CONTENT_NOT_PUBLISHED', 'non-E02 node is not eligible for the first slice pin');
+insert into content.content_release (id, release_key, version, status, published_at)
+values ('50000000-0000-0000-0000-000000000005', 'dev-local-only-conflict', 4, 'draft', null);
+insert into content.content_node_version (id, release_id, node_key, node_type, engine_code, engine_version, payload, content_hash)
+values ('50000000-0000-0000-0000-000000000016', '50000000-0000-0000-0000-000000000005', 'alphabet-missing-letters', 'activity', 'E02', '1.0.1-dev', '{}'::jsonb, 'fixture-conflict');
+update content.content_release set status = 'published' where id = '50000000-0000-0000-0000-000000000005';
+select throws_ok($$ select public.get_app_published_content_pin('alphabet-missing-letters') $$, '23514', 'APP_CONTENT_PIN_CONFLICT', 'ambiguous highest published version is rejected');
 
 select * from finish();
 rollback;

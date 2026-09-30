@@ -7,6 +7,7 @@ const pin: SessionPin = {
   activityId: "alphabet-missing-letters",
   activityVersion: "1.0.0",
   contentReleaseId: "00000000-0000-0000-0000-000000000002",
+  nodeVersionId: "00000000-0000-0000-0000-000000000004",
   engineType: "E02_DRAG_DROP",
   engineVersion: "1.0.0"
 };
@@ -48,6 +49,7 @@ describe("GameSession reducer", () => {
     ]);
     expect(completing.phase).toBe("COMPLETING");
     expect(reduceGameSession(completing, { type: "COMMIT_SUCCEEDED" }).phase).toBe("COMPLETED");
+    expect(reduceGameSession(reduceGameSession(completing, { type: "COMMIT_SUCCEEDED" }), { type: "RESET" })).toEqual(idleGameSession);
   });
 
   it("marks answer-revealing support as assisted and resets abandoned sessions", () => {

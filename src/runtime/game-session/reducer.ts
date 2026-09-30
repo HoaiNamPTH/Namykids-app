@@ -61,6 +61,9 @@ export function reduceGameSession(
       if (state.phase !== "COMPLETING") return state;
       return { ...state, phase: "COMPLETED" };
 
+    case "RESET":
+      return idleGameSession;
+
     case "ABANDONED":
       return state.phase === "IDLE" || state.phase === "COMPLETED" ? state : idleGameSession;
   }

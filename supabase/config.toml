@@ -440,3 +440,11 @@ verify_jwt = false
 [functions.runtime-completion]
 enabled = true
 verify_jwt = false
+
+[functions.runtime-bootstrap]
+enabled = true
+verify_jwt = false
+
+[functions.runtime-content-pin]
+enabled = true
+verify_jwt = false

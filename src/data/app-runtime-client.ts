@@ -4,6 +4,9 @@ import type {
   DeviceRegistration,
   EntitlementSnapshot,
   RuntimeDataGateway,
+  RuntimeBootstrap,
+  RuntimeBootstrapGateway,
+  PublishedContentPin,
   RuntimeProgress,
   VerifiedSession
 } from "./contracts";
@@ -20,7 +23,7 @@ export class RuntimeRequestError extends Error {
   }
 }
 
-export class AppRuntimeClient implements RuntimeDataGateway {
+export class AppRuntimeClient implements RuntimeDataGateway, RuntimeBootstrapGateway {
   constructor(
     private readonly baseUrl: string,
     private readonly verifyWebSessionUrl: string,
@@ -40,6 +43,24 @@ export class AppRuntimeClient implements RuntimeDataGateway {
     if (!response.ok) throw new Error("runtime_session_verification_failed");
     const body = (await response.json()) as { ok: boolean; parent_user_id?: string };
     return body.ok && body.parent_user_id ? { parentUserId: body.parent_user_id } : null;
+  }
+
+  async bootstrap(): Promise<RuntimeBootstrap> {
+    const body = await this.request<BootstrapResponse>("runtime-bootstrap", {});
+    return { childId: body.child_id, bindingStatus: body.binding_status };
+  }
+
+  async getPublishedContentPin(childId: string, nodeKey: "alphabet-missing-letters"): Promise<PublishedContentPin> {
+    const body = await this.request<ContentPinResponse>("runtime-content-pin", { child_id: childId, node_key: nodeKey });
+    return {
+      releaseId: body.release_id,
+      nodeVersionId: body.node_version_id,
+      nodeKey: body.node_key,
+      engineCode: body.engine_code,
+      engineVersion: body.engine_version,
+      payload: body.payload,
+      contentHash: body.content_hash,
+    };
   }
 
   async getEntitlement(childId: string): Promise<EntitlementSnapshot> {
@@ -146,6 +167,23 @@ type EntitlementResponse = {
   expires_at: string | null;
   refreshed_at: string | null;
   stale: boolean;
+};
+
+type BootstrapResponse = {
+  ok: true;
+  child_id: string;
+  binding_status: "active";
+};
+
+type ContentPinResponse = {
+  ok: true;
+  release_id: string;
+  node_version_id: string;
+  node_key: "alphabet-missing-letters";
+  engine_code: "E02";
+  engine_version: string;
+  payload: Record<string, unknown>;
+  content_hash: string;
 };
 
 type DeviceResponse = {
