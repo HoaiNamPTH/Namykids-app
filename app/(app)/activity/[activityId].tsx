@@ -14,7 +14,7 @@ import { NamyScene, SceneAction, SceneCard } from "../../../src/ui/NamyScene";
 type ActivityRuntimeState =
   | { status: "loading" }
   | { status: "ready"; config: AlphabetMissingLettersConfig; pin: SessionPin; snapshot: SessionSnapshot | null }
-  | { status: "restricted" }
+  | { status: "restricted"; reason: "full_required" | "content_unavailable" }
   | { status: "recovery" };
 
 export default function ActivityRoute() {
@@ -25,32 +25,38 @@ export default function ActivityRoute() {
 
   useEffect(() => {
     if (runtime.status !== "ready") return;
-    if (availabilityForRuntime(runtime.model) === "restricted") {
-      setActivity({ status: "restricted" });
-      return;
-    }
     let cancelled = false;
+    const setReadyFromPinnedContent = (
+      config: AlphabetMissingLettersConfig,
+      pin: SessionPin,
+      snapshot: SessionSnapshot | null,
+    ) => {
+      if (cancelled) return;
+      if (availabilityForRuntime(runtime.model, config.requiresFull) === "restricted") {
+        setActivity({ status: "restricted", reason: "full_required" });
+        return;
+      }
+      setActivity({ status: "ready", config, pin, snapshot });
+    };
     void (async () => {
       try {
         const stored = await sessions.loadActive(runtime.model.parentUserId, runtime.model.childId, "alphabet-missing-letters");
         if (stored) {
           const restored = restorePinnedActivitySession(stored, runtime.model.parentUserId, runtime.model.childId);
           if (!restored) throw new Error("invalid_session_snapshot");
-          if (!cancelled) setActivity({ status: "ready", config: restored.activityState.config, pin: restored.pin, snapshot: restored });
+          setReadyFromPinnedContent(restored.activityState.config, restored.pin, restored);
           return;
         }
         const contentPin = await runtime.runtime.getPublishedContentPin(runtime.model.childId, "alphabet-missing-letters");
         const content = alphabetMissingLettersConfigSchema.safeParse(contentPin.payload);
-        if (!content.success) throw new Error("invalid_published_content");
-        if (!cancelled) setActivity({
-          status: "ready",
-          config: content.data,
-          pin: createSessionPin(runtime.model.childId, content.data, contentPin),
-          snapshot: null,
-        });
+        if (!content.success) {
+          if (!cancelled) setActivity({ status: "restricted", reason: "content_unavailable" });
+          return;
+        }
+        setReadyFromPinnedContent(content.data, createSessionPin(runtime.model.childId, content.data, contentPin), null);
       } catch (error) {
         if (cancelled) return;
-        if (error instanceof RuntimeRequestError && error.code === "content_not_published") setActivity({ status: "restricted" });
+        if (error instanceof RuntimeRequestError && error.code === "content_not_published") setActivity({ status: "restricted", reason: "content_unavailable" });
         else setActivity({ status: "recovery" });
       }
     })();
@@ -60,11 +66,9 @@ export default function ActivityRoute() {
   if (runtime.status !== "ready" || activity.status === "loading") {
     return <NamyScene stateCode="S08" title="Đang chuẩn bị lượt chơi" description="NamyKids đang khôi phục đúng child binding và content pin trước khi bắt đầu." />;
   }
-  if (availabilityForRuntime(runtime.model) === "restricted") {
-    return <NamyScene stateCode="S11" title="Lượt chơi chưa sẵn sàng" description="Entitlement hiện ở trạng thái LIMITED hoặc stale nên ứng dụng không bắt đầu lượt mới."><SceneCard><SceneAction label="Về Child World" onPress={() => router.replace("/child-world")} tone="leaf" /></SceneCard></NamyScene>;
-  }
   if (activity.status === "restricted") {
-    return <NamyScene stateCode="S11" title="Nội dung chưa được phát hành" description="Không có published content pin hợp lệ nên lượt canonical không được bắt đầu."><SceneCard><SceneAction label="Về Child World" onPress={() => router.replace("/child-world")} tone="leaf" /></SceneCard></NamyScene>;
+    const fullRequired = activity.reason === "full_required";
+    return <NamyScene stateCode="S11" title={fullRequired ? "Nội dung này cần quyền truy cập đầy đủ" : "Nội dung chưa được phát hành"} description={fullRequired ? "Content pin hiện tại yêu cầu FULL với entitlement snapshot còn usable." : "Không có published content pin hợp lệ nên lượt canonical không được bắt đầu."}><SceneCard><SceneAction label="Về Child World" onPress={() => router.replace("/child-world")} tone="leaf" /></SceneCard></NamyScene>;
   }
   if (activity.status === "recovery") {
     return <NamyScene stateCode="S12" title="Lượt chơi cần khôi phục an toàn" description="Content pin hoặc session snapshot không hợp lệ; ứng dụng không tự đổi release giữa lượt."><SceneCard><SceneAction label="Mở khôi phục an toàn" onPress={() => router.replace("/recovery")} tone="leaf" /></SceneCard></NamyScene>;

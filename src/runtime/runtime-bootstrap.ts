@@ -27,6 +27,12 @@ export async function bootstrapRuntime(gateway: BootstrapGateway): Promise<Runti
   return { parentUserId: verified.parentUserId, childId: binding.childId, entitlement, progress };
 }
 
-export function availabilityForRuntime(readModel: Pick<RuntimeReadModel, "entitlement">): "available" | "restricted" {
-  return readModel.entitlement.entitlement === "FULL" && !readModel.entitlement.stale ? "available" : "restricted";
+export function availabilityForRuntime(
+  readModel: Pick<RuntimeReadModel, "entitlement">,
+  requiresFull: boolean,
+): "available" | "restricted" {
+  if (!requiresFull) return "available";
+  return readModel.entitlement.entitlement === "FULL" && readModel.entitlement.stale === false
+    ? "available"
+    : "restricted";
 }

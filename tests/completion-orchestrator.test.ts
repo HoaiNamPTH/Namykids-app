@@ -22,6 +22,16 @@ describe("completion orchestrator", () => {
     expect(request).toMatchObject({ releaseId: input.pin.contentReleaseId, nodeVersionId: input.pin.nodeVersionId, completionId: input.completionId, beginSnapshot: input.beginSnapshot });
   });
 
+  it("preserves the pinned content requirement in the completion request", async () => {
+    let request: unknown;
+    await commitOrQueueCompletion(
+      { ...input, requiresFull: true },
+      { commitActivityCompletion: async (value) => { request = value; return { attemptId: input.completionId, resultId: input.completionId, completionId: input.completionId, idempotent: false }; } },
+      outbox(),
+    );
+    expect(request).toMatchObject({ requiresFull: true });
+  });
+
   it("durably queues the same completion ID on a transient failure", async () => {
     const repository = outbox();
     const result = await commitOrQueueCompletion(input, { commitActivityCompletion: async () => { throw new Error("network"); } }, repository);

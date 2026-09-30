@@ -6,7 +6,7 @@ import { DevAssetNotice, NamyScene, SceneAction, SceneCard } from "../../../src/
 export default function SubjectRoute() {
   const router = useRouter();
   const runtime = useRuntimeBootstrap();
-  if (runtime.status !== "ready") return <NamyScene stateCode="S08 / S11" title="Hành trình chưa sẵn sàng" description="Cần bootstrap child binding và progress projection đã xác minh."><SceneCard><SceneAction label="Khôi phục an toàn" onPress={() => router.push("/recovery")} tone="leaf" /></SceneCard></NamyScene>;
+  if (runtime.status !== "ready") return <NamyScene stateCode="S08" title="Hành trình chưa sẵn sàng" description="Cần bootstrap child binding và progress projection đã xác minh."><SceneCard><SceneAction label="Khôi phục an toàn" onPress={() => router.push("/recovery")} tone="leaf" /></SceneCard></NamyScene>;
   const alphabetProgress = runtime.model.progress.progress.find((item) => item.nodeKey === "alphabet-missing-letters");
   const resume = runtime.model.progress.resume;
   const canResume = runtime.localResume || Boolean(resume);

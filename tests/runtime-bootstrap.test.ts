@@ -17,8 +17,11 @@ describe("runtime bootstrap composition", () => {
     expect(gateway.getEntitlement).toHaveBeenCalledWith(ids.child);
     expect(gateway.getProgress).toHaveBeenCalledWith(ids.child);
     expect(model).toMatchObject({ parentUserId: ids.parent, childId: ids.child });
-    expect(availabilityForRuntime(model)).toBe("restricted");
-    expect(availabilityForRuntime({ entitlement: { ...model.entitlement, entitlement: "FULL" } })).toBe("available");
+    expect(availabilityForRuntime(model, false)).toBe("available");
+    expect(availabilityForRuntime(model, true)).toBe("restricted");
+    expect(availabilityForRuntime({ entitlement: { ...model.entitlement, entitlement: "FULL", stale: false } }, true)).toBe("available");
+    expect(availabilityForRuntime({ entitlement: { ...model.entitlement, entitlement: "FULL", stale: true } }, true)).toBe("restricted");
+    expect(availabilityForRuntime({ entitlement: { ...model.entitlement, entitlement: "UNKNOWN" as never, stale: false } }, true)).toBe("restricted");
   });
 
   it("does not continue when the binding cannot be verified", async () => {
