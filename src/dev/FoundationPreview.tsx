@@ -7,7 +7,7 @@ import { firstSliceDevConfig } from "../content/missing-letters/first-slice-dev-
 import type { SessionPin } from "../domain/types";
 import { e02DragDropEngine, type E02InputMode } from "../engines/e02-drag-drop/contracts";
 import { createActivityRound, isPointInsideDropTarget, type DropTargetRect, type RoundItem } from "../runtime/activity-player/activity-round";
-import { automaticFeedbackTransition, type PlacementMicroFeedback } from "../runtime/activity-player/presentation";
+import { automaticFeedbackTransition, childCompletionPresentation, positionsForCompletionAction, type PlacementMicroFeedback } from "../runtime/activity-player/presentation";
 import { assessRoundPlacement, createRoundAssessment, isHintEligible, revealHintForRound, summarizeRoundAssessment, type RoundAssessmentState } from "../runtime/activity-player/round-assessment";
 import { idleGameSession, reduceGameSession } from "../runtime/game-session/reducer";
 import { namyColors, namyTypography } from "../ui/brand-tokens";
@@ -51,9 +51,9 @@ export function FoundationPreview() {
     setAssessment(next);
   };
 
-  const resetRound = (nextScreen: PreviewScreen) => {
+  const resetRound = (nextScreen: PreviewScreen, nextPositions: readonly number[] = firstSliceDevConfig.missingPositions) => {
     targetRects.current = {};
-    setPositions(firstSliceDevConfig.missingPositions);
+    setPositions([...nextPositions]);
     setPlaced({});
     setSelectedId(null);
     updateAssessment(createRoundAssessment());
@@ -156,6 +156,9 @@ export function FoundationPreview() {
     updateAssessment(createRoundAssessment());
   };
 
+  const startNewRound = () => resetRound("S03", positionsForCompletionAction("Chơi mới", firstSliceDevConfig, positions));
+  const replayRound = () => resetRound("S03", positionsForCompletionAction("Chơi lại", firstSliceDevConfig, positions));
+
   const banner = <PreviewBanner />;
 
   if (screen === "S01") return <NamyScene stateCode="DEV / S01" title="Chào con đến với NamyKids" description="Foundation Preview dùng fixture cục bộ để User Acceptance; không tạo phiên Auth hoặc tiến độ canonical.">
@@ -173,8 +176,10 @@ export function FoundationPreview() {
     <SceneAction label="Bắt đầu" onPress={startActivity} tone="leaf" />{audioNotice ? <Text style={styles.notice}>{audioNotice}</Text> : null}
   </NamyScene>;
 
-  if (screen === "S07") return <NamyScene stateCode="DEV / S07" title="Chúc mừng con đã làm đúng" description="Đây là completion presentation cục bộ; không gọi Completion Commit và không ghi progress.">
-    {banner}<SceneCard><Text style={styles.feedback}>Chúc mừng con đã làm đúng</Text><Text style={styles.note}>Hoàn thành {summary.correctPlacements} ô trống · Independent: {summary.independentCorrectPlacements} · Trial-and-error: {summary.trialAndErrorCorrectPlacements} · Assisted: {summary.assistedCorrectPlacements}. Không có mastery claim.</Text><SceneAction label="Xem Góc của ba mẹ" onPress={() => setScreen("S10")} tone="leaf" /><SceneAction label="Xem Offline / Sync" onPress={() => setScreen("S09")} tone="paper" /><SceneAction label="Chơi lượt mới" onPress={() => resetRound("S03")} tone="paper" /></SceneCard>
+  if (screen === "S07") return <NamyScene minimal stateCode="DEV / S07" title={childCompletionPresentation.title}>
+    <SceneCard style={styles.completionCard}><Text accessibilityLiveRegion="polite" style={styles.feedback}>{childCompletionPresentation.message}</Text></SceneCard>
+    <SceneAction label={childCompletionPresentation.actions[0]} onPress={startNewRound} tone="leaf" />
+    <SceneAction label={childCompletionPresentation.actions[1]} onPress={replayRound} tone="paper" />
   </NamyScene>;
 
   if (screen === "S09") return <NamyScene stateCode="DEV / S09" title="Ngoại tuyến / đồng bộ an toàn" description="Preview dùng state in-memory cô lập; không enqueue durable outbox và không gọi remote runtime.">
@@ -267,6 +272,7 @@ const styles = StyleSheet.create({
   microText: { color: namyColors.text.primary, fontSize: 15, fontWeight: "800" },
   evidenceText: { color: namyColors.text.secondary, fontSize: 11, fontWeight: "700" },
   feedback: { color: namyColors.text.primary, fontSize: 22, lineHeight: 30, fontWeight: "800", fontFamily: namyTypography.child.title },
+  completionCard: { alignItems: "center", paddingVertical: 36 },
   note: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 12 },
   notice: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16 },
 });

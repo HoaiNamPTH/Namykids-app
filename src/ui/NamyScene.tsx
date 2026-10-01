@@ -9,20 +9,21 @@ type SceneProps = PropsWithChildren<{
   description?: string;
   calm?: boolean;
   scrollEnabled?: boolean;
+  minimal?: boolean;
 }>;
 
-export function NamyScene({ stateCode, eyebrow = "NamyKids", title, description, calm = false, scrollEnabled = true, children }: SceneProps) {
+export function NamyScene({ stateCode, eyebrow = "NamyKids", title, description, calm = false, scrollEnabled = true, minimal = false, children }: SceneProps) {
   return (
     <View style={[styles.page, calm && styles.calmPage]}>
       <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.orb, styles.orbOne]} />
       <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.orb, styles.orbTwo]} />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false} scrollEnabled={scrollEnabled}>
-        <View style={styles.topline}>
+        {!minimal ? <View style={styles.topline}>
           <Text style={styles.brand}>{eyebrow}</Text>
           <Text style={styles.state}>{stateCode}</Text>
-        </View>
-        <Text accessibilityRole="header" style={styles.title}>{title}</Text>
-        {description ? <Text style={styles.description}>{description}</Text> : null}
+        </View> : null}
+        <Text accessibilityRole="header" style={[styles.title, minimal && styles.minimalTitle]}>{title}</Text>
+        {description ? <Text style={[styles.description, minimal && styles.minimalDescription]}>{description}</Text> : null}
         {children}
       </ScrollView>
     </View>
@@ -74,7 +75,9 @@ const styles = StyleSheet.create({
   brand: { color: namyColors.text.primary, fontSize: 15, fontWeight: "800", letterSpacing: 0.8, fontFamily: namyTypography.child.display },
   state: { color: namyColors.text.secondary, fontSize: 12, fontWeight: "800", letterSpacing: 0.8 },
   title: { color: namyColors.text.primary, fontSize: 34, lineHeight: 40, fontWeight: "800", fontFamily: namyTypography.child.title, marginTop: 22 },
+  minimalTitle: { textAlign: "center", marginTop: 42 },
   description: { color: namyColors.text.secondary, fontSize: 17, lineHeight: 25, marginTop: 10, maxWidth: 560 },
+  minimalDescription: { textAlign: "center", alignSelf: "center" },
   card: { backgroundColor: namyColors.surface.raised, borderRadius: 28, padding: 20, marginTop: 20, shadowColor: namyColors.brand.primary, shadowOffset: { width: 0, height: 9 }, shadowOpacity: 0.12, shadowRadius: 18, elevation: 3 },
   action: { minHeight: 52, justifyContent: "center", alignItems: "center", borderRadius: 18, paddingHorizontal: 18, marginTop: 12, borderWidth: 1 },
   actionleaf: { backgroundColor: namyColors.brand.primary, borderColor: namyColors.border.strong },

@@ -15,7 +15,7 @@ import { DevAssetNotice, NamyScene, SceneAction, SceneCard } from "../../ui/Namy
 import { idleGameSession, reduceGameSession } from "../game-session/reducer";
 import { createActivityRound, isPointInsideDropTarget, type DropTargetRect, type RoundItem } from "./activity-round";
 import { commitOrQueueCompletion } from "./completion-orchestrator";
-import { activityPresentationStage, automaticFeedbackTransition, type PlacementMicroFeedback } from "./presentation";
+import { activityPresentationStage, automaticFeedbackTransition, childCompletionPresentation, positionsForCompletionAction, type PlacementMicroFeedback } from "./presentation";
 import { assessRoundPlacement, createRoundAssessment, isHintEligible, revealHintForRound, summarizeRoundAssessment, type RoundAssessmentState } from "./round-assessment";
 import { createSessionSnapshot } from "./session-snapshot";
 
@@ -38,7 +38,7 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
   const [placed, setPlaced] = useState<Readonly<Record<number, string>>>(initialSnapshot?.activityState.placed ?? {});
   const [assessment, setAssessment] = useState<RoundAssessmentState>(() => initialSnapshot?.activityState.assessment ?? createRoundAssessment());
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
-  const [completionNotice, setCompletionNotice] = useState<string | null>(initialSnapshot?.state.phase === "COMPLETING" ? "Đang giữ nguyên mã hoàn thành để thử lưu lại." : null);
+  const [, setCompletionNotice] = useState<string | null>(initialSnapshot?.state.phase === "COMPLETING" ? "completion_retry_pending" : null);
   const [microFeedback, setMicroFeedback] = useState<PlacementMicroFeedback | null>(null);
   const [savingCompletion, setSavingCompletion] = useState(false);
   const targetRects = useRef<TargetRects>({});
@@ -145,6 +145,10 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
     }
   };
 
+  useEffect(() => {
+    if (session.phase === "ROUND_COMPLETE" || session.phase === "COMPLETING") void completeRound();
+  }, [session.phase]);
+
   const replayInstruction = async () => {
     const result = await unavailableAudioService.play("instruction", config.instructionAudioAssetId);
     if (result === "unavailable") setAudioNotice("Voice asset đang là DEV_PLACEHOLDER; hướng dẫn bằng hình và chữ vẫn hoạt động.");
@@ -234,17 +238,20 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
     }
   };
 
-  const restart = () => {
+  const restart = (nextPositions: readonly number[]) => {
     targetRects.current = {};
     startedAt.current = null;
     setPlaced({});
     setSelectedId(null);
-    setPositions(config.missingPositions);
+    setPositions([...nextPositions]);
     updateAssessment(createRoundAssessment());
     setCompletionNotice(null);
     setMicroFeedback(null);
     dispatch({ type: "RESET" });
   };
+
+  const startNewRound = () => restart(positionsForCompletionAction("Chơi mới", config, positions));
+  const replayRound = () => restart(positionsForCompletionAction("Chơi lại", config, positions));
 
   if (stage === "instruction") return <NamyScene stateCode="S03" title="Kéo chữ vào ô trống" description="Nhìn dãy chữ theo thứ tự, rồi đặt mỗi chữ còn thiếu vào đúng chỗ.">
     <SceneCard><Sequence sequence={config.visibleSequence} positions={positions} placed={{}} /><Text style={styles.visualText}>Hình minh họa là DEV_PLACEHOLDER; không tiết lộ đáp án trước lượt chơi.</Text></SceneCard>
@@ -253,11 +260,10 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
     {audioNotice ? <Text style={styles.safeNotice}>{audioNotice}</Text> : null}<DevAssetNotice />
   </NamyScene>;
 
-  if (stage === "complete") return <NamyScene stateCode="S07" title="Chúc mừng con đã làm đúng" description="Con đã hoàn thành đủ ba vị trí trong lượt chơi này.">
-    <SceneCard><Text style={styles.completion}>Chúc mừng con đã làm đúng</Text><Text style={styles.visualText}>{completionNotice ?? "Lượt hoàn thành đang được giữ an toàn; đây không phải là tuyên bố mastery."}</Text></SceneCard>
-    {session.phase === "ROUND_COMPLETE" || session.phase === "COMPLETING" ? <SceneAction label={savingCompletion ? "Đang lưu..." : session.phase === "COMPLETING" ? "Thử lưu lại cùng mã" : "Lưu lượt chơi"} onPress={() => void completeRound()} tone="leaf" disabled={savingCompletion} /> : null}
-    {session.phase === "COMPLETED" ? <SceneAction label="Chơi lượt mới" onPress={restart} tone="leaf" /> : null}
-    <SceneAction label="Đồng bộ outbox" onPress={() => void syncPending()} tone="paper" /><DevAssetNotice compact />
+  if (stage === "complete") return <NamyScene minimal stateCode="S07" title={childCompletionPresentation.title}>
+    <SceneCard style={styles.completionCard}><Text accessibilityLiveRegion="polite" style={styles.completion}>{childCompletionPresentation.message}</Text></SceneCard>
+    <SceneAction label={childCompletionPresentation.actions[0]} onPress={startNewRound} tone="leaf" disabled={savingCompletion || session.phase !== "COMPLETED"} />
+    <SceneAction label={childCompletionPresentation.actions[1]} onPress={replayRound} tone="paper" disabled={savingCompletion || session.phase !== "COMPLETED"} />
   </NamyScene>;
 
   return <NamyScene scrollEnabled={false} stateCode="S04" title="Chữ cái còn thiếu" description="Kéo một thẻ vào ô trống, hoặc chọn thẻ rồi chạm ô trống để dùng chế độ hỗ trợ.">
@@ -310,5 +316,6 @@ const styles = StyleSheet.create({
   microMarker: { color: namyColors.text.primary, fontSize: 18, fontWeight: "900" },
   microText: { color: namyColors.text.primary, fontSize: 15, fontWeight: "800" },
   completion: { color: namyColors.text.primary, fontSize: 22, lineHeight: 30, fontWeight: "800", fontFamily: namyTypography.child.title },
+  completionCard: { alignItems: "center", paddingVertical: 36 },
   safeNotice: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16, paddingHorizontal: 6 },
 });
