@@ -1,6 +1,7 @@
 import type { Href } from "expo-router";
 import { Link } from "expo-router";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { namyTypography } from "./typography";
 
 type PlaceholderLink = {
   label: string;
@@ -56,9 +57,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 },
     elevation: 3
   },
-  kicker: { color: "#78563B", fontSize: 12, fontWeight: "700", letterSpacing: 1.1 },
-  title: { color: "#204436", fontSize: 32, fontWeight: "800", marginTop: 14 },
-  description: { color: "#40564B", fontSize: 17, lineHeight: 26, marginTop: 16 },
-  notice: { color: "#78563B", fontSize: 14, lineHeight: 21, marginTop: 24 },
-  link: { color: "#0E6B50", fontSize: 17, fontWeight: "700", marginTop: 18, paddingVertical: 12 }
+  kicker: { ...namyTypography.child.caption, color: "#78563B" },
+  title: { ...namyTypography.child.title, color: "#204436", marginTop: 14 },
+  description: { ...namyTypography.child.body, color: "#40564B", marginTop: 16 },
+  notice: { ...namyTypography.child.caption, color: "#78563B", marginTop: 24 },
+  link: { ...namyTypography.child.button, color: "#0E6B50", marginTop: 18, paddingVertical: 12 }
 });

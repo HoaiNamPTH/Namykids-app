@@ -12,6 +12,7 @@ import { secureDeviceStore } from "../../persistence/secure-device-store";
 import { reconcilePendingCompletions, type WebSessionRefresh } from "../../sync/outbox-reconciliation";
 import { namyColors } from "../../ui/brand-tokens";
 import { DevAssetNotice, NamyScene, SceneAction, SceneCard } from "../../ui/NamyScene";
+import { namyTypography } from "../../ui/typography";
 import { idleGameSession, reduceGameSession } from "../game-session/reducer";
 import { createActivityRound, isPointInsideDropTarget, type DropTargetRect, type RoundItem } from "./activity-round";
 import { commitOrQueueCompletion } from "./completion-orchestrator";
@@ -301,18 +302,18 @@ const styles = StyleSheet.create({
   glyphCell: { minWidth: 72, minHeight: 72, borderRadius: 18, backgroundColor: namyColors.surface.calm, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: namyColors.border.default },
   gap: { minWidth: 72, minHeight: 72, borderRadius: 18, backgroundColor: namyColors.surface.raised, alignItems: "center", justifyContent: "center", borderWidth: 2, borderStyle: "dashed", borderColor: namyColors.brand.info },
   filledGap: { borderStyle: "solid", backgroundColor: namyColors.state.correctSurface, borderColor: namyColors.border.strong },
-  lockMarker: { position: "absolute", top: 4, right: 7, color: namyColors.text.primary, fontSize: 15, fontWeight: "900" },
-  glyph: { color: namyColors.text.primary, fontSize: 16, fontWeight: "800" },
-  visualText: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16 },
-  helper: { color: namyColors.text.primary, fontSize: 15, lineHeight: 22, marginTop: 16, textAlign: "center" },
+  lockMarker: { ...namyTypography.child.button, position: "absolute", top: 4, right: 7, color: namyColors.text.primary, fontSize: 15 },
+  glyph: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 16 },
+  visualText: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16 },
+  helper: { ...namyTypography.child.body, color: namyColors.text.primary, fontSize: 15, lineHeight: 22, marginTop: 16, textAlign: "center" },
   tray: { flexDirection: "row", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 18 },
   letterTile: { minHeight: 62, minWidth: 92, borderRadius: 20, backgroundColor: namyColors.brand.accent, borderWidth: 1, borderColor: namyColors.border.strong, justifyContent: "center", alignItems: "center", padding: 12 },
   letterTileSelected: { backgroundColor: namyColors.brand.info, transform: [{ translateY: -4 }] },
-  letterText: { color: namyColors.text.primary, fontSize: 16, fontWeight: "900" },
+  letterText: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 16 },
   microFeedback: { alignSelf: "center", flexDirection: "row", alignItems: "center", gap: 8, borderRadius: 999, borderWidth: 2, paddingHorizontal: 16, paddingVertical: 9, marginTop: 14 },
   microCorrect: { backgroundColor: namyColors.state.correctSurface, borderColor: namyColors.state.correct },
   microRetry: { backgroundColor: namyColors.state.retrySurface, borderColor: namyColors.state.retry },
-  microMarker: { color: namyColors.text.primary, fontSize: 18, fontWeight: "900" },
-  microText: { color: namyColors.text.primary, fontSize: 15, fontWeight: "800" },
-  safeNotice: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16, paddingHorizontal: 6 },
+  microMarker: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 18 },
+  microText: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 15 },
+  safeNotice: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16, paddingHorizontal: 6 },
 });

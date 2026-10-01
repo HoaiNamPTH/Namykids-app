@@ -1,6 +1,11 @@
-import type { PropsWithChildren } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View, type ViewStyle } from "react-native";
-import { namyColors, namyTypography } from "./brand-tokens";
+import { createContext, useContext, type PropsWithChildren } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View, type TextStyle, type ViewStyle } from "react-native";
+import { namyColors } from "./brand-tokens";
+import { namyTypography } from "./typography";
+
+type TypographyAudience = "child" | "parent";
+
+const TypographyAudienceContext = createContext<TypographyAudience>("child");
 
 type SceneProps = PropsWithChildren<{
   stateCode: string;
@@ -10,23 +15,28 @@ type SceneProps = PropsWithChildren<{
   calm?: boolean;
   scrollEnabled?: boolean;
   minimal?: boolean;
+  audience?: TypographyAudience;
 }>;
 
-export function NamyScene({ stateCode, eyebrow = "NamyKids", title, description, calm = false, scrollEnabled = true, minimal = false, children }: SceneProps) {
+export function NamyScene({ stateCode, eyebrow = "NamyKids", title, description, calm = false, scrollEnabled = true, minimal = false, audience, children }: SceneProps) {
+  const resolvedAudience = audience ?? (calm ? "parent" : "child");
+  const parentFacing = resolvedAudience === "parent";
   return (
-    <View style={[styles.page, calm && styles.calmPage]}>
-      <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.orb, styles.orbOne]} />
-      <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.orb, styles.orbTwo]} />
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false} scrollEnabled={scrollEnabled}>
-        {!minimal ? <View style={styles.topline}>
-          <Text style={styles.brand}>{eyebrow}</Text>
-          <Text style={styles.state}>{stateCode}</Text>
-        </View> : null}
-        <Text accessibilityRole="header" style={[styles.title, minimal && styles.minimalTitle]}>{title}</Text>
-        {description ? <Text style={[styles.description, minimal && styles.minimalDescription]}>{description}</Text> : null}
-        {children}
-      </ScrollView>
-    </View>
+    <TypographyAudienceContext.Provider value={resolvedAudience}>
+      <View style={[styles.page, calm && styles.calmPage]}>
+        <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.orb, styles.orbOne]} />
+        <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.orb, styles.orbTwo]} />
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false} scrollEnabled={scrollEnabled}>
+          {!minimal ? <View style={styles.topline}>
+            <Text style={[styles.brand, parentFacing && styles.parentLabel]}>{eyebrow}</Text>
+            <Text style={[styles.state, parentFacing && styles.parentLabel]}>{stateCode}</Text>
+          </View> : null}
+          <Text accessibilityRole="header" style={[styles.title, parentFacing && styles.parentTitle, minimal && styles.minimalTitle]}>{title}</Text>
+          {description ? <Text style={[styles.description, parentFacing && styles.parentBody, minimal && styles.minimalDescription]}>{description}</Text> : null}
+          {children}
+        </ScrollView>
+      </View>
+    </TypographyAudienceContext.Provider>
   );
 }
 
@@ -41,6 +51,7 @@ export function SceneAction({ label, onPress, tone = "leaf", disabled = false, a
   disabled?: boolean;
   accessibilityHint?: string;
 }) {
+  const audience = useContext(TypographyAudienceContext);
   return (
     <Pressable
       accessibilityRole="button"
@@ -50,9 +61,14 @@ export function SceneAction({ label, onPress, tone = "leaf", disabled = false, a
       onPress={onPress}
       style={({ pressed }) => [styles.action, styles[`action${tone}`], disabled && styles.actionDisabled, pressed && !disabled && styles.actionPressed]}
     >
-      <Text style={[styles.actionText, tone !== "leaf" && styles.actionTextPaper]}>{label}</Text>
+      <Text style={[styles.actionText, audience === "parent" && styles.parentLabel, tone !== "leaf" && styles.actionTextPaper]}>{label}</Text>
     </Pressable>
   );
+}
+
+export function SceneText({ children, style }: PropsWithChildren<{ style?: TextStyle }>) {
+  const audience = useContext(TypographyAudienceContext);
+  return <Text style={[audience === "parent" ? styles.parentBody : styles.childBody, style]}>{children}</Text>;
 }
 
 export function DevAssetNotice({ compact = false }: { compact?: boolean }) {
@@ -72,11 +88,15 @@ const styles = StyleSheet.create({
   orbOne: { width: 230, height: 230, backgroundColor: namyColors.brand.accent, top: -92, right: -68 },
   orbTwo: { width: 180, height: 180, backgroundColor: namyColors.brand.secondary, bottom: -54, left: -74 },
   topline: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  brand: { color: namyColors.text.primary, fontSize: 15, fontWeight: "800", letterSpacing: 0.8, fontFamily: namyTypography.child.display },
-  state: { color: namyColors.text.secondary, fontSize: 12, fontWeight: "800", letterSpacing: 0.8 },
-  title: { color: namyColors.text.primary, fontSize: 34, lineHeight: 40, fontWeight: "800", fontFamily: namyTypography.child.title, marginTop: 22 },
+  brand: { ...namyTypography.child.display, color: namyColors.text.primary },
+  state: { ...namyTypography.child.caption, color: namyColors.text.secondary },
+  title: { ...namyTypography.child.title, color: namyColors.text.primary, marginTop: 22 },
+  parentTitle: { ...namyTypography.parent.title },
   minimalTitle: { textAlign: "center", marginTop: 42 },
-  description: { color: namyColors.text.secondary, fontSize: 17, lineHeight: 25, marginTop: 10, maxWidth: 560 },
+  description: { ...namyTypography.child.body, color: namyColors.text.secondary, marginTop: 10, maxWidth: 560 },
+  childBody: { ...namyTypography.child.body, color: namyColors.text.primary },
+  parentBody: { ...namyTypography.parent.body, color: namyColors.text.primary },
+  parentLabel: { ...namyTypography.parent.label },
   minimalDescription: { textAlign: "center", alignSelf: "center" },
   card: { backgroundColor: namyColors.surface.raised, borderRadius: 28, padding: 20, marginTop: 20, shadowColor: namyColors.brand.primary, shadowOffset: { width: 0, height: 9 }, shadowOpacity: 0.12, shadowRadius: 18, elevation: 3 },
   action: { minHeight: 52, justifyContent: "center", alignItems: "center", borderRadius: 18, paddingHorizontal: 18, marginTop: 12, borderWidth: 1 },
@@ -85,12 +105,12 @@ const styles = StyleSheet.create({
   actionpaper: { backgroundColor: namyColors.surface.raised, borderColor: namyColors.border.default },
   actionDisabled: { opacity: 0.45 },
   actionPressed: { transform: [{ scale: 0.98 }] },
-  actionText: { color: namyColors.text.inverse, fontSize: 17, fontWeight: "800", textAlign: "center" },
+  actionText: { ...namyTypography.child.button, color: namyColors.text.inverse, textAlign: "center" },
   actionTextPaper: { color: namyColors.text.primary },
   assetNotice: { borderRadius: 16, borderWidth: 1, borderColor: namyColors.border.default, backgroundColor: namyColors.surface.subtle, padding: 14, marginTop: 18 },
   assetNoticeCompact: { marginTop: 12, paddingVertical: 8 },
-  assetKicker: { color: namyColors.text.primary, fontSize: 11, fontWeight: "800", letterSpacing: 0.9 },
-  assetText: { color: namyColors.text.secondary, fontSize: 13, lineHeight: 19, marginTop: 4 }
+  assetKicker: { ...namyTypography.child.caption, color: namyColors.text.primary },
+  assetText: { ...namyTypography.child.caption, color: namyColors.text.secondary, marginTop: 4 }
 });
 
 export const sceneStyles = styles;

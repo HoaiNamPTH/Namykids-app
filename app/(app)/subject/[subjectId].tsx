@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
-import { Text } from "react-native";
 import { useRuntimeBootstrap } from "../../../src/runtime/RuntimeBootstrapProvider";
-import { DevAssetNotice, NamyScene, SceneAction, SceneCard } from "../../../src/ui/NamyScene";
+import { DevAssetNotice, NamyScene, SceneAction, SceneCard, SceneText } from "../../../src/ui/NamyScene";
 
 export default function SubjectRoute() {
   const router = useRouter();
@@ -13,7 +12,7 @@ export default function SubjectRoute() {
   return (
     <NamyScene stateCode="S02" title="Chữ cái & vần" description="Đi theo một hành trình nhỏ để làm quen với thứ tự chữ cái.">
       <SceneCard><DevAssetNotice compact /><SceneAction label={canResume ? "Tiếp tục lượt đã lưu" : "Bắt đầu lượt Missing Letters"} onPress={() => router.push("/activity/alphabet-missing-letters")} tone="leaf" /><SceneAction label="Quay về Child World" onPress={() => router.push("/child-world")} tone="paper" /></SceneCard>
-      <SceneCard><Text>{alphabetProgress ? `Trạng thái đã xác minh: ${alphabetProgress.status}` : "Chưa có tiến độ đã xác minh."}</Text><Text>{canResume ? "Có lượt local/runtime đã lưu để tiếp tục với nguyên content pin." : "Chưa có lượt cần tiếp tục."}</Text><Text>{runtime.outbox.status === "unavailable" ? "Kho lưu đồng bộ đang cần khôi phục." : `${runtime.outbox.pendingCount} lượt đang chờ đồng bộ.`}</Text><SceneAction label="Ngoại tuyến / đồng bộ an toàn" onPress={() => router.push("/recovery")} tone="paper" /></SceneCard>
+      <SceneCard><SceneText>{alphabetProgress ? `Trạng thái đã xác minh: ${alphabetProgress.status}` : "Chưa có tiến độ đã xác minh."}</SceneText><SceneText>{canResume ? "Có lượt local/runtime đã lưu để tiếp tục với nguyên content pin." : "Chưa có lượt cần tiếp tục."}</SceneText><SceneText>{runtime.outbox.status === "unavailable" ? "Kho lưu đồng bộ đang cần khôi phục." : `${runtime.outbox.pendingCount} lượt đang chờ đồng bộ.`}</SceneText><SceneAction label="Ngoại tuyến / đồng bộ an toàn" onPress={() => router.push("/recovery")} tone="paper" /></SceneCard>
     </NamyScene>
   );
 }

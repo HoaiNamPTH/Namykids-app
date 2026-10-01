@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { namyBrandSource, namyColors } from "../src/ui/brand-tokens";
+import { namyTypographySource } from "../src/ui/typography";
 
 describe("NamyKids centralized brand tokens", () => {
   it("records the approved logo and visual sources for the preview palette", () => {
@@ -12,5 +13,7 @@ describe("NamyKids centralized brand tokens", () => {
       info: "#00A0FF",
       highlight: "#FF4080",
     });
+    expect(namyTypographySource.productionStatus).toBe("PENDING USER APPROVAL");
+    expect(namyBrandSource.typographyStatus).toContain("PENDING USER APPROVAL");
   });
 });

@@ -10,10 +10,11 @@ import { createActivityRound, isPointInsideDropTarget, type DropTargetRect, type
 import { automaticFeedbackTransition, childCompletionPresentation, positionsForCompletionAction, type PlacementMicroFeedback } from "../runtime/activity-player/presentation";
 import { assessRoundPlacement, createRoundAssessment, isHintEligible, revealHintForRound, summarizeRoundAssessment, type RoundAssessmentState } from "../runtime/activity-player/round-assessment";
 import { idleGameSession, reduceGameSession } from "../runtime/game-session/reducer";
-import { namyColors, namyTypography } from "../ui/brand-tokens";
+import { namyColors } from "../ui/brand-tokens";
 import { DevAssetNotice, NamyScene, SceneAction, SceneCard } from "../ui/NamyScene";
+import { namyTypography, namyTypographySource, typographyQaPhrases, vietnameseGlyphCorpus } from "../ui/typography";
 
-type PreviewScreen = "S01" | "S02" | "S03" | "S04" | "S07" | "S09" | "S10" | "S11" | "S12";
+type PreviewScreen = "S01" | "S02" | "S03" | "S04" | "S07" | "S09" | "S10" | "S11" | "S12" | "T01";
 type TargetRects = Readonly<Record<number, DropTargetRect>>;
 
 const previewPin: SessionPin = {
@@ -163,7 +164,26 @@ export function FoundationPreview() {
 
   if (screen === "S01") return <NamyScene stateCode="DEV / S01" title="Chào con đến với NamyKids" description="Foundation Preview dùng fixture cục bộ để User Acceptance; không tạo phiên Auth hoặc tiến độ canonical.">
     {banner}<SceneCard><SceneAction label="Chữ cái & vần" onPress={() => setScreen("S02")} tone="leaf" /><SceneAction label="Góc của ba mẹ" onPress={() => setScreen("S10")} tone="paper" /></SceneCard>
-    <SceneCard><DevAssetNotice /><SceneAction label="Xem Restricted" onPress={() => setScreen("S11")} tone="paper" /><SceneAction label="Xem Safe Recovery" onPress={() => setScreen("S12")} tone="paper" /></SceneCard>
+    <SceneCard><DevAssetNotice /><SceneAction label="Typography QA tiếng Việt" onPress={() => setScreen("T01")} tone="paper" /><SceneAction label="Xem Restricted" onPress={() => setScreen("S11")} tone="paper" /><SceneAction label="Xem Safe Recovery" onPress={() => setScreen("S12")} tone="paper" /></SceneCard>
+  </NamyScene>;
+
+  if (screen === "T01") return <NamyScene stateCode="DEV / TYPE" title="Typography QA tiếng Việt" description="System-safe fallback để kiểm tra dấu tiếng Việt; production font vẫn chờ User duyệt.">
+    {banner}<SceneCard style={styles.typographyCard}>
+      {typographyQaPhrases.map((phrase, index) => <Text
+        key={phrase}
+        testID={`typography-qa-phrase-${index + 1}`}
+        style={[
+          styles.typographyPhrase,
+          index === 0 && styles.typographyHeadline,
+          index === 2 && styles.typographyDisplay,
+          (index === 3 || index === 4 || index === 5 || index === 6 || index === 7) && styles.typographyButton,
+          index === 8 && styles.typographyParentTitle,
+          index === 9 && styles.typographyParentBody,
+        ]}
+      >{phrase}</Text>)}
+      <Text testID="typography-qa-glyph-corpus" style={styles.typographyCorpus}>{vietnameseGlyphCorpus}</Text>
+    </SceneCard>
+    <SceneAction label="Về Child World" onPress={() => setScreen("S01")} tone="paper" />
   </NamyScene>;
 
   if (screen === "S02") return <NamyScene stateCode="DEV / S02" title="Chữ cái & vần" description="Đi theo một hành trình nhỏ để làm quen với thứ tự chữ cái.">
@@ -207,7 +227,7 @@ export function FoundationPreview() {
 }
 
 function PreviewBanner() {
-  return <View style={styles.banner}><Text style={styles.bannerTitle}>DEV-ONLY FOUNDATION PREVIEW</Text><Text style={styles.bannerText}>Fixture + in-memory state · no Auth · no DB · no Completion Commit</Text><Text style={styles.bannerText}>Typography candidate: {namyTypography.previewCandidateLabel}. Chưa phải final baseline.</Text><Text style={styles.bannerText}>Color tokens: official Step 8 logo + approved Soft CGI visual.</Text></View>;
+  return <View style={styles.banner}><Text style={styles.bannerTitle}>DEV-ONLY FOUNDATION PREVIEW</Text><Text style={styles.bannerText}>Fixture + in-memory state · no Auth · no DB · no Completion Commit</Text><Text style={styles.bannerText}>Typography baseline: {namyTypographySource.activeFamily}. Production font: {namyTypographySource.productionStatus}.</Text><Text style={styles.bannerText}>Color tokens: official Step 8 logo + approved Soft CGI visual.</Text></View>;
 }
 
 function PreviewSequence({ sequence, positions, placed, selected, onTargetPress, onTargetMeasured }: {
@@ -251,25 +271,33 @@ function PreviewLetterTile({ item, selected, onPress, onDrop }: { item: RoundIte
 
 const styles = StyleSheet.create({
   banner: { borderRadius: 16, borderWidth: 1, borderColor: namyColors.border.default, backgroundColor: namyColors.surface.subtle, padding: 12, marginTop: 18 },
-  bannerTitle: { color: namyColors.text.primary, fontSize: 12, fontWeight: "900", letterSpacing: 0.7 },
-  bannerText: { color: namyColors.text.secondary, fontSize: 12, lineHeight: 18, marginTop: 3 },
+  bannerTitle: { ...namyTypography.child.caption, color: namyColors.text.primary },
+  bannerText: { ...namyTypography.child.caption, color: namyColors.text.secondary, marginTop: 3 },
+  typographyCard: { gap: 12 },
+  typographyPhrase: { ...namyTypography.child.body, color: namyColors.text.primary },
+  typographyHeadline: { ...namyTypography.child.title },
+  typographyDisplay: { ...namyTypography.child.display },
+  typographyButton: { ...namyTypography.child.button },
+  typographyParentTitle: { ...namyTypography.parent.title },
+  typographyParentBody: { ...namyTypography.parent.body },
+  typographyCorpus: { ...namyTypography.child.body, color: namyColors.text.primary, marginTop: 8 },
   sequence: { flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "center" },
   glyphCell: { minWidth: 72, minHeight: 72, borderRadius: 18, backgroundColor: namyColors.surface.calm, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: namyColors.border.default },
   gap: { minWidth: 72, minHeight: 72, borderRadius: 18, backgroundColor: namyColors.surface.raised, alignItems: "center", justifyContent: "center", borderWidth: 2, borderStyle: "dashed", borderColor: namyColors.brand.info },
   filledGap: { borderStyle: "solid", backgroundColor: namyColors.state.correctSurface, borderColor: namyColors.border.strong },
-  lockMarker: { position: "absolute", top: 4, right: 7, color: namyColors.text.primary, fontSize: 15, fontWeight: "900" },
-  glyph: { color: namyColors.text.primary, fontSize: 16, fontWeight: "800" },
-  helper: { color: namyColors.text.primary, fontSize: 15, lineHeight: 22, marginTop: 16, textAlign: "center" },
+  lockMarker: { ...namyTypography.child.button, position: "absolute", top: 4, right: 7, color: namyColors.text.primary, fontSize: 15 },
+  glyph: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 16 },
+  helper: { ...namyTypography.child.body, color: namyColors.text.primary, fontSize: 15, lineHeight: 22, marginTop: 16, textAlign: "center" },
   tray: { flexDirection: "row", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 18 },
   tile: { minHeight: 62, minWidth: 92, borderRadius: 20, backgroundColor: namyColors.brand.accent, borderWidth: 1, borderColor: namyColors.border.strong, justifyContent: "center", alignItems: "center", padding: 12 },
   tileSelected: { backgroundColor: namyColors.brand.info, transform: [{ translateY: -4 }] },
-  tileText: { color: namyColors.text.primary, fontSize: 16, fontWeight: "900" },
+  tileText: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 16 },
   microFeedback: { alignSelf: "center", flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 8, borderRadius: 999, borderWidth: 2, paddingHorizontal: 16, paddingVertical: 9, marginTop: 14 },
   microCorrect: { backgroundColor: namyColors.state.correctSurface, borderColor: namyColors.state.correct },
   microRetry: { backgroundColor: namyColors.state.retrySurface, borderColor: namyColors.state.retry },
-  microMarker: { color: namyColors.text.primary, fontSize: 18, fontWeight: "900" },
-  microText: { color: namyColors.text.primary, fontSize: 15, fontWeight: "800" },
-  evidenceText: { color: namyColors.text.secondary, fontSize: 11, fontWeight: "700" },
-  note: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 12 },
-  notice: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16 },
+  microMarker: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 18 },
+  microText: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 15 },
+  evidenceText: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 11 },
+  note: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 12 },
+  notice: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16 },
 });

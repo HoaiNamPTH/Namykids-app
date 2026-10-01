@@ -46,28 +46,8 @@ export const namyColors = {
   },
 } as const;
 
-const roundedPreviewCandidate = "Trebuchet MS";
-const development = typeof __DEV__ !== "undefined" && __DEV__ === true;
-
-export const namyTypography = {
-  child: {
-    display: development ? roundedPreviewCandidate : undefined,
-    title: development ? roundedPreviewCandidate : undefined,
-    support: undefined,
-    optionalLabel: undefined,
-  },
-  parent: {
-    title: undefined,
-    section: undefined,
-    body: undefined,
-    label: undefined,
-    caption: undefined,
-  },
-  previewCandidateLabel: "Trebuchet MS system fallback",
-} as const;
-
 export const namyBrandSource = {
   logo: "namykids_logo_primary_horizontal_no_tagline.png — Step 8 / Option 02",
   visual: "User-approved NamyKids Soft CGI concept image — 2026-09-24",
-  typographyStatus: "DEV candidate only; exact production UI font remains pending User Acceptance",
+  typographyStatus: "System-safe fallback active; exact production UI font is PENDING USER APPROVAL",
 } as const;

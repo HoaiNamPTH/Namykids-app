@@ -35,6 +35,14 @@ for (const root of roots) {
       }
     }
 
+    if (relative(process.cwd(), path).replaceAll("\\", "/") !== "src/ui/typography.ts" && /\b(fontFamily|fontWeight|fontStyle|letterSpacing|textTransform)\s*:/.test(source)) {
+      violations.push(`${relative(process.cwd(), path)}: typography override outside centralized token module`);
+    }
+
+    if (source.normalize("NFC") !== source) {
+      violations.push(`${relative(process.cwd(), path)}: source is not NFC-normalized`);
+    }
+
     if ((path.includes("app") || path.includes("engines")) && /\.(from|insert|update|upsert|delete|rpc)\s*\(/.test(source)) {
       violations.push(`${relative(process.cwd(), path)}: direct data write/access outside approved data boundary`);
     }
@@ -46,5 +54,5 @@ if (violations.length > 0) {
   for (const violation of violations) console.error(`- ${violation}`);
   process.exitCode = 1;
 } else {
-  console.log("Foundation quality gate passed: no secrets, prohibited identifiers, or screen/engine data access.");
+  console.log("Foundation quality gate passed: boundaries, typography centralization, and NFC normalization verified.");
 }
