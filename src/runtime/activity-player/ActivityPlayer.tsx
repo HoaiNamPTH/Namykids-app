@@ -10,7 +10,7 @@ import { e02DragDropEngine, type E02InputMode } from "../../engines/e02-drag-dro
 import { JsonPendingCompletionRepository, JsonSessionSnapshotRepository, type SessionSnapshot } from "../../persistence/contracts";
 import { secureDeviceStore } from "../../persistence/secure-device-store";
 import { reconcilePendingCompletions, type WebSessionRefresh } from "../../sync/outbox-reconciliation";
-import { namyColors, namyTypography } from "../../ui/brand-tokens";
+import { namyColors } from "../../ui/brand-tokens";
 import { DevAssetNotice, NamyScene, SceneAction, SceneCard } from "../../ui/NamyScene";
 import { idleGameSession, reduceGameSession } from "../game-session/reducer";
 import { createActivityRound, isPointInsideDropTarget, type DropTargetRect, type RoundItem } from "./activity-round";
@@ -261,7 +261,6 @@ export function ActivityPlayer({ parentUserId, runtime, refreshWebSession, confi
   </NamyScene>;
 
   if (stage === "complete") return <NamyScene minimal stateCode="S07" title={childCompletionPresentation.title}>
-    <SceneCard style={styles.completionCard}><Text accessibilityLiveRegion="polite" style={styles.completion}>{childCompletionPresentation.message}</Text></SceneCard>
     <SceneAction label={childCompletionPresentation.actions[0]} onPress={startNewRound} tone="leaf" disabled={savingCompletion || session.phase !== "COMPLETED"} />
     <SceneAction label={childCompletionPresentation.actions[1]} onPress={replayRound} tone="paper" disabled={savingCompletion || session.phase !== "COMPLETED"} />
   </NamyScene>;
@@ -315,7 +314,5 @@ const styles = StyleSheet.create({
   microRetry: { backgroundColor: namyColors.state.retrySurface, borderColor: namyColors.state.retry },
   microMarker: { color: namyColors.text.primary, fontSize: 18, fontWeight: "900" },
   microText: { color: namyColors.text.primary, fontSize: 15, fontWeight: "800" },
-  completion: { color: namyColors.text.primary, fontSize: 22, lineHeight: 30, fontWeight: "800", fontFamily: namyTypography.child.title },
-  completionCard: { alignItems: "center", paddingVertical: 36 },
   safeNotice: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16, paddingHorizontal: 6 },
 });

@@ -177,7 +177,6 @@ export function FoundationPreview() {
   </NamyScene>;
 
   if (screen === "S07") return <NamyScene minimal stateCode="DEV / S07" title={childCompletionPresentation.title}>
-    <SceneCard style={styles.completionCard}><Text accessibilityLiveRegion="polite" style={styles.feedback}>{childCompletionPresentation.message}</Text></SceneCard>
     <SceneAction label={childCompletionPresentation.actions[0]} onPress={startNewRound} tone="leaf" />
     <SceneAction label={childCompletionPresentation.actions[1]} onPress={replayRound} tone="paper" />
   </NamyScene>;
@@ -271,8 +270,6 @@ const styles = StyleSheet.create({
   microMarker: { color: namyColors.text.primary, fontSize: 18, fontWeight: "900" },
   microText: { color: namyColors.text.primary, fontSize: 15, fontWeight: "800" },
   evidenceText: { color: namyColors.text.secondary, fontSize: 11, fontWeight: "700" },
-  feedback: { color: namyColors.text.primary, fontSize: 22, lineHeight: 30, fontWeight: "800", fontFamily: namyTypography.child.title },
-  completionCard: { alignItems: "center", paddingVertical: 36 },
   note: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 12 },
   notice: { color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16 },
 });

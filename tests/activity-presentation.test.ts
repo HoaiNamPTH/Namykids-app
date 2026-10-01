@@ -28,12 +28,16 @@ describe("activity feedback presentation", () => {
       action: "advance",
       audioCue: "completion",
       isFinalRound: true,
-      feedback: { message: "Chúc mừng con đã làm đúng" },
+      feedback: { message: "Chúc mừng con!" },
     });
     expect(activityPresentationStage("ROUND_COMPLETE")).toBe("complete");
   });
 
   it("keeps S07 child-facing with exactly two actions and no technical assessment copy", () => {
+    expect(childCompletionPresentation).toEqual({
+      title: "Chúc mừng con!",
+      actions: ["Chơi mới", "Chơi lại"],
+    });
     expect(childCompletionPresentation.actions).toEqual(["Chơi mới", "Chơi lại"]);
     const childCopy = JSON.stringify(childCompletionPresentation);
     for (const forbidden of [

@@ -18,7 +18,6 @@ export type AutomaticFeedbackTransition =
 
 export const childCompletionPresentation = {
   title: "Chúc mừng con!",
-  message: "Chúc mừng con đã làm đúng",
   actions: ["Chơi mới", "Chơi lại"],
 } as const;
 
@@ -51,7 +50,7 @@ export function automaticFeedbackTransition(
       feedback: {
         kind: "correct",
         marker: "check",
-        message: isFinalRound ? "Chúc mừng con đã làm đúng" : "Con làm đúng rồi",
+        message: isFinalRound ? childCompletionPresentation.title : "Con làm đúng rồi",
       },
       isFinalRound,
     };
