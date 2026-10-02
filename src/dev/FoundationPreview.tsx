@@ -1,21 +1,23 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { unavailableAudioService, type AudioCue } from "../audio/audio-service";
 import { firstSliceDevConfig } from "../content/missing-letters/first-slice-dev-config";
+import { isFoundationPreviewEnabled } from "./foundation-preview-guard";
 import type { SessionPin } from "../domain/types";
 import { e02DragDropEngine, type E02InputMode } from "../engines/e02-drag-drop/contracts";
 import { createActivityRound, isPointInsideDropTarget, type DropTargetRect, type RoundItem } from "../runtime/activity-player/activity-round";
-import { automaticFeedbackTransition, childCompletionPresentation, positionsForCompletionAction, type PlacementMicroFeedback } from "../runtime/activity-player/presentation";
+import { automaticFeedbackTransition, childCompletionPresentation, foundationParentSummaryCopy, foundationPreviewAccessibility, foundationPreviewPresentation, positionsForCompletionAction, selectedLetterHelper, type PlacementMicroFeedback } from "../runtime/activity-player/presentation";
 import { assessRoundPlacement, createRoundAssessment, isHintEligible, revealHintForRound, summarizeRoundAssessment, type RoundAssessmentState } from "../runtime/activity-player/round-assessment";
 import { idleGameSession, reduceGameSession } from "../runtime/game-session/reducer";
 import { namyColors } from "../ui/brand-tokens";
-import { DevAssetNotice, NamyScene, SceneAction, SceneCard } from "../ui/NamyScene";
+import { NamyScene, SceneAction, SceneCard } from "../ui/NamyScene";
 import { namyTypography, namyTypographySource, typographyQaPhrases, vietnameseGlyphCorpus } from "../ui/typography";
 
-type PreviewScreen = "S01" | "S02" | "S03" | "S04" | "S07" | "S09" | "S10" | "S11" | "S12" | "T01";
+type PreviewScreen = "S01" | "S02" | "S03" | "S04" | "S07" | "S08" | "S09" | "S10" | "S11" | "S12" | "T01";
 type TargetRects = Readonly<Record<number, DropTargetRect>>;
+type PreviewSummary = ReturnType<typeof summarizeRoundAssessment>;
 
 const previewPin: SessionPin = {
   childId: "dev-preview-child",
@@ -37,7 +39,6 @@ export function FoundationPreview() {
   const [assessment, setAssessment] = useState<RoundAssessmentState>(() => createRoundAssessment());
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
   const [microFeedback, setMicroFeedback] = useState<PlacementMicroFeedback | null>(null);
-  const [completed, setCompleted] = useState(false);
   const targetRects = useRef<TargetRects>({});
   const assessmentRef = useRef(assessment);
   const round = useMemo(() => createActivityRound(firstSliceDevConfig, positions), [positions]);
@@ -45,7 +46,7 @@ export function FoundationPreview() {
   const allPlaced = positions.every((position) => placed[position] !== undefined);
   const hintEligible = isHintEligible(assessment);
   const summary = summarizeRoundAssessment(assessment);
-  const lastPlacement = assessment.placements[assessment.placements.length - 1];
+  const parentSummaryCopy = foundationParentSummaryCopy(summary);
 
   const updateAssessment = (next: RoundAssessmentState) => {
     assessmentRef.current = next;
@@ -60,7 +61,6 @@ export function FoundationPreview() {
     updateAssessment(createRoundAssessment());
     setAudioNotice(null);
     setMicroFeedback(null);
-    setCompleted(false);
     dispatch({ type: "RESET" });
     setScreen(nextScreen);
   };
@@ -134,7 +134,6 @@ export function FoundationPreview() {
       }
       dispatch({ type: "ADVANCE_ROUND", isFinalRound: transition.isFinalRound });
       if (transition.isFinalRound) {
-        setCompleted(true);
         setScreen("S07");
       }
       return;
@@ -160,74 +159,103 @@ export function FoundationPreview() {
   const startNewRound = () => resetRound("S03", positionsForCompletionAction("Chơi mới", firstSliceDevConfig, positions));
   const replayRound = () => resetRound("S03", positionsForCompletionAction("Chơi lại", firstSliceDevConfig, positions));
 
-  const banner = <PreviewBanner />;
+  const navigateTo = (nextScreen: PreviewScreen) => {
+    if (nextScreen === "S03") {
+      resetRound("S03");
+      return;
+    }
+    if (nextScreen === "S04") {
+      resetRound("S04");
+      dispatch({ type: "START", pin: previewPin });
+      dispatch({ type: "START", pin: previewPin });
+      return;
+    }
+    setScreen(nextScreen);
+  };
 
-  if (screen === "S01") return <NamyScene stateCode="DEV / S01" title="Chào con đến với NamyKids" description="Foundation Preview dùng fixture cục bộ để User Acceptance; không tạo phiên Auth hoặc tiến độ canonical.">
-    {banner}<SceneCard><SceneAction label="Chữ cái & vần" onPress={() => setScreen("S02")} tone="leaf" /><SceneAction label="Góc của ba mẹ" onPress={() => setScreen("S10")} tone="paper" /></SceneCard>
-    <SceneCard><DevAssetNotice /><SceneAction label="Typography QA tiếng Việt" onPress={() => setScreen("T01")} tone="paper" /><SceneAction label="Xem Restricted" onPress={() => setScreen("S11")} tone="paper" /><SceneAction label="Xem Safe Recovery" onPress={() => setScreen("S12")} tone="paper" /></SceneCard>
-  </NamyScene>;
+  const renderCanvas = (canvas: ReactNode) => <View style={styles.previewRoot}>
+    <View style={styles.previewCanvas}>{canvas}</View>
+    {isFoundationPreviewEnabled() ? <DevInspector currentScreen={screen} summary={summary} onNavigate={navigateTo} /> : null}
+  </View>;
 
-  if (screen === "T01") return <NamyScene stateCode="DEV / TYPE" title="Typography QA tiếng Việt" description="System-safe fallback để kiểm tra dấu tiếng Việt; production font vẫn chờ User duyệt.">
-    {banner}<SceneCard style={styles.typographyCard}>
-      {typographyQaPhrases.map((phrase, index) => <Text
-        key={phrase}
-        testID={`typography-qa-phrase-${index + 1}`}
-        style={[
-          styles.typographyPhrase,
-          index === 0 && styles.typographyHeadline,
-          index === 2 && styles.typographyDisplay,
-          (index === 3 || index === 4 || index === 5 || index === 6 || index === 7) && styles.typographyButton,
-          index === 8 && styles.typographyParentTitle,
-          index === 9 && styles.typographyParentBody,
-        ]}
-      >{phrase}</Text>)}
+  const s01 = foundationPreviewPresentation.S01;
+  if (screen === "S01") return renderCanvas(<NamyScene stateCode={s01.stateCode} title={s01.title} description={s01.description}>
+    <SceneCard><SceneAction label={s01.actions[0]} onPress={() => setScreen("S02")} tone="leaf" /><SceneAction label={s01.actions[1]} onPress={() => setScreen("S10")} tone="paper" /></SceneCard>
+  </NamyScene>);
+
+  if (screen === "T01") return renderCanvas(<NamyScene stateCode="TYPE" title="Typography QA tiếng Việt" description="Kiểm tra trực quan dấu tiếng Việt bằng phông chữ hệ thống an toàn.">
+    <SceneCard style={styles.typographyCard}>
+      {typographyQaPhrases.map((phrase, index) => <Text key={phrase} testID={`typography-qa-phrase-${index + 1}`} style={[styles.typographyPhrase, index === 0 && styles.typographyHeadline, index === 2 && styles.typographyDisplay, (index === 3 || index === 4 || index === 5 || index === 6 || index === 7) && styles.typographyButton, index === 8 && styles.typographyParentTitle, index === 9 && styles.typographyParentBody]}>{phrase}</Text>)}
       <Text testID="typography-qa-glyph-corpus" style={styles.typographyCorpus}>{vietnameseGlyphCorpus}</Text>
     </SceneCard>
-    <SceneAction label="Về Child World" onPress={() => setScreen("S01")} tone="paper" />
-  </NamyScene>;
+  </NamyScene>);
 
-  if (screen === "S02") return <NamyScene stateCode="DEV / S02" title="Chữ cái & vần" description="Đi theo một hành trình nhỏ để làm quen với thứ tự chữ cái.">
-    {banner}<SceneCard><DevAssetNotice compact /><SceneAction label="Bắt đầu lượt Missing Letters" onPress={() => resetRound("S03")} tone="leaf" /><SceneAction label="Ngoại tuyến / đồng bộ an toàn" onPress={() => setScreen("S09")} tone="paper" /><SceneAction label="Quay về Child World" onPress={() => setScreen("S01")} tone="paper" /></SceneCard>
-  </NamyScene>;
+  const s02 = foundationPreviewPresentation.S02;
+  if (screen === "S02") return renderCanvas(<NamyScene stateCode={s02.stateCode} title={s02.title} description={s02.description}>
+    <SceneCard><SceneAction label={s02.actions[0]} onPress={() => resetRound("S03")} tone="leaf" /><SceneAction label={s02.actions[1]} onPress={() => setScreen("S01")} tone="paper" /></SceneCard>
+  </NamyScene>);
 
-  if (screen === "S03") return <NamyScene stateCode="DEV / S03" title="Kéo chữ vào ô trống" description="Nhìn dãy chữ theo thứ tự, rồi đặt mỗi chữ còn thiếu vào đúng chỗ.">
-    {banner}<SceneCard><PreviewSequence sequence={firstSliceDevConfig.visibleSequence} positions={positions} placed={{}} /><Text style={styles.note}>Hình và voice đang là DEV_PLACEHOLDER; đáp án chưa được tiết lộ.</Text></SceneCard>
-    <SceneAction label="Nghe lại hướng dẫn" onPress={() => setAudioNotice("Voice asset là DEV_PLACEHOLDER; hướng dẫn chữ và hình vẫn hoạt động.")} tone="paper" />
-    <SceneAction label="Bắt đầu" onPress={startActivity} tone="leaf" />{audioNotice ? <Text style={styles.notice}>{audioNotice}</Text> : null}
-  </NamyScene>;
+  const s03 = foundationPreviewPresentation.S03;
+  if (screen === "S03") return renderCanvas(<NamyScene stateCode={s03.stateCode} title={s03.title} description={s03.description}>
+    <SceneCard><PreviewSequence sequence={firstSliceDevConfig.visibleSequence} positions={positions} placed={{}} /></SceneCard>
+    <SceneAction label={s03.actions[0]} onPress={() => setAudioNotice(s03.audioFallback)} tone="paper" />
+    <SceneAction label={s03.actions[1]} onPress={startActivity} tone="leaf" />
+    {audioNotice ? <Text accessibilityLiveRegion="polite" style={styles.notice}>{audioNotice}</Text> : null}
+  </NamyScene>);
 
-  if (screen === "S07") return <NamyScene minimal stateCode="DEV / S07" title={childCompletionPresentation.title}>
+  if (screen === "S07") return renderCanvas(<NamyScene minimal stateCode="S07" title={childCompletionPresentation.title}>
     <SceneAction label={childCompletionPresentation.actions[0]} onPress={startNewRound} tone="leaf" />
     <SceneAction label={childCompletionPresentation.actions[1]} onPress={replayRound} tone="paper" />
-  </NamyScene>;
+  </NamyScene>);
 
-  if (screen === "S09") return <NamyScene stateCode="DEV / S09" title="Ngoại tuyến / đồng bộ an toàn" description="Preview dùng state in-memory cô lập; không enqueue durable outbox và không gọi remote runtime.">
-    {banner}<SceneCard><Text style={styles.note}>{completed ? "Completion presentation đang được giữ trong preview state." : "Chưa có lượt preview hoàn thành."}</Text><SceneAction label="Góc của ba mẹ" onPress={() => setScreen("S10")} tone="leaf" /><SceneAction label="Về Child World" onPress={() => setScreen("S01")} tone="paper" /></SceneCard>
-  </NamyScene>;
+  const s08 = foundationPreviewPresentation.S08;
+  if (screen === "S08") return renderCanvas(<NamyScene stateCode={s08.stateCode} title={s08.title} description={s08.description} />);
 
-  if (screen === "S10") return <NamyScene calm stateCode="DEV / S10" eyebrow="NamyKids / Parent" title="Góc của ba mẹ" description="Chỉ hiển thị summary của preview in-memory, không giả lập phần trăm hay mastery.">
-    {banner}<SceneCard><Text style={styles.note}>{completed ? `Lượt preview hoàn thành: ${summary.correctPlacements} placement đúng.` : "Chưa có lượt preview hoàn thành."}</Text><Text style={styles.note}>Independent {summary.independentCorrectPlacements}; trial-and-error {summary.trialAndErrorCorrectPlacements}; assisted {summary.assistedCorrectPlacements}.</Text><SceneAction label="Quay lại Child World" onPress={() => setScreen("S01")} tone="leaf" /></SceneCard>
-  </NamyScene>;
+  const s09 = foundationPreviewPresentation.S09;
+  if (screen === "S09") return renderCanvas(<NamyScene stateCode={s09.stateCode} title={s09.title} description={s09.description}>
+    <SceneCard><SceneAction label={s09.actions[0]} onPress={() => setScreen("S04")} tone="leaf" /><SceneAction label={s09.actions[1]} onPress={() => setScreen("S10")} tone="paper" /></SceneCard>
+  </NamyScene>);
 
-  if (screen === "S11") return <NamyScene stateCode="DEV / S11" title="Nội dung cần quyền truy cập đầy đủ" description="Presentation-only state để nghiệm thu Restricted; preview không thay entitlement production.">
-    {banner}<SceneCard><SceneAction label="Về Child World" onPress={() => setScreen("S01")} tone="leaf" /><SceneAction label="Xem Safe Recovery" onPress={() => setScreen("S12")} tone="paper" /></SceneCard>
-  </NamyScene>;
+  const s10 = foundationPreviewPresentation.S10;
+  if (screen === "S10") return renderCanvas(<NamyScene calm stateCode={s10.stateCode} eyebrow={s10.eyebrow} title={s10.title} description={s10.description}>
+    <SceneCard><Text style={styles.parentSummary}>{parentSummaryCopy[0]}</Text>{parentSummaryCopy.slice(1).map((line) => <Text key={line} style={styles.parentDetail}>{line}</Text>)}<SceneAction label={s10.action} onPress={() => setScreen("S01")} tone="leaf" /></SceneCard>
+  </NamyScene>);
 
-  if (screen === "S12") return <NamyScene stateCode="DEV / S12" title="Mình đang giữ mọi thứ an toàn" description="Presentation-only recovery; không tạo fake binding, token hoặc canonical outbox.">
-    {banner}<SceneCard><SceneAction label="Về Child World" onPress={() => setScreen("S01")} tone="leaf" /><SceneAction label="Xem Offline / Sync" onPress={() => setScreen("S09")} tone="paper" /></SceneCard>
-  </NamyScene>;
+  const s11 = foundationPreviewPresentation.S11;
+  if (screen === "S11") return renderCanvas(<NamyScene stateCode={s11.stateCode} title={s11.title} description={s11.description}>
+    <SceneCard><SceneAction label={s11.action} onPress={() => setScreen("S01")} tone="leaf" /></SceneCard>
+  </NamyScene>);
 
-  return <NamyScene scrollEnabled={false} stateCode="DEV / S04" title="Chữ cái còn thiếu" description="Kéo một thẻ vào ô trống, hoặc chọn thẻ rồi chạm ô trống.">
-    {banner}<SceneCard><PreviewSequence sequence={firstSliceDevConfig.visibleSequence} positions={positions} placed={placed} selected={selected?.glyph ?? null} onTargetPress={selectThenPlace} onTargetMeasured={(position, rect) => { targetRects.current = { ...targetRects.current, [position]: rect }; }} /><Text style={styles.helper}>{selected ? `Đã chọn ${selected.glyph}. Chọn một ô trống.` : "Kéo hoặc chọn một thẻ chữ bên dưới."}</Text></SceneCard>
-    {microFeedback ? <View accessibilityLiveRegion="polite" style={[styles.microFeedback, microFeedback.kind === "correct" ? styles.microCorrect : styles.microRetry]}><Text accessible={false} style={styles.microMarker}>{microFeedback.marker === "check" ? "✓" : "↩"}</Text><Text style={styles.microText}>{microFeedback.message}</Text><Text style={styles.evidenceText}>{lastPlacement?.independentlyAssessable ? "Independent" : lastPlacement?.answerRevealed ? "Assisted" : "Trial-and-error · non-independent"}</Text></View> : null}
+  const s12 = foundationPreviewPresentation.S12;
+  if (screen === "S12") return renderCanvas(<NamyScene stateCode={s12.stateCode} title={s12.title} description={s12.description}>
+    <SceneCard><SceneAction label={s12.actions[0]} onPress={() => resetRound("S01")} tone="leaf" /><SceneAction label={s12.actions[1]} onPress={() => setScreen("S01")} tone="paper" /></SceneCard>
+  </NamyScene>);
+
+  const s04 = foundationPreviewPresentation.S04;
+  return renderCanvas(<NamyScene scrollEnabled={false} stateCode={s04.stateCode} title={s04.title} description={s04.description}>
+    <SceneCard><PreviewSequence sequence={firstSliceDevConfig.visibleSequence} positions={positions} placed={placed} selected={selected?.glyph ?? null} onTargetPress={selectThenPlace} onTargetMeasured={(position, rect) => { targetRects.current = { ...targetRects.current, [position]: rect }; }} /><Text style={styles.helper}>{selected ? selectedLetterHelper(selected.glyph) : s04.idleHelper}</Text></SceneCard>
+    {microFeedback ? <View accessibilityLiveRegion="polite" style={[styles.microFeedback, microFeedback.kind === "correct" ? styles.microCorrect : styles.microRetry]}><Text accessible={false} style={styles.microMarker}>{microFeedback.marker === "check" ? "✓" : "↩"}</Text><Text style={styles.microText}>{microFeedback.message}</Text></View> : null}
     <View style={styles.tray}>{round.items.filter((item) => placed[item.position] === undefined).map((item) => <PreviewLetterTile key={item.id} item={item} selected={selectedId === item.id} onPress={() => setSelectedId(item.id)} onDrop={handleDrop} />)}</View>
-    <SceneAction label="Gợi ý" onPress={revealHint} tone="paper" disabled={!hintEligible} accessibilityHint={hintEligible ? "Reveal một đáp án và đánh dấu assisted" : "Mở sau một genuine incorrect placement"} />
-    <SceneAction label="Lượt mới" onPress={refreshRound} tone="paper" disabled={Object.keys(placed).length > 0} />
-  </NamyScene>;
+    <SceneAction label={s04.actions[0]} accessibilityLabel={s04.actions[0]} onPress={revealHint} tone="paper" disabled={!hintEligible} accessibilityHint={hintEligible ? foundationPreviewAccessibility.hintAvailable : foundationPreviewAccessibility.hintUnavailable} />
+    <SceneAction label={s04.actions[1]} accessibilityLabel={s04.actions[1]} onPress={refreshRound} tone="paper" disabled={Object.keys(placed).length > 0} accessibilityHint={foundationPreviewAccessibility.refreshHint} />
+  </NamyScene>);
 }
 
-function PreviewBanner() {
-  return <View style={styles.banner}><Text style={styles.bannerTitle}>DEV-ONLY FOUNDATION PREVIEW</Text><Text style={styles.bannerText}>Fixture + in-memory state · no Auth · no DB · no Completion Commit</Text><Text style={styles.bannerText}>Typography baseline: {namyTypographySource.activeFamily}. Production font: {namyTypographySource.productionStatus}.</Text><Text style={styles.bannerText}>Color tokens: official Step 8 logo + approved Soft CGI visual.</Text></View>;
+const inspectorDestinations: readonly { screen: PreviewScreen; label: string }[] = [
+  { screen: "S01", label: "S01" }, { screen: "S02", label: "S02" }, { screen: "S03", label: "S03" },
+  { screen: "S04", label: "S04" }, { screen: "S07", label: "S07" }, { screen: "S08", label: "S08" },
+  { screen: "S09", label: "S09" }, { screen: "S10", label: "S10" }, { screen: "T01", label: "Typography QA" },
+  { screen: "S11", label: "Restricted" }, { screen: "S12", label: "Recovery" },
+];
+
+function DevInspector({ currentScreen, summary, onNavigate }: { currentScreen: PreviewScreen; summary: PreviewSummary; onNavigate: (screen: PreviewScreen) => void }) {
+  return <View accessibilityLabel="Bảng kiểm tra dành cho nhà phát triển" style={styles.inspector}>
+    <Text style={styles.inspectorTitle}>DEV INSPECTOR • PREVIEW HARNESS</Text>
+    <Text style={styles.inspectorText}>Màn hình: {currentScreen} | Động cơ: E02 | Dữ liệu: In-Memory</Text>
+    <Text style={styles.inspectorText}>Độc lập: {summary.independentCorrectPlacements} • Thử-sai: {summary.trialAndErrorCorrectPlacements} • Có hỗ trợ: {summary.assistedCorrectPlacements}</Text>
+    <Text style={styles.inspectorText}>Font: {namyTypographySource.activeFamily} | Asset: DEV_PLACEHOLDER</Text>
+    <View style={styles.inspectorNav}>{inspectorDestinations.map((destination) => <Pressable key={destination.screen} accessibilityRole="button" accessibilityLabel={`Mở màn kiểm tra ${destination.label}`} onPress={() => onNavigate(destination.screen)} style={[styles.inspectorPill, currentScreen === destination.screen && styles.inspectorPillActive]}><Text style={styles.inspectorPillText}>{destination.label}</Text></Pressable>)}</View>
+  </View>;
 }
 
 function PreviewSequence({ sequence, positions, placed, selected, onTargetPress, onTargetMeasured }: {
@@ -257,7 +285,7 @@ function PreviewTarget({ position, content, filled, selected, onPress, onMeasure
 }) {
   const targetRef = useRef<View>(null);
   const measureTarget = () => targetRef.current?.measureInWindow((x, y, width, height) => onMeasured?.(position, { x, y, width, height }));
-  return <View ref={targetRef} onLayout={measureTarget}><Pressable accessibilityRole="button" accessibilityLabel={`Ô trống ${position + 1}${filled ? ", chữ đã khóa đúng vị trí" : selected ? `, đặt ${selected}` : ""}`} onPress={() => onPress?.(position)} style={[styles.gap, filled && styles.filledGap]}>{filled ? <Text accessible={false} style={styles.lockMarker}>✓</Text> : null}<Text style={styles.glyph}>{content}</Text></Pressable></View>;
+  return <View ref={targetRef} onLayout={measureTarget}><Pressable accessibilityRole="button" accessibilityLabel={`Ô trống ${position + 1}${filled ? ", chữ đã điền đúng" : selected ? `, chạm để đặt chữ ${selected}` : ""}`} accessibilityHint={foundationPreviewAccessibility.dropTargetHint} onPress={() => onPress?.(position)} style={[styles.gap, filled && styles.filledGap]}>{filled ? <Text accessible={false} style={styles.lockMarker}>✓</Text> : null}<Text style={styles.glyph}>{content}</Text></Pressable></View>;
 }
 
 function PreviewLetterTile({ item, selected, onPress, onDrop }: { item: RoundItem; selected: boolean; onPress: () => void; onDrop: (itemId: string, point: { x: number; y: number }) => void }) {
@@ -266,13 +294,12 @@ function PreviewLetterTile({ item, selected, onPress, onDrop }: { item: RoundIte
   const dragging = useSharedValue(false);
   const gesture = useMemo(() => Gesture.Pan().minDistance(4).onBegin(() => { dragging.value = true; }).onUpdate((event) => { translateX.value = event.translationX; translateY.value = event.translationY; }).onEnd((event) => { runOnJS(onDrop)(item.id, { x: event.absoluteX, y: event.absoluteY }); }).onFinalize(() => { dragging.value = false; translateX.value = withSpring(0); translateY.value = withSpring(0); }), [dragging, item.id, onDrop, translateX, translateY]);
   const animatedStyle = useAnimatedStyle(() => ({ transform: [{ translateX: translateX.value }, { translateY: translateY.value }, { scale: dragging.value ? 1.08 : 1 }] }));
-  return <GestureDetector gesture={gesture}><Animated.View style={animatedStyle}><Pressable accessibilityRole="button" accessibilityLabel={`Kéo ${item.glyph} vào ô trống hoặc chọn để đặt`} accessibilityState={{ selected }} onPress={onPress} style={[styles.tile, selected && styles.tileSelected]}><Text style={styles.tileText}>{item.glyph}</Text></Pressable></Animated.View></GestureDetector>;
+  return <GestureDetector gesture={gesture}><Animated.View style={animatedStyle}><Pressable accessibilityRole="button" accessibilityLabel={`Kéo chữ ${item.glyph} vào ô trống hoặc chạm để chọn`} accessibilityState={{ selected }} onPress={onPress} style={[styles.tile, selected && styles.tileSelected]}><Text style={styles.tileText}>{item.glyph}</Text></Pressable></Animated.View></GestureDetector>;
 }
 
 const styles = StyleSheet.create({
-  banner: { borderRadius: 16, borderWidth: 1, borderColor: namyColors.border.default, backgroundColor: namyColors.surface.subtle, padding: 12, marginTop: 18 },
-  bannerTitle: { ...namyTypography.child.caption, color: namyColors.text.primary },
-  bannerText: { ...namyTypography.child.caption, color: namyColors.text.secondary, marginTop: 3 },
+  previewRoot: { flex: 1, backgroundColor: "#1B1736" },
+  previewCanvas: { flex: 1, minHeight: 0 },
   typographyCard: { gap: 12 },
   typographyPhrase: { ...namyTypography.child.body, color: namyColors.text.primary },
   typographyHeadline: { ...namyTypography.child.title },
@@ -297,7 +324,14 @@ const styles = StyleSheet.create({
   microRetry: { backgroundColor: namyColors.state.retrySurface, borderColor: namyColors.state.retry },
   microMarker: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 18 },
   microText: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 15 },
-  evidenceText: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 11 },
-  note: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 12 },
   notice: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16 },
+  parentSummary: { ...namyTypography.parent.body, color: namyColors.text.primary },
+  parentDetail: { ...namyTypography.parent.body, color: namyColors.text.primary, marginTop: 8 },
+  inspector: { backgroundColor: "#1B1736", borderTopWidth: 1, borderColor: "#3D3766", paddingHorizontal: 14, paddingTop: 10, paddingBottom: 12 },
+  inspectorTitle: { ...namyTypography.child.caption, color: "#FFFFFF" },
+  inspectorText: { ...namyTypography.child.caption, color: "#D8D4F0", fontSize: 11, lineHeight: 16, marginTop: 2 },
+  inspectorNav: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 8 },
+  inspectorPill: { borderWidth: 1, borderColor: "#615A91", backgroundColor: "#292347", borderRadius: 999, paddingHorizontal: 9, paddingVertical: 5 },
+  inspectorPillActive: { borderColor: namyColors.brand.accent, backgroundColor: "#3D3766" },
+  inspectorPillText: { ...namyTypography.child.caption, color: "#FFFFFF", fontSize: 11, lineHeight: 15 },
 });

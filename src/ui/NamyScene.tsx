@@ -44,17 +44,19 @@ export function SceneCard({ children, style }: PropsWithChildren<{ style?: ViewS
   return <View style={[styles.card, style]}>{children}</View>;
 }
 
-export function SceneAction({ label, onPress, tone = "leaf", disabled = false, accessibilityHint }: {
+export function SceneAction({ label, onPress, tone = "leaf", disabled = false, accessibilityLabel, accessibilityHint }: {
   label: string;
   onPress: () => void;
   tone?: "leaf" | "sun" | "paper";
   disabled?: boolean;
+  accessibilityLabel?: string;
   accessibilityHint?: string;
 }) {
   const audience = useContext(TypographyAudienceContext);
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? label}
       accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled }}
       disabled={disabled}
