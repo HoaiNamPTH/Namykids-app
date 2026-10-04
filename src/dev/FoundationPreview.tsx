@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { unavailableAudioService, type AudioCue } from "../audio/audio-service";
@@ -8,11 +8,11 @@ import { isFoundationPreviewEnabled } from "./foundation-preview-guard";
 import type { SessionPin } from "../domain/types";
 import { e02DragDropEngine, type E02InputMode } from "../engines/e02-drag-drop/contracts";
 import { createActivityRound, isPointInsideDropTarget, type DropTargetRect, type RoundItem } from "../runtime/activity-player/activity-round";
-import { automaticFeedbackTransition, childCompletionPresentation, foundationParentSummaryCopy, foundationPreviewAccessibility, foundationPreviewPresentation, positionsForCompletionAction, selectedLetterHelper, type PlacementMicroFeedback } from "../runtime/activity-player/presentation";
+import { automaticFeedbackTransition, childCompletionPresentation, childFacingGlyph, foundationParentSummaryCopy, foundationPreviewAccessibility, foundationPreviewPresentation, landscapeLayoutForWidth, positionsForCompletionAction, selectedLetterHelper, type LandscapeLayout, type PlacementMicroFeedback } from "../runtime/activity-player/presentation";
 import { assessRoundPlacement, createRoundAssessment, isHintEligible, revealHintForRound, summarizeRoundAssessment, type RoundAssessmentState } from "../runtime/activity-player/round-assessment";
 import { idleGameSession, reduceGameSession } from "../runtime/game-session/reducer";
 import { namyColors } from "../ui/brand-tokens";
-import { NamyScene, SceneAction, SceneCard } from "../ui/NamyScene";
+import { NamyScene, SceneAction, SceneCard, SceneIconAction } from "../ui/NamyScene";
 import { namyTypography, namyTypographySource, typographyQaPhrases, vietnameseGlyphCorpus } from "../ui/typography";
 
 type PreviewScreen = "S01" | "S02" | "S03" | "S04" | "S07" | "S08" | "S09" | "S10" | "S11" | "S12" | "T01";
@@ -31,6 +31,8 @@ const previewPin: SessionPin = {
 };
 
 export function FoundationPreview() {
+  const { width } = useWindowDimensions();
+  const landscapeLayout = landscapeLayoutForWidth(width);
   const [screen, setScreen] = useState<PreviewScreen>("S01");
   const [session, dispatch] = useReducer(reduceGameSession, idleGameSession);
   const [positions, setPositions] = useState<readonly number[]>(firstSliceDevConfig.missingPositions);
@@ -121,6 +123,11 @@ export function FoundationPreview() {
     return unavailableAudioService.play(cue, assetId);
   }, []);
 
+  const replayInstruction = async () => {
+    const result = await unavailableAudioService.play("instruction", firstSliceDevConfig.instructionAudioAssetId);
+    if (result === "unavailable") setAudioNotice(foundationPreviewPresentation.S03.audioFallback);
+  };
+
   useEffect(() => {
     const transition = automaticFeedbackTransition(session.phase, allPlaced);
     if (!transition) return;
@@ -146,6 +153,12 @@ export function FoundationPreview() {
     }
     dispatch({ type: "START", pin: previewPin });
   }, [allPlaced, playFeedbackCue, session.phase]);
+
+  useEffect(() => {
+    if (!microFeedback) return;
+    const timer = setTimeout(() => setMicroFeedback(null), 800);
+    return () => clearTimeout(timer);
+  }, [microFeedback]);
 
   const refreshRound = () => {
     if (Object.keys(placed).length > 0) return;
@@ -196,16 +209,20 @@ export function FoundationPreview() {
   </NamyScene>);
 
   const s03 = foundationPreviewPresentation.S03;
-  if (screen === "S03") return renderCanvas(<NamyScene stateCode={s03.stateCode} title={s03.title} description={s03.description}>
-    <SceneCard><PreviewSequence sequence={firstSliceDevConfig.visibleSequence} positions={positions} placed={{}} /></SceneCard>
-    <SceneAction label={s03.actions[0]} onPress={() => setAudioNotice(s03.audioFallback)} tone="paper" />
-    <SceneAction label={s03.actions[1]} onPress={startActivity} tone="leaf" />
+  if (screen === "S03") return renderCanvas(<NamyScene landscape stateCode={s03.stateCode} title={s03.title} description={s03.description} headerRight={<SceneIconAction icon="🔊" accessibilityLabel={foundationPreviewAccessibility.speakerLabel} accessibilityHint={foundationPreviewAccessibility.speakerHint} onPress={() => void replayInstruction()} size={landscapeLayout.controlSize} />}>
+    <View style={styles.instructionStage}>
+      <SceneCard style={styles.instructionCard}><PreviewSequence layout={landscapeLayout} sequence={firstSliceDevConfig.visibleSequence} positions={positions} placed={{}} /></SceneCard>
+      <SceneAction label={s03.primaryAction} onPress={startActivity} tone="leaf" style={[styles.primaryAction, { minHeight: landscapeLayout.primaryActionHeight }]} />
+    </View>
     {audioNotice ? <Text accessibilityLiveRegion="polite" style={styles.notice}>{audioNotice}</Text> : null}
   </NamyScene>);
 
-  if (screen === "S07") return renderCanvas(<NamyScene minimal stateCode="S07" title={childCompletionPresentation.title}>
-    <SceneAction label={childCompletionPresentation.actions[0]} onPress={startNewRound} tone="leaf" />
-    <SceneAction label={childCompletionPresentation.actions[1]} onPress={replayRound} tone="paper" />
+  if (screen === "S07") return renderCanvas(<NamyScene landscape minimal stateCode="S07" title={childCompletionPresentation.title}>
+    <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.completionGlow}><Text style={styles.completionStars}>★ ✦ ★</Text></View>
+    <View style={styles.completionActions}>
+      <SceneAction label={childCompletionPresentation.actions[1]} onPress={replayRound} tone="paper" style={styles.completionAction} />
+      <SceneAction label={childCompletionPresentation.actions[0]} onPress={startNewRound} tone="leaf" style={styles.completionAction} />
+    </View>
   </NamyScene>);
 
   const s08 = foundationPreviewPresentation.S08;
@@ -232,12 +249,20 @@ export function FoundationPreview() {
   </NamyScene>);
 
   const s04 = foundationPreviewPresentation.S04;
-  return renderCanvas(<NamyScene scrollEnabled={false} stateCode={s04.stateCode} title={s04.title} description={s04.description}>
-    <SceneCard><PreviewSequence sequence={firstSliceDevConfig.visibleSequence} positions={positions} placed={placed} selected={selected?.glyph ?? null} onTargetPress={selectThenPlace} onTargetMeasured={(position, rect) => { targetRects.current = { ...targetRects.current, [position]: rect }; }} /><Text style={styles.helper}>{selected ? selectedLetterHelper(selected.glyph) : s04.idleHelper}</Text></SceneCard>
-    {microFeedback ? <View accessibilityLiveRegion="polite" style={[styles.microFeedback, microFeedback.kind === "correct" ? styles.microCorrect : styles.microRetry]}><Text accessible={false} style={styles.microMarker}>{microFeedback.marker === "check" ? "✓" : "↩"}</Text><Text style={styles.microText}>{microFeedback.message}</Text></View> : null}
-    <View style={styles.tray}>{round.items.filter((item) => placed[item.position] === undefined).map((item) => <PreviewLetterTile key={item.id} item={item} selected={selectedId === item.id} onPress={() => setSelectedId(item.id)} onDrop={handleDrop} />)}</View>
-    <SceneAction label={s04.actions[0]} accessibilityLabel={s04.actions[0]} onPress={revealHint} tone="paper" disabled={!hintEligible} accessibilityHint={hintEligible ? foundationPreviewAccessibility.hintAvailable : foundationPreviewAccessibility.hintUnavailable} />
-    <SceneAction label={s04.actions[1]} accessibilityLabel={s04.actions[1]} onPress={refreshRound} tone="paper" disabled={Object.keys(placed).length > 0} accessibilityHint={foundationPreviewAccessibility.refreshHint} />
+  return renderCanvas(<NamyScene landscape scrollEnabled={false} stateCode={s04.stateCode} title={s04.title} description={s04.description} headerRight={<SceneIconAction icon="🔊" accessibilityLabel={foundationPreviewAccessibility.speakerLabel} accessibilityHint={foundationPreviewAccessibility.speakerHint} onPress={() => void replayInstruction()} size={landscapeLayout.controlSize} />}>
+    <View style={[styles.activityStage, { gap: landscapeLayout.activityGap }]}>
+      <SceneCard style={styles.activityBoard}><PreviewSequence layout={landscapeLayout} sequence={firstSliceDevConfig.visibleSequence} positions={positions} placed={placed} selected={selected?.glyph ?? null} onTargetPress={selectThenPlace} onTargetMeasured={(position, rect) => { targetRects.current = { ...targetRects.current, [position]: rect }; }} /></SceneCard>
+      <View style={styles.feedbackSlot}>{microFeedback ? <View accessibilityLiveRegion="polite" style={[styles.microFeedback, microFeedback.kind === "correct" ? styles.microCorrect : styles.microRetry]}><Text accessible={false} style={styles.microMarker}>{microFeedback.marker === "check" ? "✓" : "↩"}</Text><Text style={styles.microText}>{microFeedback.message}</Text></View> : null}</View>
+      <View style={styles.activityLowerRow}>
+        <View style={[styles.tray, { gap: landscapeLayout.trayGap }]}>{round.items.filter((item) => placed[item.position] === undefined).map((item) => <PreviewLetterTile key={item.id} layout={landscapeLayout} item={item} selected={selectedId === item.id} onPress={() => setSelectedId(item.id)} onDrop={handleDrop} />)}</View>
+        <View style={styles.compactControls}>
+          <SceneIconAction icon="💡" accessibilityLabel={s04.actions[0]} onPress={revealHint} disabled={!hintEligible} accessibilityHint={hintEligible ? foundationPreviewAccessibility.hintAvailable : foundationPreviewAccessibility.hintUnavailable} size={landscapeLayout.controlSize} />
+          <SceneIconAction icon="↻" accessibilityLabel={s04.actions[1]} onPress={refreshRound} disabled={Object.keys(placed).length > 0} accessibilityHint={foundationPreviewAccessibility.refreshHint} size={landscapeLayout.controlSize} />
+        </View>
+      </View>
+      <Text style={styles.helper}>{selected ? selectedLetterHelper(selected.glyph) : s04.idleHelper}</Text>
+    </View>
+    {audioNotice ? <Text accessibilityLiveRegion="polite" style={styles.notice}>{audioNotice}</Text> : null}
   </NamyScene>);
 }
 
@@ -258,7 +283,8 @@ function DevInspector({ currentScreen, summary, onNavigate }: { currentScreen: P
   </View>;
 }
 
-function PreviewSequence({ sequence, positions, placed, selected, onTargetPress, onTargetMeasured }: {
+function PreviewSequence({ layout, sequence, positions, placed, selected, onTargetPress, onTargetMeasured }: {
+  layout: LandscapeLayout;
   sequence: readonly string[];
   positions: readonly number[];
   placed: Readonly<Record<number, string>>;
@@ -266,16 +292,17 @@ function PreviewSequence({ sequence, positions, placed, selected, onTargetPress,
   onTargetPress?: (position: number) => void;
   onTargetMeasured?: (position: number, rect: DropTargetRect) => void;
 }) {
-  return <View style={styles.sequence}>{sequence.map((glyph, index) => {
+  return <View style={[styles.sequence, { gap: layout.targetGap }]}>{sequence.map((glyph, index) => {
     const missing = positions.includes(index);
     const content = placed[index] ?? (missing ? "?" : glyph);
     return missing
-      ? <PreviewTarget key={`${glyph}-${index}`} position={index} content={content} filled={Boolean(placed[index])} selected={selected} onPress={onTargetPress} onMeasured={onTargetMeasured} />
-      : <View key={`${glyph}-${index}`} style={styles.glyphCell}><Text style={styles.glyph}>{content}</Text></View>;
+      ? <PreviewTarget key={`${glyph}-${index}`} layout={layout} position={index} content={content} filled={Boolean(placed[index])} selected={selected} onPress={onTargetPress} onMeasured={onTargetMeasured} />
+      : <View key={`${glyph}-${index}`} style={[styles.glyphCell, { width: layout.targetSize, height: layout.targetSize, borderRadius: layout.targetRadius }]}><Text style={[styles.glyph, { fontSize: layout.glyphSize }]}>{childFacingGlyph(content)}</Text></View>;
   })}</View>;
 }
 
-function PreviewTarget({ position, content, filled, selected, onPress, onMeasured }: {
+function PreviewTarget({ layout, position, content, filled, selected, onPress, onMeasured }: {
+  layout: LandscapeLayout;
   position: number;
   content: string;
   filled: boolean;
@@ -285,16 +312,17 @@ function PreviewTarget({ position, content, filled, selected, onPress, onMeasure
 }) {
   const targetRef = useRef<View>(null);
   const measureTarget = () => targetRef.current?.measureInWindow((x, y, width, height) => onMeasured?.(position, { x, y, width, height }));
-  return <View ref={targetRef} onLayout={measureTarget}><Pressable accessibilityRole="button" accessibilityLabel={`Ô trống ${position + 1}${filled ? ", chữ đã điền đúng" : selected ? `, chạm để đặt chữ ${selected}` : ""}`} accessibilityHint={foundationPreviewAccessibility.dropTargetHint} onPress={() => onPress?.(position)} style={[styles.gap, filled && styles.filledGap]}>{filled ? <Text accessible={false} style={styles.lockMarker}>✓</Text> : null}<Text style={styles.glyph}>{content}</Text></Pressable></View>;
+  return <View ref={targetRef} onLayout={measureTarget}><Pressable accessibilityRole="button" accessibilityLabel={`Ô trống ${position + 1}${filled ? ", chữ đã điền đúng" : selected ? `, chạm để đặt chữ ${childFacingGlyph(selected)}` : ""}`} accessibilityHint={foundationPreviewAccessibility.dropTargetHint} onPress={() => onPress?.(position)} style={[styles.gap, { width: layout.targetSize, height: layout.targetSize, borderRadius: layout.targetRadius }, filled && styles.filledGap]}>{filled ? <Text accessible={false} style={styles.lockMarker}>✓</Text> : null}<Text style={[styles.glyph, { fontSize: layout.glyphSize }]}>{childFacingGlyph(content)}</Text></Pressable></View>;
 }
 
-function PreviewLetterTile({ item, selected, onPress, onDrop }: { item: RoundItem; selected: boolean; onPress: () => void; onDrop: (itemId: string, point: { x: number; y: number }) => void }) {
+function PreviewLetterTile({ layout, item, selected, onPress, onDrop }: { layout: LandscapeLayout; item: RoundItem; selected: boolean; onPress: () => void; onDrop: (itemId: string, point: { x: number; y: number }) => void }) {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const dragging = useSharedValue(false);
   const gesture = useMemo(() => Gesture.Pan().minDistance(4).onBegin(() => { dragging.value = true; }).onUpdate((event) => { translateX.value = event.translationX; translateY.value = event.translationY; }).onEnd((event) => { runOnJS(onDrop)(item.id, { x: event.absoluteX, y: event.absoluteY }); }).onFinalize(() => { dragging.value = false; translateX.value = withSpring(0); translateY.value = withSpring(0); }), [dragging, item.id, onDrop, translateX, translateY]);
   const animatedStyle = useAnimatedStyle(() => ({ transform: [{ translateX: translateX.value }, { translateY: translateY.value }, { scale: dragging.value ? 1.08 : 1 }] }));
-  return <GestureDetector gesture={gesture}><Animated.View style={animatedStyle}><Pressable accessibilityRole="button" accessibilityLabel={`Kéo chữ ${item.glyph} vào ô trống hoặc chạm để chọn`} accessibilityState={{ selected }} onPress={onPress} style={[styles.tile, selected && styles.tileSelected]}><Text style={styles.tileText}>{item.glyph}</Text></Pressable></Animated.View></GestureDetector>;
+  const displayGlyph = childFacingGlyph(item.glyph);
+  return <GestureDetector gesture={gesture}><Animated.View style={animatedStyle}><Pressable accessibilityRole="button" accessibilityLabel={`Kéo chữ ${displayGlyph} vào ô trống hoặc chạm để chọn`} accessibilityState={{ selected }} onPress={onPress} style={[styles.tile, { width: layout.trayWidth, height: layout.trayHeight, borderRadius: layout.trayRadius }, selected && styles.tileSelected]}><Text style={[styles.tileText, { fontSize: layout.glyphSize }]}>{displayGlyph}</Text></Pressable></Animated.View></GestureDetector>;
 }
 
 const styles = StyleSheet.create({
@@ -308,23 +336,35 @@ const styles = StyleSheet.create({
   typographyParentTitle: { ...namyTypography.parent.title },
   typographyParentBody: { ...namyTypography.parent.body },
   typographyCorpus: { ...namyTypography.child.body, color: namyColors.text.primary, marginTop: 8 },
+  instructionStage: { flex: 1, justifyContent: "center", alignItems: "center", width: "100%" },
+  instructionCard: { width: "100%", maxWidth: 880, paddingHorizontal: 28, paddingVertical: 22 },
+  primaryAction: { width: "100%", maxWidth: 320, borderRadius: 999, marginTop: 18 },
+  activityStage: { flex: 1, justifyContent: "center", alignItems: "center", width: "100%", minHeight: 0 },
+  activityBoard: { width: "100%", maxWidth: 920, paddingHorizontal: 20, paddingVertical: 14, marginTop: 8 },
+  activityLowerRow: { width: "100%", maxWidth: 920, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 16 },
+  compactControls: { flexDirection: "row", alignItems: "center", gap: 8 },
   sequence: { flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "center" },
-  glyphCell: { minWidth: 72, minHeight: 72, borderRadius: 18, backgroundColor: namyColors.surface.calm, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: namyColors.border.default },
-  gap: { minWidth: 72, minHeight: 72, borderRadius: 18, backgroundColor: namyColors.surface.raised, alignItems: "center", justifyContent: "center", borderWidth: 2, borderStyle: "dashed", borderColor: namyColors.brand.info },
+  glyphCell: { backgroundColor: namyColors.surface.calm, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: namyColors.border.default, shadowColor: namyColors.brand.primary, shadowOffset: { width: 0, height: 5 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 2 },
+  gap: { backgroundColor: namyColors.surface.raised, alignItems: "center", justifyContent: "center", borderWidth: 2, borderStyle: "dashed", borderColor: namyColors.brand.info },
   filledGap: { borderStyle: "solid", backgroundColor: namyColors.state.correctSurface, borderColor: namyColors.border.strong },
   lockMarker: { ...namyTypography.child.button, position: "absolute", top: 4, right: 7, color: namyColors.text.primary, fontSize: 15 },
-  glyph: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 16 },
-  helper: { ...namyTypography.child.body, color: namyColors.text.primary, fontSize: 15, lineHeight: 22, marginTop: 16, textAlign: "center" },
-  tray: { flexDirection: "row", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 18 },
-  tile: { minHeight: 62, minWidth: 92, borderRadius: 20, backgroundColor: namyColors.brand.accent, borderWidth: 1, borderColor: namyColors.border.strong, justifyContent: "center", alignItems: "center", padding: 12 },
+  glyph: { ...namyTypography.child.button, color: namyColors.text.primary },
+  helper: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 13, lineHeight: 18, textAlign: "center" },
+  tray: { flex: 1, flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" },
+  tile: { backgroundColor: namyColors.brand.accent, borderWidth: 1, borderColor: namyColors.border.strong, justifyContent: "center", alignItems: "center", shadowColor: namyColors.brand.primary, shadowOffset: { width: 0, height: 7 }, shadowOpacity: 0.18, shadowRadius: 8, elevation: 4 },
   tileSelected: { backgroundColor: namyColors.brand.info, transform: [{ translateY: -4 }] },
-  tileText: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 16 },
-  microFeedback: { alignSelf: "center", flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 8, borderRadius: 999, borderWidth: 2, paddingHorizontal: 16, paddingVertical: 9, marginTop: 14 },
+  tileText: { ...namyTypography.child.button, color: namyColors.text.primary },
+  feedbackSlot: { minHeight: 42, justifyContent: "center" },
+  microFeedback: { alignSelf: "center", flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 8, borderRadius: 999, borderWidth: 2, paddingHorizontal: 16, paddingVertical: 7 },
   microCorrect: { backgroundColor: namyColors.state.correctSurface, borderColor: namyColors.state.correct },
   microRetry: { backgroundColor: namyColors.state.retrySurface, borderColor: namyColors.state.retry },
   microMarker: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 18 },
   microText: { ...namyTypography.child.button, color: namyColors.text.primary, fontSize: 15 },
-  notice: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 14, lineHeight: 20, marginTop: 16 },
+  notice: { ...namyTypography.child.caption, color: namyColors.text.secondary, fontSize: 13, lineHeight: 18, marginTop: 8, textAlign: "center" },
+  completionGlow: { alignSelf: "center", width: "72%", maxWidth: 620, minHeight: 120, marginTop: 12, borderRadius: 999, alignItems: "center", justifyContent: "center", backgroundColor: namyColors.surface.subtle, shadowColor: namyColors.brand.accent, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.35, shadowRadius: 28, elevation: 3 },
+  completionStars: { ...namyTypography.child.display, color: namyColors.brand.accent, fontSize: 36 },
+  completionActions: { flexDirection: "row", alignSelf: "center", width: "100%", maxWidth: 640, gap: 16, marginTop: 14 },
+  completionAction: { flex: 1, borderRadius: 999 },
   parentSummary: { ...namyTypography.parent.body, color: namyColors.text.primary },
   parentDetail: { ...namyTypography.parent.body, color: namyColors.text.primary, marginTop: 8 },
   inspector: { backgroundColor: "#1B1736", borderTopWidth: 1, borderColor: "#3D3766", paddingHorizontal: 14, paddingTop: 10, paddingBottom: 12 },

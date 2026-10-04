@@ -5,6 +5,22 @@ import { e02DragDropEngine } from "../../engines/e02-drag-drop/contracts";
 
 export type ActivityPresentationStage = "instruction" | "active" | "complete";
 
+export type LandscapeLayout = {
+  breakpoint: "narrow-phone" | "phone" | "tablet";
+  horizontalPadding: number;
+  targetSize: number;
+  targetRadius: number;
+  targetGap: number;
+  trayWidth: number;
+  trayHeight: number;
+  trayRadius: number;
+  trayGap: number;
+  controlSize: number;
+  primaryActionHeight: number;
+  activityGap: number;
+  glyphSize: number;
+};
+
 export type PlacementMicroFeedback = {
   kind: "correct" | "retry";
   marker: "check" | "return";
@@ -40,7 +56,7 @@ export const foundationPreviewPresentation = {
     stateCode: "S03",
     title: "Kéo chữ vào ô trống",
     description: "Nhìn dãy chữ theo thứ tự, rồi đặt mỗi chữ còn thiếu vào đúng chỗ nhé!",
-    actions: ["Nghe lại hướng dẫn", "Bắt đầu"],
+    primaryAction: "Bắt đầu",
     audioFallback: "Giọng đọc mẫu đang chuẩn bị; con hãy nhìn hình và làm theo nhé!",
   },
   S04: {
@@ -85,14 +101,81 @@ export const foundationPreviewPresentation = {
 } as const;
 
 export const foundationPreviewAccessibility = {
+  speakerLabel: "Nghe lại hướng dẫn",
+  speakerHint: "Phát lại giọng đọc hướng dẫn của bài học",
   hintAvailable: "Mở một ô chữ giúp con",
   hintUnavailable: "Nút gợi ý sẽ mở khi con cần trợ giúp",
   refreshHint: "Đổi một bộ vị trí chữ khuyết khác",
   dropTargetHint: "Chạm sau khi chọn thẻ, hoặc kéo thả thẻ vào đây",
 } as const;
 
+const approvedFallbackGlyphs: Readonly<Record<string, string>> = {
+  "glyph-01": "A",
+  "glyph-02": "B",
+  "glyph-03": "C",
+  "glyph-04": "D",
+  "glyph-05": "E",
+  "glyph-06": "G",
+};
+
+export function childFacingGlyph(glyph: string): string {
+  return approvedFallbackGlyphs[glyph] ?? glyph;
+}
+
+export function landscapeLayoutForWidth(width: number): LandscapeLayout {
+  if (width >= 1024) {
+    return {
+      breakpoint: "tablet",
+      horizontalPadding: 48,
+      targetSize: 104,
+      targetRadius: 26,
+      targetGap: 14,
+      trayWidth: 120,
+      trayHeight: 90,
+      trayRadius: 24,
+      trayGap: 24,
+      controlSize: 50,
+      primaryActionHeight: 56,
+      activityGap: 20,
+      glyphSize: 40,
+    };
+  }
+  if (width >= 750) {
+    return {
+      breakpoint: "phone",
+      horizontalPadding: 24,
+      targetSize: 76,
+      targetRadius: 20,
+      targetGap: 10,
+      trayWidth: 96,
+      trayHeight: 68,
+      trayRadius: 20,
+      trayGap: 16,
+      controlSize: 44,
+      primaryActionHeight: 52,
+      activityGap: 12,
+      glyphSize: 30,
+    };
+  }
+  return {
+    breakpoint: "narrow-phone",
+    horizontalPadding: 16,
+    targetSize: 68,
+    targetRadius: 18,
+    targetGap: 8,
+    trayWidth: 88,
+    trayHeight: 62,
+    trayRadius: 18,
+    trayGap: 12,
+    controlSize: 42,
+    primaryActionHeight: 48,
+    activityGap: 10,
+    glyphSize: 27,
+  };
+}
+
 export function selectedLetterHelper(glyph: string): string {
-  return `Đã chọn ${glyph}. Con hãy chạm một ô trống.`;
+  return `Đã chọn ${childFacingGlyph(glyph)}. Con hãy chạm một ô trống.`;
 }
 
 export function foundationParentSummaryCopy(summary: {

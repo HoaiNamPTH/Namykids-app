@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { activityPresentationStage, automaticFeedbackTransition, childCompletionPresentation, foundationParentSummaryCopy, foundationPreviewAccessibility, foundationPreviewPresentation, positionsForCompletionAction, selectedLetterHelper } from "../src/runtime/activity-player/presentation";
+import { activityPresentationStage, automaticFeedbackTransition, childCompletionPresentation, childFacingGlyph, foundationParentSummaryCopy, foundationPreviewAccessibility, foundationPreviewPresentation, landscapeLayoutForWidth, positionsForCompletionAction, selectedLetterHelper } from "../src/runtime/activity-player/presentation";
 import { firstSliceDevConfig } from "../src/content/missing-letters/first-slice-dev-config";
 
 describe("activity feedback presentation", () => {
@@ -63,7 +63,7 @@ describe("activity feedback presentation", () => {
     expect(foundationPreviewPresentation).toMatchObject({
       S01: { stateCode: "S01", title: "Chào con đến với NamyKids", actions: ["Chữ cái & vần", "Góc của ba mẹ"] },
       S02: { stateCode: "S02", actions: ["Bắt đầu chơi", "Quay lại"] },
-      S03: { stateCode: "S03", actions: ["Nghe lại hướng dẫn", "Bắt đầu"] },
+      S03: { stateCode: "S03", primaryAction: "Bắt đầu" },
       S04: { stateCode: "S04", actions: ["Gợi ý", "Lượt mới"] },
       S07: { title: "Chúc mừng con!", actions: ["Chơi mới", "Chơi lại"] },
       S08: { stateCode: "S08", title: "Đang mở bài học..." },
@@ -81,11 +81,42 @@ describe("activity feedback presentation", () => {
 
   it("keeps selected-letter and accessibility guidance in natural Vietnamese", () => {
     expect(selectedLetterHelper("Ă")).toBe("Đã chọn Ă. Con hãy chạm một ô trống.");
+    expect(childFacingGlyph("glyph-02")).toBe("B");
+    expect(selectedLetterHelper("glyph-02")).toBe("Đã chọn B. Con hãy chạm một ô trống.");
     expect(foundationPreviewAccessibility).toEqual({
+      speakerLabel: "Nghe lại hướng dẫn",
+      speakerHint: "Phát lại giọng đọc hướng dẫn của bài học",
       hintAvailable: "Mở một ô chữ giúp con",
       hintUnavailable: "Nút gợi ý sẽ mở khi con cần trợ giúp",
       refreshHint: "Đổi một bộ vị trí chữ khuyết khác",
       dropTargetHint: "Chạm sau khi chọn thẻ, hoặc kéo thả thẻ vào đây",
+    });
+  });
+
+  it("maps the approved landscape breakpoints to child-sized controls", () => {
+    expect(landscapeLayoutForWidth(740)).toMatchObject({
+      breakpoint: "narrow-phone",
+      horizontalPadding: 16,
+      targetSize: 68,
+      trayWidth: 88,
+      trayHeight: 62,
+      controlSize: 42,
+    });
+    expect(landscapeLayoutForWidth(844)).toMatchObject({
+      breakpoint: "phone",
+      horizontalPadding: 24,
+      targetSize: 76,
+      trayWidth: 96,
+      trayHeight: 68,
+      controlSize: 44,
+    });
+    expect(landscapeLayoutForWidth(1024)).toMatchObject({
+      breakpoint: "tablet",
+      horizontalPadding: 48,
+      targetSize: 104,
+      trayWidth: 120,
+      trayHeight: 90,
+      controlSize: 50,
     });
   });
 
