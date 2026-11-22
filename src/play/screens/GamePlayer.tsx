@@ -8,13 +8,20 @@ import { LEVEL_NAMES, type GameContent, type Level, type Round } from "../engine
 import { recordCompletion } from "../progress";
 import { ChooseBoard } from "../templates/ChooseBoard";
 import { Caption, RoundDots } from "../templates/common";
+import { FlipBoard } from "../templates/FlipBoard";
 import { FillBoard } from "../templates/FillBoard";
 import { MatchBoard } from "../templates/MatchBoard";
+import { stickerFor } from "../stickers";
+import { StickerView } from "../StickerView";
 import { play } from "../theme";
 import { PlayScreen, RoundButton, Title } from "../ui";
 import { speak, stopSpeaking } from "../voice";
 
-const PRAISE = ["Giỏi quá! Con làm xong rồi!", "Tuyệt vời! Nami và Niko rất vui!", "Con giỏi lắm! Mình chơi tiếp nhé!", "Hoan hô con! Con làm rất tốt!"];
+/** Spoken when a game is finished. Warm, short, about effort as much as result. */
+const PRAISE = [
+  "Giỏi quá! Con làm xong rồi!", "Tuyệt vời! Nami và Niko rất vui!", "Con giỏi lắm! Mình chơi tiếp nhé!", "Hoan hô con! Con làm rất tốt!",
+  "Con chăm chỉ quá! Nami thương con lắm!", "Con nghe giỏi ghê! Niko vỗ tay nè!", "Xuất sắc! Con cố gắng lắm đó!", "Ôi, con làm được rồi! Cừ quá!",
+];
 
 export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   game: GameMeta; content: GameContent; startLevel: Level; onBack: () => void; onOtherGame: () => void;
@@ -39,14 +46,15 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
     if (index + 1 < rounds.length) { setIndex(index + 1); return; }
     recordCompletion(game.id, level);
     const line = PRAISE[Math.floor(Math.random() * PRAISE.length)] ?? PRAISE[0] ?? "";
+    const sticker = level === 2 ? stickerFor(game.id) : undefined;
     setWon(line);
-    void speak(line);
+    void speak(sticker ? `${line} Con nhận được sticker ${sticker.praise}` : line);
   }, [index, rounds.length, game.id, level]);
 
   const restart = (next: Level) => { stopSpeaking(); setLevel(next); setSeed((s) => s + 1); };
   const onLayout = (e: LayoutChangeEvent) => setBoard({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height });
 
-  if (won) return <WinPanel line={won} level={level} onReplay={() => restart(level)} onNext={level < 2 ? () => restart((level + 1) as Level) : undefined} onOther={onOtherGame} />;
+  if (won) return <WinPanel line={won} level={level} gameId={game.id} onReplay={() => restart(level)} onNext={level < 2 ? () => restart((level + 1) as Level) : undefined} onOther={onOtherGame} />;
 
   return <PlayScreen>
     <View style={styles.top}>
@@ -66,18 +74,23 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
     <View style={styles.board} onLayout={onLayout}>
       {round?.kind === "choose" ? <ChooseBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} listen={game.template === "listen-choose"} onSolved={solved} /> : null}
       {round?.kind === "match" ? <MatchBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
+      {round?.kind === "flip" ? <FlipBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
       {round?.kind === "fill" ? <FillBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
     </View>
   </PlayScreen>;
 }
 
-function WinPanel({ line, level, onReplay, onNext, onOther }: { line: string; level: Level; onReplay: () => void; onNext?: () => void; onOther: () => void }) {
+function WinPanel({ line, level, gameId, onReplay, onNext, onOther }: { line: string; level: Level; gameId: string; onReplay: () => void; onNext?: () => void; onOther: () => void }) {
+  const sticker = level === 2 ? stickerFor(gameId) : undefined;
   return <PlayScreen style={styles.win}>
     <View style={styles.duoFrame}><Image accessible={false} source={duo} resizeMode="cover" style={styles.duo} /></View>
     <View style={styles.winRight}>
       <Image accessible={false} source={banner} resizeMode="contain" style={styles.banner} />
       <Pressable onPress={() => void speak(line)} style={styles.bubble}><Text style={styles.bubbleText}>{line}</Text></Pressable>
-      {level < 2 ? <Text style={styles.hint}>Thử mức Khó nhé, con sẽ được nhận sticker!</Text> : null}
+      {level < 2 ? <Text style={styles.hint}>Thử mức Khó nhé, con sẽ được nhận sticker!</Text> : sticker ? <View style={styles.got}>
+        <StickerView sticker={sticker} size={78} />
+        <Text style={styles.gotText}>Con nhận được sticker mới! Xem trong Album nhé.</Text>
+      </View> : null}
       <View style={styles.buttons}>
         <Pill label="Chơi lại" tone="white" onPress={onReplay} />
         {onNext ? <Pill label={`Thử mức ${LEVEL_NAMES[level + 1]}`} tone="green" onPress={onNext} /> : null}
@@ -108,6 +121,8 @@ const styles = StyleSheet.create({
   banner: { width: "86%", height: 90 },
   bubble: { backgroundColor: "#FFFFFF", borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8 },
   bubbleText: { ...playType.bodyBold, fontSize: 17, color: play.ink, textAlign: "center" },
+  got: { flexDirection: "row", alignItems: "center", gap: 10 },
+  gotText: { ...playType.bodyBold, fontSize: 14, color: play.ink, maxWidth: 200 },
   hint: { ...playType.body, fontSize: 13, color: play.ink },
   buttons: { flexDirection: "row", gap: 10, flexWrap: "wrap", justifyContent: "center" },
   pill: { minHeight: 48, paddingHorizontal: 20, borderRadius: 24, justifyContent: "center", borderBottomWidth: 5 },

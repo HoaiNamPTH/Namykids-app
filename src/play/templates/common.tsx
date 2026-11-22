@@ -21,12 +21,33 @@ export function useWiggle() {
 }
 
 export function PicView({ pic, size }: { pic: Pic; size: number }) {
+  if ("where" in pic) return <PlacedPic pic={pic} size={size} />;
   if ("item" in pic) {
     const s = pic.small ? size * 0.58 : size * 0.86;
     return <Image accessible={false} source={ITEMS[pic.item].image as ImageSourcePropType} resizeMode="contain" style={{ width: s, height: s, marginTop: pic.small ? size * 0.22 : 0 }} />;
   }
   const fontSize = size * (pic.glyph.length > 1 ? 0.42 : 0.62);
   return <Text style={[styles.glyph, { fontSize, lineHeight: fontSize * 1.25 }]}>{pic.glyph}</Text>;
+}
+
+const img = (pic: { item: keyof typeof ITEMS }) => ITEMS[pic.item].image as ImageSourcePropType;
+
+/** Positions game: the big picture (`on`) with a small one on top of / under / inside / beside it. */
+function PlacedPic({ pic, size }: { pic: Extract<Pic, { where: unknown }>; size: number }) {
+  const big = size * 0.66;
+  const small = size * (pic.where === "trong" ? 0.26 : 0.32);
+  const bigTop = pic.where === "tren" ? size * 0.3 : pic.where === "duoi" ? size * 0.04 : size * 0.17;
+  const bigLeft = pic.where === "canh" ? size * 0.04 : (size - big) / 2 - size * 0.04;
+  const place: Record<typeof pic.where, { left: number; top: number }> = {
+    tren: { left: (size - small) / 2 - size * 0.04, top: bigTop - small * 0.78 },
+    duoi: { left: (size - small) / 2 - size * 0.04, top: bigTop + big - small * 0.62 },
+    trong: { left: (size - small) / 2 - size * 0.04, top: bigTop + big * 0.5 },
+    canh: { left: bigLeft + big - size * 0.02, top: bigTop + big - small },
+  };
+  const under = pic.where === "duoi";
+  const bigImg = <Image key="big" accessible={false} source={ITEMS[pic.on].image as ImageSourcePropType} resizeMode="contain" style={{ position: "absolute", width: big, height: big, left: bigLeft, top: bigTop }} />;
+  const smallImg = <Image key="small" accessible={false} source={img(pic)} resizeMode="contain" style={{ position: "absolute", width: small, height: small, ...place[pic.where] }} />;
+  return <View style={{ width: size, height: size }}>{under ? [smallImg, bigImg] : [bigImg, smallImg]}</View>;
 }
 
 export type CardState = "idle" | "selected" | "ok" | "dim";

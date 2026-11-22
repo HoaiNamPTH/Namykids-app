@@ -4,13 +4,16 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { foundationAssets } from "../../ui/foundation-assets";
 import { AREAS, type Area } from "../areas";
 import { gamesForArea } from "../catalog";
+import { useProgress } from "../progress";
+import { STICKERS, earnedStickers } from "../stickers";
 import { play } from "../theme";
 import { PlayScreen, SayBubble, usePlaySize } from "../ui";
 import { onVoiceStatus, speak, type VoiceStatus } from "../voice";
 
 const GREETING = "Chào con! Hôm nay mình chơi gì nhỉ?";
 
-export function HomeScreen({ onOpenArea }: { onOpenArea: (area: Area) => void }) {
+export function HomeScreen({ onOpenArea, onOpenAlbum }: { onOpenArea: (area: Area) => void; onOpenAlbum: () => void }) {
+  const stickers = earnedStickers(useProgress()).length;
   const { width, height } = usePlaySize();
   const [voice, setVoice] = useState<VoiceStatus>("unknown");
   const [soon, setSoon] = useState<string | null>(null);
@@ -41,6 +44,11 @@ export function HomeScreen({ onOpenArea }: { onOpenArea: (area: Area) => void })
       <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.nami} />
     </View>
     <View style={styles.right}>
+      <Pressable accessibilityRole="button" accessibilityLabel={`Album sticker, ${stickers} sticker`} onPress={() => { void speak("Album sticker của bé"); onOpenAlbum(); }}
+        style={({ pressed }) => [styles.album, pressed && styles.pressed]}>
+        <Text style={styles.albumStar}>★</Text>
+        <Text style={styles.albumText}>Album sticker · {stickers}/{STICKERS.length}</Text>
+      </Pressable>
       {voice === "none" ? <Text style={styles.voiceNote}>Máy tính này chưa có giọng nữ tiếng Việt, nên bản xem trước chỉ hiện chữ. Mở bằng Chrome hoặc Edge để nghe giọng đọc.</Text> : null}
       <View style={[styles.areas, { gap }]}>
         {AREAS.map((area) => {
@@ -78,5 +86,8 @@ const styles = StyleSheet.create({
   areaNameCompact: { fontSize: 15, lineHeight: 17 },
   areaMeta: { ...playType.bodyBold, fontSize: 12, color: play.blue },
   areaSoon: { color: "#9AA3BF" },
+  album: { alignSelf: "flex-end", flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFFFFF", borderRadius: 22, paddingHorizontal: 14, minHeight: 44, borderBottomWidth: 4, borderBottomColor: play.sun },
+  albumStar: { ...playType.title, fontSize: 22, color: "#FFB400" },
+  albumText: { ...playType.title, fontSize: 15, color: play.ink },
   pressed: { transform: [{ scale: 0.96 }] },
 });
