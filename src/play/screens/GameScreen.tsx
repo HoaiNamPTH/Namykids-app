@@ -1,16 +1,30 @@
 import { useEffect } from "react";
-import { playType } from "../../ui/typography";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { foundationAssets } from "../../ui/foundation-assets";
+import { playType } from "../../ui/typography";
 import { TEMPLATES, type GameMeta } from "../catalog";
+import { LANGUAGE_CONTENT } from "../content/language";
+import type { Level } from "../engine/types";
+import { useProgress } from "../progress";
 import { play } from "../theme";
 import { GameIconView, PlayScreen, RoundButton, SayBubble, Title } from "../ui";
 import { speak, stopSpeaking } from "../voice";
+import { GamePlayer } from "./GamePlayer";
 
-/** Milestone 1: the game page opens and the guide explains it. Play arrives with the templates in milestones 2 and 3. */
-export function GameScreen({ game, onBack }: { game: GameMeta; onBack: () => void }) {
+export function GameScreen({ game, onBack, onOtherGame }: { game: GameMeta; onBack: () => void; onOtherGame: () => void }) {
+  const content = LANGUAGE_CONTENT[game.id];
+  const progress = useProgress();
+  if (content) {
+    const startLevel = Math.min(progress.best[game.id] ?? 0, 2) as Level;
+    return <GamePlayer game={game} content={content} startLevel={startLevel} onBack={onBack} onOtherGame={onOtherGame} />;
+  }
+  return <ComingSoon game={game} onBack={onBack} />;
+}
+
+/** Games whose template arrives in a later milestone open on a page where the guide explains them. */
+function ComingSoon({ game, onBack }: { game: GameMeta; onBack: () => void }) {
   useEffect(() => {
-    const t = setTimeout(() => void speak(game.intro), 500);
+    const t = setTimeout(() => void speak(`${game.intro} Trò này sắp có nhé!`), 500);
     return () => { clearTimeout(t); stopSpeaking(); };
   }, [game]);
 
@@ -29,7 +43,7 @@ export function GameScreen({ game, onBack }: { game: GameMeta; onBack: () => voi
           <View style={[styles.pic, { backgroundColor: TEMPLATES[game.template].tint }]}><GameIconView icon={game.icon} size={72} /></View>
           <View style={styles.cardText}>
             <Text style={styles.kind}>{TEMPLATES[game.template].name} · {game.ages} tuổi</Text>
-            <Text style={styles.soon}>Trò này đang được làm. Bé chơi được ở bản tiếp theo (chặng {game.milestone}).</Text>
+            <Text style={styles.soon}>Trò này sắp có. Bé chơi được ở bản tiếp theo (chặng {game.milestone}).</Text>
           </View>
         </View>
       </View>

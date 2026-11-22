@@ -8,5 +8,5 @@ export default function GameRoute() {
   const game = findGame(gameId);
   if (!game) return <Redirect href="/home" />;
   const back = () => (router.canGoBack() ? router.back() : router.replace(`/area/${game.area}`));
-  return <GameScreen game={game} onBack={back} />;
+  return <GameScreen game={game} onBack={back} onOtherGame={() => router.replace(`/area/${game.area}`)} />;
 }

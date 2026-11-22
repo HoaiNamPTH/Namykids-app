@@ -11,17 +11,24 @@ export type VoiceStatus = "unknown" | "female" | "none";
 
 let picked: Speech.Voice | null = null;
 let status: VoiceStatus = "unknown";
+let pending: Promise<Speech.Voice | null> | null = null;
 const listeners = new Set<(s: VoiceStatus) => void>();
 
 
-async function resolveVoice(): Promise<Speech.Voice | null> {
-  if (status !== "unknown") return picked;
+function resolveVoice(): Promise<Speech.Voice | null> {
+  if (status !== "unknown") return Promise.resolve(picked);
+  pending ??= lookUpVoice();
+  return pending;
+}
+
+async function lookUpVoice(): Promise<Speech.Voice | null> {
   try {
-    let voices = await Speech.getAvailableVoicesAsync();
-    if (!voices.length && Platform.OS === "web") {
-      await new Promise((r) => setTimeout(r, 400));
-      voices = await Speech.getAvailableVoicesAsync();
-    }
+    // On web, expo-speech waits for "voiceschanged", which never fires on a browser
+    // with no voices at all. Without this cap every speak() would hang and the game would freeze.
+    const voices = await Promise.race([
+      Speech.getAvailableVoicesAsync(),
+      new Promise<Speech.Voice[]>((r) => setTimeout(() => r([]), 1500)),
+    ]);
     picked = chooseFemaleVietnamese(voices);
   } catch {
     picked = null;
@@ -39,12 +46,21 @@ export function onVoiceStatus(fn: (s: VoiceStatus) => void): () => void {
   return () => listeners.delete(fn);
 }
 
-/** Speak one line. Stops whatever was playing so lines never overlap. */
+/**
+ * Speak one line. Stops whatever was playing so lines never overlap.
+ * Resolves when the line has been said (or would have been, when no voice is available).
+ */
 export async function speak(text: string): Promise<void> {
   const voice = await resolveVoice();
-  if (status === "none") return;
+  const estimate = 900 + text.length * 95;
+  if (status === "none") return new Promise((r) => setTimeout(r, Math.min(estimate, 2500)));
   Speech.stop();
-  Speech.speak(text, { language: "vi-VN", rate: VOICE_RATE, pitch: VOICE_PITCH, voice: voice?.identifier });
+  return new Promise((resolve) => {
+    let finished = false;
+    const done = () => { if (!finished) { finished = true; resolve(); } };
+    setTimeout(done, estimate * 1.6);
+    Speech.speak(text, { language: "vi-VN", rate: VOICE_RATE, pitch: VOICE_PITCH, voice: voice?.identifier, onDone: done, onStopped: done, onError: done });
+  });
 }
 
 export function stopSpeaking(): void {
