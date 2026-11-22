@@ -15,6 +15,8 @@ const expectedRoutes = [
   "app/area/[areaId].tsx",
   "app/game/[gameId].tsx",
   "app/album.tsx",
+  "app/login.tsx",
+  "app/parents.tsx",
   "app/+not-found.tsx",
 ] as const;
 
