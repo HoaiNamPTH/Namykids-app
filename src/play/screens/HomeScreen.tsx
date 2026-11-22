@@ -4,6 +4,7 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { foundationAssets } from "../../ui/foundation-assets";
 import { AREAS, type Area } from "../areas";
 import { gamesForArea } from "../catalog";
+import { useAccess } from "../account/useAccess";
 import { useProgress } from "../progress";
 import { STICKERS, earnedStickers } from "../stickers";
 import { play } from "../theme";
@@ -12,7 +13,8 @@ import { onVoiceStatus, speak, type VoiceStatus } from "../voice";
 
 const GREETING = "Chào con! Hôm nay mình chơi gì nhỉ?";
 
-export function HomeScreen({ onOpenArea, onOpenAlbum }: { onOpenArea: (area: Area) => void; onOpenAlbum: () => void }) {
+export function HomeScreen({ onOpenArea, onOpenAlbum, onOpenParents }: { onOpenArea: (area: Area) => void; onOpenAlbum: () => void; onOpenParents: () => void }) {
+  const access = useAccess();
   const stickers = earnedStickers(useProgress()).length;
   const { width, height } = usePlaySize();
   const [voice, setVoice] = useState<VoiceStatus>("unknown");
@@ -44,11 +46,17 @@ export function HomeScreen({ onOpenArea, onOpenAlbum }: { onOpenArea: (area: Are
       <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.nami} />
     </View>
     <View style={styles.right}>
+      <View style={styles.topRow}>
+      {access.plan === "trial" ? <Text style={styles.trial}>Dùng thử · còn {access.daysLeft} ngày</Text> : null}
+      <Pressable accessibilityRole="button" accessibilityLabel="Góc phụ huynh" onPress={onOpenParents} style={({ pressed }) => [styles.album, styles.parents, pressed && styles.pressed]}>
+        <Text style={styles.albumText}>Góc phụ huynh</Text>
+      </Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel={`Album sticker, ${stickers} sticker`} onPress={() => { void speak("Album sticker của bé"); onOpenAlbum(); }}
         style={({ pressed }) => [styles.album, pressed && styles.pressed]}>
         <Text style={styles.albumStar}>★</Text>
         <Text style={styles.albumText}>Album sticker · {stickers}/{STICKERS.length}</Text>
       </Pressable>
+      </View>
       {voice === "none" ? <Text style={styles.voiceNote}>Máy tính này chưa có giọng nữ tiếng Việt, nên bản xem trước chỉ hiện chữ. Mở bằng Chrome hoặc Edge để nghe giọng đọc.</Text> : null}
       <View style={[styles.areas, { gap }]}>
         {AREAS.map((area) => {
@@ -86,7 +94,10 @@ const styles = StyleSheet.create({
   areaNameCompact: { fontSize: 15, lineHeight: 17 },
   areaMeta: { ...playType.bodyBold, fontSize: 12, color: play.blue },
   areaSoon: { color: "#9AA3BF" },
-  album: { alignSelf: "flex-end", flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFFFFF", borderRadius: 22, paddingHorizontal: 14, minHeight: 44, borderBottomWidth: 4, borderBottomColor: play.sun },
+  topRow: { flexDirection: "row", justifyContent: "flex-end", alignItems: "center", gap: 8 },
+  trial: { ...playType.bodyBold, fontSize: 12, color: play.ink, backgroundColor: "rgba(255,255,255,0.8)", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 },
+  parents: { borderBottomColor: "#C7CFE2" },
+  album: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "#FFFFFF", borderRadius: 22, paddingHorizontal: 14, minHeight: 44, borderBottomWidth: 4, borderBottomColor: play.sun },
   albumStar: { ...playType.title, fontSize: 22, color: "#FFB400" },
   albumText: { ...playType.title, fontSize: 15, color: play.ink },
   pressed: { transform: [{ scale: 0.96 }] },

@@ -1,3 +1,4 @@
+import { RequireAccount } from "../../src/play/account/RequireAccount";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { findArea } from "../../src/play/areas";
 import { AreaScreen } from "../../src/play/screens/AreaScreen";
@@ -8,5 +9,5 @@ export default function AreaRoute() {
   const area = findArea(areaId);
   if (!area || !area.open) return <Redirect href="/home" />;
   const back = () => (router.canGoBack() ? router.back() : router.replace("/home"));
-  return <AreaScreen area={area} onBack={back} onOpenGame={(game) => router.push(`/game/${game.id}`)} />;
+  return <RequireAccount><AreaScreen area={area} onBack={back} onOpenGame={(game) => router.push(`/game/${game.id}`)} /></RequireAccount>;
 }

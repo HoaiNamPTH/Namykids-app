@@ -3,6 +3,7 @@ import { playType } from "../../ui/typography";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import type { Area } from "../areas";
 import { gamesForArea, TEMPLATES, type GameMeta, type TemplateId } from "../catalog";
+import { useAccess } from "../account/useAccess";
 import { useProgress } from "../progress";
 import { play } from "../theme";
 import { GameIconView, PlayScreen, RoundButton, Sub, Title, usePlaySize } from "../ui";
@@ -15,6 +16,7 @@ export function AreaScreen({ area, onBack, onOpenGame }: { area: Area; onBack: (
   const games = gamesForArea(area.id);
   const [filter, setFilter] = useState<Filter>("all");
   const { best } = useProgress();
+  const access = useAccess();
   const kinds = useMemo(() => [...new Set(games.map((g) => g.template))], [games]);
   const shown = filter === "all" ? games : games.filter((g) => g.template === filter);
   const columns = width >= 1000 ? 6 : width >= 700 ? 5 : 4;
@@ -24,7 +26,7 @@ export function AreaScreen({ area, onBack, onOpenGame }: { area: Area; onBack: (
       <RoundButton kind="back" label="Về nhà" onPress={onBack} />
       <View style={styles.titleBox}>
         <Title>{area.name}</Title>
-        <Sub>{games.length} trò · con chọn trò nào cũng được</Sub>
+        <Sub>{access.plan === "limited" ? `${games.filter((g) => access.canPlay(g.id)).length} trò miễn phí · trò khác hỏi bố mẹ nhé` : `${games.length} trò · con chọn trò nào cũng được`}</Sub>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips} style={styles.chipScroll}>
         {(["all", ...kinds] as Filter[]).map((k) => <Pressable key={k} accessibilityRole="button" accessibilityState={{ selected: filter === k }}
@@ -40,6 +42,7 @@ export function AreaScreen({ area, onBack, onOpenGame }: { area: Area; onBack: (
           style={({ pressed }) => [styles.card, { width: `${100 / columns - 2}%` }, pressed && styles.pressed]}>
           <View style={[styles.pic, { backgroundColor: TEMPLATES[game.template].tint }]}>
             <GameIconView icon={game.icon} size={50} />
+            {access.canPlay(game.id) ? null : <View style={styles.lock}><Text style={styles.lockText}>Hỏi bố mẹ</Text></View>}
             <View style={styles.stars} accessibilityLabel={`Xong ${best[game.id] ?? 0} trên 3 mức`}>
               {[0, 1, 2].map((i) => <Text key={i} style={[styles.star, i < (best[game.id] ?? 0) && styles.starOn]}>★</Text>)}
             </View>
@@ -65,6 +68,8 @@ const styles = StyleSheet.create({
   grid: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", rowGap: 10, padding: 10 },
   card: { backgroundColor: play.card, borderRadius: 18, padding: 7, gap: 3, shadowColor: play.shadow, shadowOpacity: 0.1, shadowRadius: 8, shadowOffset: { width: 0, height: 4 }, elevation: 3 },
   pic: { height: 64, borderRadius: 14, alignItems: "center", justifyContent: "center" },
+  lock: { position: "absolute", left: 4, bottom: 4, backgroundColor: "rgba(28,42,90,0.75)", borderRadius: 8, paddingHorizontal: 5, paddingVertical: 1 },
+  lockText: { ...playType.bodyBold, fontSize: 10, color: "#FFFFFF" },
   stars: { position: "absolute", top: 3, right: 5, flexDirection: "row" },
   star: { ...playType.title, fontSize: 12, lineHeight: 14, color: "rgba(255,255,255,0.75)" },
   starOn: { color: "#FFB400" },
