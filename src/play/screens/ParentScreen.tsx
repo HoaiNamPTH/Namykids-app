@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { playType } from "../../ui/typography";
 import { previewTrialEnded, signOut, useSession } from "../account/account";
@@ -8,6 +8,7 @@ import { LEVEL_NAMES } from "../engine/types";
 import { useProgress } from "../progress";
 import { earnedStickers, STICKERS } from "../stickers";
 import { play } from "../theme";
+import { onVoiceStatus, type VoiceStatus } from "../voice";
 import { PlayScreen, RoundButton, Sub, Title } from "../ui";
 
 /** "Hỏi bố mẹ": a sum a small child can't read yet keeps the parent area for grown-ups. */
@@ -50,6 +51,8 @@ function ago(at: number, now: number): string {
 function ParentArea({ onBack, onSignedOut }: { onBack: () => void; onSignedOut: () => void }) {
   const { account } = useSession();
   const progress = useProgress();
+  const [voice, setVoice] = useState<VoiceStatus>("unknown");
+  useEffect(() => onVoiceStatus(setVoice), []);
   const now = Date.now();
   const access = account ? accessFor(account.trialStart, now, account.paid) : null;
   const stickers = earnedStickers(progress).length;
@@ -75,6 +78,7 @@ function ParentArea({ onBack, onSignedOut }: { onBack: () => void; onSignedOut: 
             <Text style={styles.previewText}>{access?.plan === "limited" ? "Bản xem trước: quay lại dùng thử" : "Bản xem trước: xem khi hết 7 ngày"}</Text>
           </Pressable>
         </View>
+        {voice === "none" ? <Text style={styles.voiceNote}>Máy này chưa có giọng nữ tiếng Việt nên app đang im lặng.</Text> : null}
         <View style={styles.stats}>
           <Stat n={today} label="lượt chơi hôm nay" />
           <Stat n={played} label="trò đã chơi" />
@@ -118,6 +122,7 @@ const styles = StyleSheet.create({
   small: { ...playType.body, fontSize: 12, color: play.soft },
   preview: { alignSelf: "flex-start", marginTop: 4, borderRadius: 14, borderWidth: 2, borderColor: "#C7CFE2", borderStyle: "dashed", paddingHorizontal: 10, paddingVertical: 4 },
   previewText: { ...playType.body, fontSize: 11, color: play.soft },
+  voiceNote: { ...playType.body, fontSize: 12, color: play.ink, backgroundColor: "#FFF3C4", borderRadius: 12, padding: 8 },
   stats: { flexDirection: "row", gap: 8 },
   stat: { flex: 1, backgroundColor: play.panel, borderRadius: 18, padding: 8, alignItems: "center" },
   statN: { ...playType.title, fontSize: 26, color: play.leaf },

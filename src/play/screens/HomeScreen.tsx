@@ -3,28 +3,30 @@ import { playType } from "../../ui/typography";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { foundationAssets } from "../../ui/foundation-assets";
 import { AREAS, type Area } from "../areas";
-import { gamesForArea } from "../catalog";
 import { useAccess } from "../account/useAccess";
 import { useProgress } from "../progress";
-import { STICKERS, earnedStickers } from "../stickers";
+import { earnedStickers } from "../stickers";
 import { play } from "../theme";
 import { PlayScreen, SayBubble, usePlaySize } from "../ui";
-import { onVoiceStatus, speak, type VoiceStatus } from "../voice";
+import { speak } from "../voice";
 
-const GREETING = "Chào con! Hôm nay mình chơi gì nhỉ?";
+const GREETING = "Chào con! Con chơi gì nào?";
 
 export function HomeScreen({ onOpenArea, onOpenAlbum, onOpenParents }: { onOpenArea: (area: Area) => void; onOpenAlbum: () => void; onOpenParents: () => void }) {
   const access = useAccess();
   const stickers = earnedStickers(useProgress()).length;
   const { width, height } = usePlaySize();
-  const [voice, setVoice] = useState<VoiceStatus>("unknown");
   const [soon, setSoon] = useState<string | null>(null);
-  useEffect(() => onVoiceStatus(setVoice), []);
+  useEffect(() => {
+    const t = setTimeout(() => void speak(GREETING), 500);
+    return () => clearTimeout(t);
+  }, []);
 
   const compact = height < 450;
   const leftWidth = Math.min(width * 0.3, 300);
   const gap = compact ? 10 : 16;
-  const cardWidth = (width - leftWidth - 80 - gap * 4) / 5;
+  // Two rows (3 + 2) so each picture is big enough for a small finger.
+  const cardWidth = Math.min((width - leftWidth - 80 - gap * 2) / 3, (height - 70 - gap) / 2 - 30);
 
   const tapArea = (area: Area) => {
     if (area.open) {
@@ -37,60 +39,58 @@ export function HomeScreen({ onOpenArea, onOpenAlbum, onOpenParents }: { onOpenA
     setTimeout(() => setSoon(null), 2200);
   };
 
+  // Simple for a 2–6 year old: the guide, five big pictures, two small corner buttons for grown-ups.
   return <PlayScreen style={styles.row}>
     <View style={[styles.left, { width: leftWidth }]}>
-      <Text style={styles.logo}>
-        {"NamyKids".split("").map((c, i) => <Text key={i} style={{ color: LOGO[i % LOGO.length] }}>{c}</Text>)}
-      </Text>
-      <SayBubble text={GREETING} />
+      <SayBubble text={GREETING} style={styles.hello} />
       <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.nami} />
     </View>
     <View style={styles.right}>
-      <View style={styles.topRow}>
-      {access.plan === "trial" ? <Text style={styles.trial}>Dùng thử · còn {access.daysLeft} ngày</Text> : null}
-      <Pressable accessibilityRole="button" accessibilityLabel="Góc phụ huynh" onPress={onOpenParents} style={({ pressed }) => [styles.album, styles.parents, pressed && styles.pressed]}>
-        <Text style={styles.albumText}>Góc phụ huynh</Text>
-      </Pressable>
-      <Pressable accessibilityRole="button" accessibilityLabel={`Album sticker, ${stickers} sticker`} onPress={() => { void speak("Album sticker của bé"); onOpenAlbum(); }}
-        style={({ pressed }) => [styles.album, pressed && styles.pressed]}>
-        <Text style={styles.albumStar}>★</Text>
-        <Text style={styles.albumText}>Album sticker · {stickers}/{STICKERS.length}</Text>
-      </Pressable>
+      <View style={styles.corner}>
+        <Pressable accessibilityRole="button" accessibilityLabel={`Album sticker, ${stickers} sticker`} onPress={() => { void speak("Album sticker của con"); onOpenAlbum(); }}
+          style={({ pressed }) => [styles.cornerBtn, pressed && styles.pressed]}>
+          <Text style={styles.cornerStar}>★</Text>
+          {stickers ? <View style={styles.count}><Text style={styles.countText}>{stickers}</Text></View> : null}
+        </Pressable>
+        <Pressable accessibilityRole="button" accessibilityLabel={access.plan === "trial" ? `Góc phụ huynh, còn ${access.daysLeft} ngày dùng thử` : "Góc phụ huynh"} onPress={onOpenParents}
+          style={({ pressed }) => [styles.cornerBtn, styles.cornerParent, pressed && styles.pressed]}>
+          <Text style={styles.cornerParentText}>Bố mẹ</Text>
+        </Pressable>
       </View>
-      {voice === "none" ? <Text style={styles.voiceNote}>Máy tính này chưa có giọng nữ tiếng Việt, nên bản xem trước chỉ hiện chữ. Mở bằng Chrome hoặc Edge để nghe giọng đọc.</Text> : null}
       <View style={[styles.areas, { gap }]}>
-        {AREAS.map((area) => {
-          const count = gamesForArea(area.id).length;
-          return <Pressable key={area.id} accessibilityRole="button" accessibilityLabel={area.open ? `${area.name}, ${count} trò` : `${area.name}, sắp có`}
-            onPress={() => tapArea(area)}
-            style={({ pressed }) => [styles.area, { width: cardWidth }, area.open && styles.areaOpen, pressed && styles.pressed]}>
-            <View style={[styles.iconBox, { backgroundColor: area.tint }]}>
-              <Image accessible={false} source={area.icon} resizeMode="contain" style={styles.icon} />
-            </View>
-            <Text numberOfLines={2} style={[styles.areaName, compact && styles.areaNameCompact]}>{area.name}</Text>
-            <Text style={[styles.areaMeta, !area.open && styles.areaSoon]}>{area.open ? `${count} trò` : soon === area.id ? "Sắp có nhé!" : "Sắp có"}</Text>
-          </Pressable>;
-        })}
+        {AREAS.map((area) => <Pressable key={area.id} accessibilityRole="button" accessibilityLabel={area.open ? area.name : `${area.name}, sắp có`}
+          onPress={() => tapArea(area)}
+          style={({ pressed }) => [styles.area, { width: cardWidth }, !area.open && styles.areaClosed, pressed && styles.pressed]}>
+          <View style={[styles.iconBox, { backgroundColor: area.tint }]}>
+            <Image accessible={false} source={area.icon} resizeMode="contain" style={styles.icon} />
+          </View>
+          <Text numberOfLines={2} style={[styles.areaName, compact && styles.areaNameCompact]}>{soon === area.id ? "Sắp có!" : area.name}</Text>
+        </Pressable>)}
       </View>
     </View>
   </PlayScreen>;
 }
 
-const LOGO = ["#6A3FD8", "#FF8A00", "#18B45B", "#1D6FF2", "#FF4F7A", "#6A3FD8", "#FFB400", "#1D6FF2"];
-
 const styles = StyleSheet.create({
   row: { flexDirection: "row", gap: 16 },
-  left: { justifyContent: "flex-end", gap: 6 },
-  logo: { ...playType.title, fontSize: 34, lineHeight: 38, textShadowColor: "rgba(255,255,255,0.95)", textShadowOffset: { width: 0, height: 3 }, textShadowRadius: 0 },
+  left: { justifyContent: "flex-end", gap: 4 },
+  hello: { alignSelf: "flex-start" },
+  corner: { position: "absolute", top: 0, right: 0, flexDirection: "row", gap: 8 },
+  cornerBtn: { width: 46, height: 46, borderRadius: 23, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", shadowColor: play.shadow, shadowOpacity: 0.14, shadowRadius: 6, shadowOffset: { width: 0, height: 3 }, elevation: 3 },
+  cornerStar: { ...playType.title, fontSize: 26, lineHeight: 30, color: "#FFB400" },
+  count: { position: "absolute", top: -4, right: -4, minWidth: 20, height: 20, borderRadius: 10, backgroundColor: play.leaf, alignItems: "center", justifyContent: "center", paddingHorizontal: 4 },
+  countText: { ...playType.bodyBold, fontSize: 11, color: "#FFFFFF" },
+  cornerParent: { width: "auto", paddingHorizontal: 12, borderRadius: 23 },
+  cornerParentText: { ...playType.bodyBold, fontSize: 13, color: play.soft },
+  areaClosed: { opacity: 0.55 },
   nami: { flex: 1, width: "100%", alignSelf: "flex-start" },
-  right: { flex: 1, justifyContent: "center", gap: 10 },
-  voiceNote: { ...playType.body, fontSize: 12, color: play.ink, backgroundColor: "#FFF3C4", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 6 },
-  areas: { flexDirection: "row", alignItems: "stretch" },
-  area: { backgroundColor: play.card, borderRadius: 24, padding: 8, alignItems: "center", gap: 4, shadowColor: play.shadow, shadowOpacity: 0.14, shadowRadius: 10, shadowOffset: { width: 0, height: 6 }, elevation: 5 },
-  areaOpen: { borderWidth: 4, borderColor: play.sun },
+  right: { flex: 1, justifyContent: "center" },
+  areas: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "stretch", marginTop: 40 },
+  area: { backgroundColor: play.card, borderRadius: 26, padding: 6, alignItems: "center", gap: 4, shadowColor: play.shadow, shadowOpacity: 0.14, shadowRadius: 10, shadowOffset: { width: 0, height: 6 }, elevation: 5 },
+
   iconBox: { width: "100%", aspectRatio: 1, borderRadius: 18, alignItems: "center", justifyContent: "center", overflow: "hidden" },
   icon: { width: "88%", height: "88%" },
-  areaName: { ...playType.title, fontSize: 17, lineHeight: 19, color: play.ink, textAlign: "center" },
+  areaName: { ...playType.title, fontSize: 18, lineHeight: 20, color: play.ink, textAlign: "center" },
   areaNameCompact: { fontSize: 15, lineHeight: 17 },
   areaMeta: { ...playType.bodyBold, fontSize: 12, color: play.blue },
   areaSoon: { color: "#9AA3BF" },
