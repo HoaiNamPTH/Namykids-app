@@ -21,6 +21,8 @@ export type LandscapeLayout = {
   glyphSize: number;
 };
 
+export type LandscapeGlyphTone = "rose" | "leaf" | "violet" | "sky" | "sun" | "coral";
+
 export type PlacementMicroFeedback = {
   kind: "correct" | "retry";
   marker: "check" | "return";
@@ -101,6 +103,8 @@ export const foundationPreviewPresentation = {
 } as const;
 
 export const foundationPreviewAccessibility = {
+  backLabel: "Quay lại",
+  backHint: "Quay lại bài học trước",
   speakerLabel: "Nghe lại hướng dẫn",
   speakerHint: "Phát lại giọng đọc hướng dẫn của bài học",
   hintAvailable: "Mở một ô chữ giúp con",
@@ -122,22 +126,33 @@ export function childFacingGlyph(glyph: string): string {
   return approvedFallbackGlyphs[glyph] ?? glyph;
 }
 
+export function landscapeGlyphTone(glyph: string): LandscapeGlyphTone {
+  switch (childFacingGlyph(glyph)) {
+    case "A": return "rose";
+    case "C": return "leaf";
+    case "E": return "violet";
+    case "B": return "sky";
+    case "D": return "sun";
+    default: return "coral";
+  }
+}
+
 export function landscapeLayoutForWidth(width: number): LandscapeLayout {
   if (width >= 1024) {
     return {
       breakpoint: "tablet",
       horizontalPadding: 48,
-      targetSize: 104,
-      targetRadius: 26,
-      targetGap: 14,
+      targetSize: 126,
+      targetRadius: 30,
+      targetGap: 20,
       trayWidth: 120,
       trayHeight: 90,
       trayRadius: 24,
       trayGap: 24,
-      controlSize: 50,
+      controlSize: 62,
       primaryActionHeight: 56,
       activityGap: 20,
-      glyphSize: 40,
+      glyphSize: 52,
     };
   }
   if (width >= 750) {

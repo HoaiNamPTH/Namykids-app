@@ -16,13 +16,12 @@ describe("foundation preview guard", () => {
     expect(shouldBypassRuntimeBootstrap("dev/foundation-preview", true)).toBe(true);
   });
 
-  it("mounts the docked DevInspector only behind the Foundation Preview guard", () => {
+  it("keeps developer navigation outside the acceptance canvas", () => {
     const source = readFileSync("src/dev/FoundationPreview.tsx", "utf8");
-    expect(source).toContain("isFoundationPreviewEnabled() ? <DevInspector");
-    expect(source).not.toContain("<DevInspector enabled=");
+    expect(source).toContain("new URLSearchParams(globalThis.location.search)");
+    expect(source).not.toContain("<DevInspector");
+    expect(source).not.toContain("DEV INSPECTOR");
     expect(source).toContain('backgroundColor: "#1B1736"');
-    expect(source).toContain('borderColor: "#3D3766"');
-    expect(source).not.toContain('position: "fixed"');
   });
 
   it("removes the former English and technical presentation strings from the preview canvas", () => {

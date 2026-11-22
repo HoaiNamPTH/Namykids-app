@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { activityPresentationStage, automaticFeedbackTransition, childCompletionPresentation, childFacingGlyph, foundationParentSummaryCopy, foundationPreviewAccessibility, foundationPreviewPresentation, landscapeLayoutForWidth, positionsForCompletionAction, selectedLetterHelper } from "../src/runtime/activity-player/presentation";
+import { activityPresentationStage, automaticFeedbackTransition, childCompletionPresentation, childFacingGlyph, foundationParentSummaryCopy, foundationPreviewAccessibility, foundationPreviewPresentation, landscapeGlyphTone, landscapeLayoutForWidth, positionsForCompletionAction, selectedLetterHelper } from "../src/runtime/activity-player/presentation";
 import { firstSliceDevConfig } from "../src/content/missing-letters/first-slice-dev-config";
 
 describe("activity feedback presentation", () => {
@@ -84,6 +84,8 @@ describe("activity feedback presentation", () => {
     expect(childFacingGlyph("glyph-02")).toBe("B");
     expect(selectedLetterHelper("glyph-02")).toBe("Đã chọn B. Con hãy chạm một ô trống.");
     expect(foundationPreviewAccessibility).toEqual({
+      backLabel: "Quay lại",
+      backHint: "Quay lại bài học trước",
       speakerLabel: "Nghe lại hướng dẫn",
       speakerHint: "Phát lại giọng đọc hướng dẫn của bài học",
       hintAvailable: "Mở một ô chữ giúp con",
@@ -91,6 +93,15 @@ describe("activity feedback presentation", () => {
       refreshHint: "Đổi một bộ vị trí chữ khuyết khác",
       dropTargetHint: "Chạm sau khi chọn thẻ, hoặc kéo thả thẻ vào đây",
     });
+  });
+
+  it("maps the approved alphabet tiles to the established child-facing color roles", () => {
+    expect(landscapeGlyphTone("glyph-01")).toBe("rose");
+    expect(landscapeGlyphTone("glyph-03")).toBe("leaf");
+    expect(landscapeGlyphTone("glyph-05")).toBe("violet");
+    expect(landscapeGlyphTone("glyph-02")).toBe("sky");
+    expect(landscapeGlyphTone("glyph-04")).toBe("sun");
+    expect(landscapeGlyphTone("glyph-06")).toBe("coral");
   });
 
   it("maps the approved landscape breakpoints to child-sized controls", () => {
@@ -113,10 +124,10 @@ describe("activity feedback presentation", () => {
     expect(landscapeLayoutForWidth(1024)).toMatchObject({
       breakpoint: "tablet",
       horizontalPadding: 48,
-      targetSize: 104,
+      targetSize: 126,
       trayWidth: 120,
       trayHeight: 90,
-      controlSize: 50,
+      controlSize: 62,
     });
   });
 

@@ -2,7 +2,7 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", "coverage", "node_modules", ".expo", "supabase"] },
+  { ignores: ["dist", "coverage", "node_modules", ".expo", "supabase", ".visual-review-browser-profile*", "docs/visual-review"] },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {

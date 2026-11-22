@@ -1,15 +1,38 @@
 import { useRouter } from "expo-router";
 import { useRuntimeBootstrap } from "../../src/runtime/RuntimeBootstrapProvider";
-import { NamyScene, SceneAction, SceneCard, SceneText } from "../../src/ui/NamyScene";
+import { LoadingScreen, ParentZoneScreen, RecoveryScreen, RestrictedScreen } from "../../src/ui/FoundationScreens";
 
 export default function ParentRoute() {
   const router = useRouter();
   const runtime = useRuntimeBootstrap();
-  if (runtime.status !== "ready") return <NamyScene calm stateCode="S10 / S08" eyebrow="NamyKids / Parent" title="Tiến độ đang được khôi phục" description="Chỉ hiển thị progress projection khi phiên an toàn sẵn sàng."><SceneCard><SceneAction label="Thử lại" onPress={() => void runtime.reload()} tone="leaf" /></SceneCard></NamyScene>;
-  return (
-    <NamyScene calm stateCode="S10" eyebrow="NamyKids / Parent" title="Góc của ba mẹ" description="Thông tin học tập chỉ đọc, dựa trên progress projection đã xác minh.">
-      <SceneCard><SceneText>{runtime.model.progress.progress.length === 0 ? "Chưa có tiến độ đã xác minh." : `${runtime.model.progress.progress.length} mục có trạng thái đã xác minh.`}</SceneText><SceneText>{runtime.model.progress.resume || runtime.localResume ? "Có một lượt có thể tiếp tục." : "Không có lượt đang chờ tiếp tục."}</SceneText><SceneText>{runtime.outbox.status === "unavailable" ? "Kho đồng bộ cục bộ đang cần khôi phục." : `${runtime.outbox.pendingCount} lượt đang chờ đồng bộ.`}</SceneText><SceneAction label="Quay lại Child World" onPress={() => router.push("/child-world")} tone="leaf" /></SceneCard>
-      <SceneCard><SceneAction label="Không có phần trăm giả lập" onPress={() => {}} tone="paper" disabled /></SceneCard>
-    </NamyScene>
-  );
+
+  if (runtime.status === "recovery") {
+    return <RecoveryScreen onReload={() => void runtime.reload()} onHome={() => router.replace("/child-world")} />;
+  }
+  if (runtime.status === "restricted") {
+    return <RestrictedScreen onHome={() => router.replace("/child-world")} />;
+  }
+  if (runtime.status !== "ready") {
+    return <LoadingScreen />;
+  }
+
+  const verified = runtime.model.progress.progress.length;
+  const resumable = runtime.model.progress.resume || runtime.localResume ? 1 : 0;
+  const pending = runtime.outbox.status === "ready" ? runtime.outbox.pendingCount : 0;
+  const summary = [
+    `Lượt chơi vừa hoàn thành: ${verified} hoạt động đã được ghi nhận.`,
+    `• Lượt có thể tiếp tục: ${resumable}`,
+    `• Lượt đang chờ đồng bộ: ${pending}`,
+    `• Dữ liệu chưa xác minh: 0`,
+  ];
+
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/child-world");
+    }
+  };
+
+  return <ParentZoneScreen summary={summary} onBack={handleBack} />;
 }
