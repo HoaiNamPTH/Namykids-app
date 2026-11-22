@@ -1,7 +1,12 @@
 import type { ItemId } from "../items";
 
 /** What a card shows: a 3D picture (optionally drawn small, e.g. a baby animal) or a big letter. */
-export type Pic = { item: ItemId; small?: boolean } | { glyph: string };
+export type Where = "tren" | "duoi" | "trong" | "canh";
+export type Pic =
+  | { item: ItemId; small?: boolean }
+  | { glyph: string }
+  /** A small picture placed on / under / in / beside a bigger one (positions game). */
+  | { item: ItemId; on: ItemId; where: Where };
 
 /** A tappable / draggable card. `say` is spoken when the child touches it after answering. */
 export type Card = { id: string; pic: Pic; say: string };
@@ -12,6 +17,8 @@ export type ChooseRound = {
   prompt: string;
   cards: Card[];
   answers: string[];
+  /** Picture shown big on the left instead of the speaker (e.g. the word being clapped). */
+  scene?: Pic;
   /** Spoken after the round is solved. */
   praise: string;
 };
@@ -41,7 +48,16 @@ export type FillRound = {
   praise: string;
 };
 
-export type Round = ChooseRound | MatchRound | FillRound;
+/** Flip cards: turn two face-down cards; cards with the same `pair` stay open. */
+export type FlipCard = Card & { pair: string };
+export type FlipRound = {
+  kind: "flip";
+  prompt: string;
+  cards: FlipCard[];
+  praise: string;
+};
+
+export type Round = ChooseRound | MatchRound | FillRound | FlipRound;
 
 export type Level = 0 | 1 | 2;
 export const LEVEL_NAMES = ["Dễ", "Vừa", "Khó"] as const;

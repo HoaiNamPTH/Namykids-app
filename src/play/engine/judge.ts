@@ -1,4 +1,4 @@
-import type { ChooseRound, FillRound, MatchRound } from "./types";
+import type { ChooseRound, FillRound, FlipRound, MatchRound } from "./types";
 
 /** Pure rules shared by the templates. Kept free of UI so they can be tested. */
 
@@ -31,4 +31,12 @@ export function nextGap(round: FillRound, filled: Readonly<Record<number, string
 
 export function fillDone(round: FillRound, filled: Readonly<Record<number, string>>): boolean {
   return round.cells.every((c, idx) => !("gap" in c) || filled[idx] !== undefined);
+}
+
+/** Flip cards: two different open cards either make a pair or turn back. */
+export function flipResult(round: FlipRound, kept: readonly string[], a: string, b: string): "correct" | "done" | "wrong" {
+  const ca = round.cards.find((c) => c.id === a);
+  const cb = round.cards.find((c) => c.id === b);
+  if (!ca || !cb || a === b || ca.pair !== cb.pair) return "wrong";
+  return kept.length + 2 >= round.cards.length ? "done" : "correct";
 }

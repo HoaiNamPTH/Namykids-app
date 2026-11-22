@@ -1,7 +1,7 @@
 import type { ItemId } from "../items";
 import { ITEMS } from "../items";
 import { pick, pickOne, shuffle } from "../engine/random";
-import type { Card, ChooseRound, FillRound, GameContent, Level, MatchRound, Pic, Rng } from "../engine/types";
+import type { Card, ChooseRound, FillRound, FlipCard, FlipRound, GameContent, Level, MatchRound, Pic, Rng, Where } from "../engine/types";
 import { ALPHABET, letterName, LOOK_ALIKE } from "./letters";
 
 /* ---------- helpers ---------- */
@@ -290,6 +290,235 @@ const chuDauCuaTranh: GameContent = {
   },
 };
 
+/* ================= Milestone 3 ================= */
+
+/* ---------- 8. Cái gì để làm gì? (names the use, never the object) ---------- */
+
+const USES: Partial<Record<ItemId, string>> = {
+  scissors: "để cắt giấy", spoon: "để xúc cơm", toothbrush: "để đánh răng", umbrella: "để che mưa",
+  pencil: "để vẽ tranh", key: "để mở khóa", bed: "để nằm ngủ", soap: "để rửa tay",
+  cup: "để uống nước", lamp: "để thắp sáng", clock: "để xem giờ", towel: "để lau tay",
+};
+const USE_ITEMS = Object.keys(USES) as ItemId[];
+
+const deLamGi: GameContent = {
+  rounds: (level, rng) => listenRounds(USE_ITEMS, level, rng, (id) => `Cái gì dùng ${USES[id]} nhỉ?`, (id) => `Đúng rồi! ${cap(name(id))} dùng ${USES[id]}.`),
+};
+
+/* ---------- 9. Bạn đang thấy thế nào? (Dễ/Vừa: the feeling; Khó: a little story) ---------- */
+
+const FEELINGS: { item: ItemId; word: string; story: string }[] = [
+  { item: "happy", word: "vui", story: "Bạn được mẹ tặng quà sinh nhật." },
+  { item: "sad", word: "buồn", story: "Bạn làm rơi mất quả bóng bay." },
+  { item: "angry", word: "tức giận", story: "Bạn bị lấy mất đồ chơi." },
+  { item: "scared", word: "sợ hãi", story: "Trời tối và có tiếng sấm to." },
+  { item: "surprised", word: "ngạc nhiên", story: "Bạn mở hộp ra và thấy một chú mèo con." },
+];
+
+const camXuc: GameContent = {
+  rounds: (level, rng) => {
+    const n = byLevel(level, [2, 3, 4] as const);
+    return pick(FEELINGS, 3, rng).map((f): ChooseRound => {
+      const others = pick(FEELINGS.filter((x) => x !== f), n - 1, rng);
+      const prompt = level < 2 ? `Bạn nào đang ${f.word}? Con chạm vào khuôn mặt ${f.word} nhé.` : `${f.story} Bạn thấy thế nào nhỉ?`;
+      return { kind: "choose", prompt, cards: shuffle([f, ...others], rng).map((x) => itemCard(x.item)), answers: [f.item], praise: `Đúng rồi! Bạn ấy đang ${f.word}.` };
+    });
+  },
+};
+
+/* ---------- 10. Trên, dưới, trong ---------- */
+
+const WHERE_WORD: Record<Where, string> = { tren: "ở trên", duoi: "ở dưới", trong: "ở trong", canh: "ở bên cạnh" };
+const PLACES: { thing: ItemId; on: ItemId; wheres: Where[] }[] = [
+  { thing: "cat", on: "chair", wheres: ["tren", "duoi", "canh"] },
+  { thing: "ball", on: "chair", wheres: ["tren", "duoi", "canh"] },
+  { thing: "bird", on: "tree", wheres: ["tren", "duoi", "canh"] },
+  { thing: "apple", on: "bowl", wheres: ["trong", "canh", "tren"] },
+  { thing: "teddy", on: "house", wheres: ["trong", "canh", "tren"] },
+];
+
+const trenDuoiTrong: GameContent = {
+  rounds: (level, rng) => {
+    const n = byLevel(level, [2, 3, 3] as const);
+    const pool = level === 0 ? PLACES.filter((p) => p.wheres.includes("duoi")) : PLACES;
+    return pick(pool, 3, rng).map((p): ChooseRound => {
+      const wheres = level === 0 ? (["tren", "duoi"] as Where[]) : shuffle(p.wheres, rng).slice(0, n);
+      const target = pickOne(wheres, rng);
+      const label = (w: Where) => `${name(p.thing)} ${WHERE_WORD[w]} ${name(p.on)}`;
+      return {
+        kind: "choose",
+        prompt: `Con chạm vào tranh ${label(target)} nhé.`,
+        cards: shuffle(wheres, rng).map((w) => ({ id: w, pic: { item: p.thing, on: p.on, where: w }, say: label(w) })),
+        answers: [target],
+        praise: `Đúng rồi! ${cap(label(target))}.`,
+      };
+    });
+  },
+};
+
+/* ---------- 11. Ngược nhau ---------- */
+
+const OPPOSITES: [ItemId, string, ItemId, string][] = [
+  ["fire", "nóng", "snowflake", "lạnh"],
+  ["sun", "ban ngày", "moon", "ban đêm"],
+  ["happy", "vui", "sad", "buồn"],
+  ["elephant", "to", "mouse", "nhỏ"],
+  ["rabbit", "nhanh", "snail", "chậm"],
+  ["giraffe", "cao", "turtle", "thấp"],
+];
+
+const nguocNhau: GameContent = {
+  rounds: (level, rng) => {
+    const n = byLevel(level, [2, 3, 4] as const);
+    return [0, 1].map(() => matchBoard("Con chạm một tranh ở trên, rồi tìm tranh ngược với nó ở dưới nhé.", pick(OPPOSITES, n, rng).map(([a, sa, b, sb]) => [
+      { id: `${a}-a`, pic: { item: a }, say: sa },
+      { id: `${b}-b`, pic: { item: b }, say: sb },
+    ] as const), rng));
+  },
+};
+
+/* ---------- 14. Bé rửa tay ---------- */
+
+const HANDS: Step[] = [
+  { item: "droplet", say: "Làm ướt tay" },
+  { item: "soap", say: "Xoa xà phòng" },
+  { item: "towel", say: "Lau khô tay" },
+];
+const TEETH: Step[] = [
+  { item: "cup", say: "Lấy cốc nước" },
+  { item: "toothbrush", say: "Chải răng" },
+  { item: "droplet", say: "Súc miệng" },
+  { item: "towel", say: "Lau miệng" },
+];
+
+const beRuaTay: GameContent = {
+  rounds: (level, rng) => {
+    const pre = level === 0 ? 1 : 0;
+    const teeth = level === 2 ? TEETH : TEETH.slice(1);
+    return [
+      sequenceRound("Rửa tay thế nào nhỉ? Con xếp các bước theo thứ tự nhé.", HANDS, pre, rng, "Giỏi quá! Làm ướt tay, xoa xà phòng, rồi lau khô."),
+      sequenceRound("Đánh răng thế nào nhỉ? Con xếp các bước theo thứ tự nhé.", teeth, pre, rng, "Tuyệt vời! Răng con sạch bóng rồi."),
+    ];
+  },
+};
+
+/* ---------- 16. Cùng âm đầu ---------- */
+
+const SAME_START: [ItemId, ItemId][] = [["ball", "cow"], ["fish", "crab"], ["cat", "cap"], ["rooster", "chair"], ["leaf", "speaker"], ["flower", "tiger"], ["elephant", "duck"]];
+const word = (id: ItemId) => FIRST_SOUND[id]?.word ?? bare(id);
+
+const cungAmDau: GameContent = {
+  rounds: (level, rng) => {
+    const n = byLevel(level, [2, 3, 4] as const);
+    return [0, 1].map(() => matchBoard("Con ghép hai tranh có tên bắt đầu bằng cùng một âm nhé.", pick(SAME_START, n, rng).map(([a, b]) => [
+      { id: `${a}-a`, pic: { item: a }, say: word(a) },
+      { id: `${b}-b`, pic: { item: b }, say: word(b) },
+    ] as const), rng));
+  },
+};
+
+/* ---------- 17. Vần với nhau (one pair per rhyme in a board) ---------- */
+
+const RHYMES: { a: ItemId; wa: string; b: ItemId; wb: string; rhyme: string }[] = [
+  { a: "fish", wa: "cá", b: "leaf", wb: "lá", rhyme: "a" },
+  { a: "rooster", wa: "gà", b: "house", wb: "nhà", rhyme: "a" },
+  { a: "cow", wa: "bò", b: "grapes", wb: "nho", rhyme: "o" },
+  { a: "rabbit", wa: "thỏ", b: "dog", wb: "chó", rhyme: "o" },
+  { a: "cloud", wa: "mây", b: "tree", wb: "cây", rhyme: "ây" },
+  { a: "apple", wa: "táo", b: "star", wb: "sao", rhyme: "ao" },
+  { a: "crab", wa: "cua", b: "turtle", wb: "rùa", rhyme: "ua" },
+  { a: "cat", wa: "mèo", b: "scissors", wb: "kéo", rhyme: "eo" },
+];
+
+const vanVoiNhau: GameContent = {
+  rounds: (level, rng) => {
+    const n = byLevel(level, [2, 3, 4] as const);
+    return [0, 1].map(() => {
+      const chosen: typeof RHYMES = [];
+      for (const r of shuffle(RHYMES, rng)) if (chosen.length < n && !chosen.some((c) => c.rhyme === r.rhyme)) chosen.push(r);
+      return matchBoard("Con ghép hai tranh có tên nghe vần với nhau nhé. Cá với lá, nghe giống nhau đó!", chosen.map((r) => [
+        { id: `${r.a}-a`, pic: { item: r.a }, say: r.wa },
+        { id: `${r.b}-b`, pic: { item: r.b }, say: r.wb },
+      ] as const), rng);
+    });
+  },
+};
+
+/* ---------- 18. Vỗ tay đếm tiếng ---------- */
+
+const CLAP: { item: ItemId; words: string }[] = [
+  { item: "fish", words: "cá" }, { item: "elephant", words: "voi" }, { item: "flower", words: "hoa" }, { item: "cow", words: "bò" },
+  { item: "airplane", words: "máy bay" }, { item: "car", words: "ô tô" }, { item: "bicycle", words: "xe đạp" }, { item: "teddy", words: "gấu bông" },
+  { item: "giraffe", words: "hươu cao cổ" }, { item: "carrot", words: "củ cà rốt" }, { item: "sunflower", words: "hoa hướng dương" }, { item: "strawberry", words: "quả dâu tây" },
+  { item: "alarm", words: "đồng hồ báo thức" }, { item: "toothbrush", words: "bàn chải đánh răng" },
+];
+const NUMBER_WORDS = ["một", "hai", "ba", "bốn"];
+const syllables = (w: string) => w.split(" ").length;
+
+const voTayDemTieng: GameContent = {
+  rounds: (level, rng) => {
+    const max = byLevel(level, [2, 3, 4] as const);
+    return pick(CLAP.filter((c) => syllables(c.words) <= max), 3, rng).map((c): ChooseRound => {
+      const count = syllables(c.words);
+      const slow = c.words.split(" ").join("... ");
+      return {
+        kind: "choose",
+        prompt: `Con nghe nhé: ${c.words}. ${cap(slow)}. Có mấy tiếng?`,
+        scene: { item: c.item },
+        cards: Array.from({ length: max }, (_, i) => glyphCard(String(i + 1), `n${i + 1}`, `${NUMBER_WORDS[i]} tiếng`)),
+        answers: [`n${count}`],
+        praise: `Đúng rồi! ${cap(c.words)} có ${NUMBER_WORDS[count - 1]} tiếng.`,
+      };
+    });
+  },
+};
+
+/* ---------- 24. Xếp bảng chữ cái ---------- */
+
+const xepBangChu: GameContent = {
+  rounds: (level, rng) => {
+    const [len, pre] = byLevel(level, [[3, 1], [4, 1], [5, 0]] as const);
+    return [0, 1].map((): FillRound => {
+      const start = Math.floor(rng() * (ALPHABET.length - len));
+      const run = ALPHABET.slice(start, start + len);
+      const cells = run.map((L, i) => (i < pre ? { fixed: { glyph: L } as Pic, say: `chữ ${letterName(L)}` } : { gap: L, label: "" }));
+      const tray = shuffle(run.slice(pre).map((L) => glyphCard(L, L, `chữ ${letterName(L)}`)), rng);
+      return { kind: "fill", prompt: "Con xếp các chữ theo đúng thứ tự bảng chữ cái nhé.", cells, tray, inOrder: true, praise: `Giỏi quá! ${run.map((L) => letterName(L)).join(", ")}.` };
+    });
+  },
+};
+
+/* ---------- 25. Lật thẻ tìm cặp / 26. Lật thẻ chữ và tranh ---------- */
+
+const FLIP_POOL: ItemId[] = ["apple", "ball", "cat", "duck", "star", "car", "fish", "teddy", "balloon", "sun", "rabbit", "kite"];
+
+const latTheTimCap: GameContent = {
+  rounds: (level, rng) => {
+    const n = byLevel(level, [2, 3, 4] as const);
+    return [0, 1].map((): FlipRound => ({
+      kind: "flip",
+      prompt: "Con lật hai thẻ. Nếu hai tranh giống nhau thì thẻ được giữ lại nhé.",
+      cards: shuffle(pick(FLIP_POOL, n, rng).flatMap((id): FlipCard[] => [{ ...itemCard(id, `${id}-1`), pair: id }, { ...itemCard(id, `${id}-2`), pair: id }]), rng),
+      praise: "Giỏi quá! Con tìm được hết các cặp rồi.",
+    }));
+  },
+};
+
+const latTheChuTranh: GameContent = {
+  rounds: (level, rng) => {
+    const n = byLevel(level, [2, 3, 4] as const);
+    return [0, 1].map((): FlipRound => ({
+      kind: "flip",
+      prompt: "Con lật tìm một chữ và một tranh bắt đầu bằng chữ đó nhé.",
+      cards: shuffle(pick(LETTER_PICS, n, rng).flatMap(([l, id]): FlipCard[] => [
+        { ...glyphCard(l, `l-${l}`, `chữ ${letterName(l)}`), pair: l },
+        { id: `p-${l}`, pic: { item: id }, say: FIRST_SOUND[id]?.word ?? name(id), pair: l },
+      ]), rng),
+      praise: "Tuyệt vời! Con ghép đúng hết chữ và tranh rồi.",
+    }));
+  },
+};
+
 /* ---------- registry ---------- */
 
 function cap(text: string): string {
@@ -312,4 +541,15 @@ export const LANGUAGE_CONTENT: Record<string, GameContent> = {
   "chu-hoa-thuong": chuHoaThuong,
   "chu-con-thieu": chuConThieu,
   "chu-dau-cua-tranh": chuDauCuaTranh,
+  "de-lam-gi": deLamGi,
+  "cam-xuc": camXuc,
+  "tren-duoi-trong": trenDuoiTrong,
+  "nguoc-nhau": nguocNhau,
+  "be-rua-tay": beRuaTay,
+  "cung-am-dau": cungAmDau,
+  "van-voi-nhau": vanVoiNhau,
+  "vo-tay-dem-tieng": voTayDemTieng,
+  "xep-bang-chu": xepBangChu,
+  "lat-the-tim-cap": latTheTimCap,
+  "lat-the-chu-tranh": latTheChuTranh,
 };

@@ -4,7 +4,7 @@ import { foundationAssets } from "../../ui/foundation-assets";
 import { chooseResult } from "../engine/judge";
 import type { Card, ChooseRound } from "../engine/types";
 import { speak } from "../voice";
-import { CardFace, useWiggle } from "./common";
+import { CardFace, PicView, useWiggle } from "./common";
 
 type Props = { round: ChooseRound; width: number; height: number; listen: boolean; onSolved: () => void };
 type Outcome = ReturnType<typeof chooseResult>;
@@ -15,7 +15,7 @@ export function ChooseBoard({ round, width, height, listen, onSolved }: Props) {
   const [locked, setLocked] = useState(false);
   useEffect(() => { setFound([]); setLocked(false); }, [round]);
 
-  const side = listen ? Math.min(150, height * 0.55) + 24 : 0;
+  const side = listen || round.scene ? Math.min(150, height * 0.55) + 24 : 0;
   const n = round.cards.length;
   const perRow = n <= 4 ? n : Math.ceil(n / 2);
   const rows = Math.ceil(n / perRow);
@@ -38,7 +38,10 @@ export function ChooseBoard({ round, width, height, listen, onSolved }: Props) {
   };
 
   return <View style={styles.wrap}>
-    {listen ? <Pressable accessibilityRole="button" accessibilityLabel="Nghe lại" onPress={() => void speak(round.prompt)}
+    {round.scene ? <Pressable accessibilityRole="button" accessibilityLabel="Nghe lại" onPress={() => void speak(round.prompt)}
+      style={({ pressed }) => [styles.bigSpeaker, styles.scene, { width: side - 24, height: side - 24, borderRadius: (side - 24) * 0.2 }, pressed && styles.pressed]}>
+      <PicView pic={round.scene} size={side - 40} />
+    </Pressable> : listen ? <Pressable accessibilityRole="button" accessibilityLabel="Nghe lại" onPress={() => void speak(round.prompt)}
       style={({ pressed }) => [styles.bigSpeaker, { width: side - 24, height: side - 24, borderRadius: side }, pressed && styles.pressed]}>
       <Image accessible={false} source={foundationAssets.speaker} resizeMode="contain" style={styles.fill} />
     </Pressable> : null}
@@ -62,6 +65,7 @@ function ChoiceCard({ card, size, ok, dim, onTap }: { card: Card; size: number; 
 const styles = StyleSheet.create({
   wrap: { flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 24 },
   bigSpeaker: { backgroundColor: "#FFFFFF", padding: 8, shadowColor: "#1C2A5A", shadowOpacity: 0.2, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 6 },
+  scene: { alignItems: "center", justifyContent: "center" },
   cards: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 16 },
   fill: { width: "100%", height: "100%" },
   pressed: { transform: [{ scale: 0.95 }] },
