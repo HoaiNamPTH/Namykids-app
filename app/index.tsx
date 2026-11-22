@@ -5,5 +5,6 @@ export default function IndexRoute() {
   if (isFoundationPreviewEnabled()) {
     return <Redirect href="/dev/foundation-preview" />;
   }
-  return <Redirect href="/child-world" />;
+  // The kid play experience is the app's front door. The earlier backend-bound flow stays at /child-world.
+  return <Redirect href="/home" />;
 }

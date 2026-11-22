@@ -53,3 +53,14 @@ export const vietnameseGlyphCorpus = "ă â ê ô ơ ư đ Ă Â Ê Ô Ơ Ư Đ 
 export function isNfcNormalized(value: string): boolean {
   return value.normalize("NFC") === value;
 }
+
+/**
+ * Kid play area lettering (Baloo 2 for titles, Nunito for text, both with full Vietnamese marks),
+ * matching the prototype the Product Owner reviewed. Loaded with expo-font in app/_layout.tsx.
+ */
+export const playType = {
+  title: { fontFamily: "Baloo2_800ExtraBold" },
+  titleSemi: { fontFamily: "Baloo2_700Bold" },
+  body: { fontFamily: "Nunito_700Bold" },
+  bodyBold: { fontFamily: "Nunito_800ExtraBold" },
+} as const satisfies Record<string, TypographyToken>;

@@ -1,12 +1,14 @@
 {
   "expo": {
-    "name": "NamyKids Foundation",
+    "name": "NamyKids",
     "slug": "namykids-foundation",
     "version": "0.1.0",
     "plugins": [
       "expo-router",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-font"
     ],
-    "userInterfaceStyle": "light"
+    "userInterfaceStyle": "light",
+    "orientation": "landscape"
   }
 }

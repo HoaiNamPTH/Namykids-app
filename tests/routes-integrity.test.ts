@@ -11,20 +11,24 @@ const expectedRoutes = [
   "app/(app)/recovery.tsx",
   "app/(app)/restricted.tsx",
   "app/dev/foundation-preview.tsx",
+  "app/home.tsx",
+  "app/area/[areaId].tsx",
+  "app/game/[gameId].tsx",
+  "app/+not-found.tsx",
 ] as const;
 
-describe("9 router files integrity contract", () => {
-  it("ensures all 9 expected Expo Router route files exist and are readable", () => {
+describe("router files integrity contract", () => {
+  it("ensures all expected Expo Router route files exist and are readable", () => {
     for (const route of expectedRoutes) {
       const source = readFileSync(route, "utf8");
       expect(source.length).toBeGreaterThan(0);
     }
   });
 
-  it("ensures index.tsx provides safe routing to child-world and preview", () => {
+  it("ensures index.tsx opens the kid home and keeps the dev preview gate", () => {
     const source = readFileSync("app/index.tsx", "utf8");
     expect(source).toContain('href="/dev/foundation-preview"');
-    expect(source).toContain('href="/child-world"');
+    expect(source).toContain('href="/home"');
     expect(source).toContain("isFoundationPreviewEnabled");
   });
 
