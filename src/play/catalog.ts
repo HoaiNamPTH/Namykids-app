@@ -26,7 +26,7 @@ export type GameMeta = {
   /** What the guide says when the game opens. Always spoken; the child never has to read. */
   intro: string;
   /** Milestone in which the game becomes playable. */
-  milestone: 2 | 3;
+  milestone: 2 | 3 | 4;
 };
 
 /** Proposal (25/11/2026): which of the 8 approved learning groups each existing game belongs to. */
@@ -39,7 +39,7 @@ const GROUP_OF: Record<string, AreaId> = {
   "be-rua-tay": "ky-nang", "mot-ngay-cua-be": "ky-nang", "cam-xuc": "ky-nang",
 };
 
-const g = (no: number, id: string, title: string, template: TemplateId, ages: string, icon: GameIcon, intro: string, milestone: 2 | 3): GameMeta =>
+const g = (no: number, id: string, title: string, template: TemplateId, ages: string, icon: GameIcon, intro: string, milestone: 2 | 3 | 4): GameMeta =>
   ({ id, no, area: GROUP_OF[id] ?? "chu-cai", title, template, ages, icon, intro, milestone });
 
 /** Language area list, as sent to the Product Owner on 22/11/2026 (Drive: 03_EDUCATION_CONTENT_VOICE). */
@@ -72,10 +72,29 @@ export const LANGUAGE_GAMES: readonly GameMeta[] = [
   g(26, "lat-the-chu-tranh", "Lật thẻ chữ và tranh", "flip-cards", "5–6", { glyph: "c" }, "Con lật tìm chữ và tranh đi cùng nhau nhé.", 3),
 ];
 
+const n = (no: number, id: string, area: AreaId, title: string, template: TemplateId, ages: string, icon: GameIcon, intro: string): GameMeta =>
+  ({ id, no, area, title, template, ages, icon, intro, milestone: 4 });
+
+/** Màu sắc, Gia đình, Nghệ thuật & sáng tạo (proposal 25/11/2026). Content: content/groups.ts. */
+export const GROUP_GAMES: readonly GameMeta[] = [
+  n(27, "cham-dung-mau", "mau-sac", "Chạm đúng màu", "listen-choose", "2–4", { item: "palette" }, "Con nghe tên màu, rồi chạm vào màu đó nhé."),
+  n(28, "tim-do-cung-mau", "mau-sac", "Tìm đồ cùng màu", "tap-select", "3–5", { item: "strawberry" }, "Con chạm vào tất cả những thứ có cùng màu nhé."),
+  n(29, "mau-gi-day", "mau-sac", "Quả này màu gì?", "match-pairs", "3–5", { item: "banana" }, "Con ghép mỗi tranh với màu của nó nhé."),
+  n(30, "pha-mau", "mau-sac", "Pha màu", "drag-fill", "5–6", { item: "paintbrush" }, "Hai màu trộn với nhau thì ra màu gì? Con kéo màu vào ô trống nhé."),
+  n(31, "ai-day-nhi", "gia-dinh", "Ai đây nhỉ?", "listen-choose", "2–4", { item: "grandma" }, "Con nghe tên người trong nhà, rồi chạm vào người đó nhé."),
+  n(32, "tu-be-den-lon", "gia-dinh", "Từ bé đến lớn", "sequence", "4–5", { item: "baby" }, "Con xếp mọi người từ nhỏ tuổi nhất đến lớn tuổi nhất nhé."),
+  n(33, "lat-the-ca-nha", "gia-dinh", "Lật thẻ cả nhà", "flip-cards", "3–6", { item: "mom" }, "Con lật hai thẻ. Nếu là cùng một người thì giữ lại nhé."),
+  n(34, "to-mau-cho-tranh", "nghe-thuat", "Tô màu cho tranh", "match-pairs", "3–5", { item: "palette" }, "Con chọn màu, rồi chạm vào tranh để tô cho đúng màu nhé."),
+  n(35, "nhac-cu", "nghe-thuat", "Nhạc cụ tên gì?", "listen-choose", "3–5", { item: "guitar" }, "Con nghe tên nhạc cụ, rồi chạm vào nhạc cụ đó nhé."),
+  n(36, "xau-vong", "nghe-thuat", "Xâu vòng hạt màu", "drag-fill", "4–6", { item: "flower" }, "Con nhìn các hạt màu, rồi xâu tiếp hạt cho đúng quy luật nhé."),
+];
+
+export const ALL_GAMES: readonly GameMeta[] = [...LANGUAGE_GAMES, ...GROUP_GAMES];
+
 export function gamesForArea(area: AreaId): readonly GameMeta[] {
-  return LANGUAGE_GAMES.filter((game) => game.area === area);
+  return ALL_GAMES.filter((game) => game.area === area);
 }
 
 export function findGame(id: string | undefined): GameMeta | undefined {
-  return LANGUAGE_GAMES.find((game) => game.id === id);
+  return ALL_GAMES.find((game) => game.id === id);
 }

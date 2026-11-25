@@ -56,7 +56,7 @@ function MatchCard({ card, size, state, onTap }: { card: Card; size: number; sta
   return <Animated.View style={wiggle.style}>
     <Pressable accessibilityRole="button" accessibilityLabel={card.say} disabled={state === "ok"}
       onPress={() => { if (onTap()) wiggle.run(); }} style={({ pressed }) => [pressed && styles.pressed]}>
-      <CardFace pic={card.pic} size={size} state={state} />
+      <CardFace pic={state === "ok" && card.done ? card.done : card.pic} size={size} state={state} />
     </Pressable>
   </Animated.View>;
 }

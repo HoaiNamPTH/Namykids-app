@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { foundationAssets } from "../../ui/foundation-assets";
 import { playType } from "../../ui/typography";
 import { TEMPLATES, type GameMeta } from "../catalog";
+import { GROUP_CONTENT } from "../content/groups";
 import { LANGUAGE_CONTENT } from "../content/language";
 import type { Level } from "../engine/types";
 import { useAccess } from "../account/useAccess";
@@ -14,7 +15,7 @@ import { speak, stopSpeaking } from "../voice";
 import { GamePlayer } from "./GamePlayer";
 
 export function GameScreen({ game, onBack, onOtherGame, onParents }: { game: GameMeta; onBack: () => void; onOtherGame: () => void; onParents: () => void }) {
-  const content = LANGUAGE_CONTENT[game.id];
+  const content = LANGUAGE_CONTENT[game.id] ?? GROUP_CONTENT[game.id];
   const progress = useProgress();
   const access = useAccess();
   if (!access.canPlay(game.id)) return <AskParent game={game} onBack={onBack} onParents={onParents} />;
