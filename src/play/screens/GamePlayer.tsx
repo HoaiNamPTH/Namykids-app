@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View, type LayoutChangeEvent } from "react-native";
-import duo from "../../assets/play/ui/win_duo.jpg";
-import banner from "../../assets/play/ui/win_banner.png";
+import duo from "../../assets/play/ui/home_duo.png";
 import { playType } from "../../ui/typography";
 import type { GameMeta } from "../catalog";
 import { LEVEL_NAMES, type GameContent, type Level, type Round } from "../engine/types";
@@ -52,7 +51,7 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   const restart = (next: Level) => { stopSpeaking(); setLevel(next); setSeed((s) => s + 1); };
   const onLayout = (e: LayoutChangeEvent) => setBoard({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height });
 
-  if (won) return <WinPanel line={won} level={level} onReplay={() => restart(level)} onNext={level < 2 ? () => restart((level + 1) as Level) : undefined} onOther={onOtherGame} />;
+  if (won) return <WinPanel level={level} onReplay={() => restart(level)} onNext={level < 2 ? () => restart((level + 1) as Level) : undefined} onOther={onOtherGame} />;
 
   // Voice-first play (design v2): Nami says each instruction, the same line is shown in her bubble,
   // and the bubble or the speaker plays it again.
@@ -81,17 +80,19 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   </PlayScreen>;
 }
 
-/** Celebration with Nami and Niko: the praise is spoken and shown; one big "play on" button. */
-function WinPanel({ line, level, onReplay, onNext, onOther }: { line: string; level: Level; onReplay: () => void; onNext?: () => void; onOther: () => void }) {
-  return <PlayScreen style={styles.win}>
-    <View style={styles.duoFrame}><Image accessible={false} source={duo} resizeMode="cover" style={styles.duo} /></View>
-    <View style={styles.winRight}>
-      <Image accessible={false} source={banner} resizeMode="contain" style={styles.banner} />
-      <SayBubble text={line} />
-      <Pill label={onNext ? `Chơi tiếp · mức ${LEVEL_NAMES[level + 1]}` : "Chơi tiếp"} tone="green" onPress={onNext ?? onReplay} big />
-      <View style={styles.smallRow}>
-        <Pill label="Chơi lại" tone="white" onPress={onReplay} />
-        <Pill label="Trò khác" tone="white" onPress={onOther} />
+/** Celebration with Nami and Niko (design v3): no frames, no praise text (it is spoken),
+ *  one row of buttons, and the back button at the top left for picking another game. */
+function WinPanel({ level, onReplay, onNext, onOther }: { level: Level; onReplay: () => void; onNext?: () => void; onOther: () => void }) {
+  return <PlayScreen>
+    <View style={styles.winTop}><RoundButton kind="back" label="Trò khác" onPress={onOther} size={64} /></View>
+    <View style={styles.win}>
+      <Image accessible={false} source={duo} resizeMode="contain" style={styles.duo} />
+      <View style={styles.winRight}>
+        <Text style={styles.winTitle}>Chúc mừng con!</Text>
+        <View style={styles.smallRow}>
+          <Pill label="Chơi lại" tone="white" onPress={onReplay} big />
+          {onNext ? <Pill label={`Chơi tiếp · mức ${LEVEL_NAMES[level + 1]}`} tone="green" onPress={onNext} big /> : null}
+        </View>
       </View>
     </View>
   </PlayScreen>;
@@ -119,11 +120,11 @@ const styles = StyleSheet.create({
   levelDots: { flexDirection: "row", gap: 3 },
   levelDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: "#DDE3EE" },
   levelDotOn: { backgroundColor: play.leaf },
-  win: { flexDirection: "row", alignItems: "center", gap: 12 },
-  duoFrame: { width: "44%", aspectRatio: 635 / 372, borderRadius: 28, overflow: "hidden", borderWidth: 5, borderColor: "#FFFFFF", backgroundColor: "#E8F4FA" },
-  duo: { width: "100%", height: "100%" },
-  winRight: { flex: 1, alignItems: "center", gap: 10 },
-  banner: { width: "86%", height: 90 },
+  winTop: { flexDirection: "row", minHeight: 56 },
+  win: { flex: 1, flexDirection: "row", alignItems: "center", gap: 8 },
+  duo: { width: "46%", height: "100%" },
+  winRight: { flex: 1, alignItems: "center", gap: 22 },
+  winTitle: { ...playType.title, fontSize: 40, color: "#C2561A", textAlign: "center", textShadowColor: "#FFFFFF", textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6 },
   pill: { minHeight: 48, paddingHorizontal: 20, borderRadius: 24, justifyContent: "center", borderBottomWidth: 5 },
   white: { backgroundColor: "#FFFFFF", borderBottomColor: "#DFE5EF" },
   green: { backgroundColor: play.leaf, borderBottomColor: "#1E8A5C" },
