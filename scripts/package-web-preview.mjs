@@ -1,6 +1,6 @@
 // Turns `expo export --platform web` output into a preview that works from any folder or host
 // (for example a private claude.ai artifact):
-// - small pictures (under 200 KB) are inlined into the script, so the preview has few files;
+// - small pictures and voice clips (under 200 KB) are inlined into the script, so the preview has few files;
 // - other asset and script URLs are resolved from the page's own address at load time;
 // - the bundle moves out of "_expo" because some hosts reserve names that start with "_".
 // Usage: node scripts/package-web-preview.mjs dist
@@ -13,7 +13,7 @@ const bundle = readdirSync(jsDir).find((f) => f.endsWith(".js"));
 if (!bundle) throw new Error("No web bundle found in " + jsDir);
 
 const INLINE_LIMIT = 200 * 1024;
-const MIME = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg" };
+const MIME = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".mp3": "audio/mpeg" };
 const source = readFileSync(join(jsDir, bundle), "utf8");
 let inlined = 0;
 let relative = 0;
