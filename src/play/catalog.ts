@@ -29,8 +29,18 @@ export type GameMeta = {
   milestone: 2 | 3;
 };
 
+/** Proposal (25/11/2026): which of the 8 approved learning groups each existing game belongs to. */
+const GROUP_OF: Record<string, AreaId> = {
+  "nghe-chon-chu": "chu-cai", "chu-va-tranh": "chu-cai", "chu-hoa-thuong": "chu-cai", "chu-con-thieu": "chu-cai", "chu-dau-cua-tranh": "chu-cai",
+  "xep-bang-chu": "chu-cai", "lat-the-chu-tranh": "chu-cai", "am-dau": "chu-cai", "cung-am-dau": "chu-cai", "van-voi-nhau": "chu-cai", "vo-tay-dem-tieng": "chu-cai",
+  "ban-giong-het": "so-hoc", "be-gom-nhom": "so-hoc", "khac-nhom": "so-hoc", "tren-duoi-trong": "so-hoc", "nguoc-nhau": "so-hoc", "lat-the-tim-cap": "so-hoc", "chuyen-cay-con": "so-hoc",
+  "ai-keu-the": "con-vat", "me-oi-con-dau": "con-vat",
+  "tim-do-vat": "do-vat", "doi-ban-than": "do-vat", "de-lam-gi": "do-vat",
+  "be-rua-tay": "ky-nang", "mot-ngay-cua-be": "ky-nang", "cam-xuc": "ky-nang",
+};
+
 const g = (no: number, id: string, title: string, template: TemplateId, ages: string, icon: GameIcon, intro: string, milestone: 2 | 3): GameMeta =>
-  ({ id, no, area: "ngon-ngu", title, template, ages, icon, intro, milestone });
+  ({ id, no, area: GROUP_OF[id] ?? "chu-cai", title, template, ages, icon, intro, milestone });
 
 /** Language area list, as sent to the Product Owner on 22/11/2026 (Drive: 03_EDUCATION_CONTENT_VOICE). */
 export const LANGUAGE_GAMES: readonly GameMeta[] = [
@@ -63,7 +73,7 @@ export const LANGUAGE_GAMES: readonly GameMeta[] = [
 ];
 
 export function gamesForArea(area: AreaId): readonly GameMeta[] {
-  return area === "ngon-ngu" ? LANGUAGE_GAMES : [];
+  return LANGUAGE_GAMES.filter((game) => game.area === area);
 }
 
 export function findGame(id: string | undefined): GameMeta | undefined {

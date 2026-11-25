@@ -71,8 +71,8 @@ function AskParent({ game, onBack, onParents }: { game: GameMeta; onBack: () => 
           <View style={[styles.pic, { backgroundColor: TEMPLATES[game.template].tint }]}><GameIconView icon={game.icon} size={72} /></View>
           <View style={styles.cardText}>
             <Text style={styles.kind}>Dành cho bố mẹ</Text>
-            <Text style={styles.soon}>Hết 7 ngày dùng thử, bé vẫn chơi được {FREE_GAME_IDS.length} trò miễn phí. Mở gói đầy đủ trong Góc phụ huynh.</Text>
-            <Text accessibilityRole="button" onPress={onParents} style={styles.link}>Vào Góc phụ huynh</Text>
+            <Text style={styles.soon}>Hết 7 ngày dùng thử, bé vẫn chơi được {FREE_GAME_IDS.length} trò miễn phí. Mở gói đầy đủ trong Góc ba mẹ.</Text>
+            <Text accessibilityRole="button" onPress={onParents} style={styles.link}>Vào Góc ba mẹ</Text>
           </View>
         </View>
       </View>

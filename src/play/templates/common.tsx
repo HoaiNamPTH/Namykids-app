@@ -4,6 +4,7 @@ import type { Pic } from "../engine/types";
 import { ITEMS } from "../items";
 import { play } from "../theme";
 import { playType } from "../../ui/typography";
+import { foundationAssets } from "../../ui/foundation-assets";
 
 /** Gentle side-to-side shake for a wrong answer. */
 export function useWiggle() {
@@ -52,7 +53,18 @@ function PlacedPic({ pic, size }: { pic: Extract<Pic, { where: unknown }>; size:
 
 export type CardState = "idle" | "selected" | "ok" | "dim";
 
+const FRAMES = [foundationAssets.tileGreen, foundationAssets.tilePurple, foundationAssets.tileRed];
+
 export function CardFace({ pic, size, state = "idle", style }: { pic: Pic; size: number; state?: CardState; style?: StyleProp<ViewStyle> }) {
+  // Letters sit in the approved Soft CGI letter tiles; the frame colour follows the letter.
+  if ("glyph" in pic && !("item" in pic)) {
+    const frame = FRAMES[((pic.glyph.charCodeAt(0) || 0) >> 2) % FRAMES.length];
+    return <View style={[{ width: size, height: size, alignItems: "center", justifyContent: "center" }, state === "dim" && styles.dim, style]}>
+      <Image accessible={false} source={frame as ImageSourcePropType} resizeMode="contain" style={{ position: "absolute", width: size, height: size }} />
+      {state === "ok" || state === "selected" ? <View style={[styles.ring, { width: size * 0.9, height: size * 0.9, borderRadius: size * 0.2 }, state === "ok" ? styles.ringOk : styles.ringSel]} /> : null}
+      <PicView pic={pic} size={size * 0.92} />
+    </View>;
+  }
   return <View style={[styles.card, { width: size, height: size, borderRadius: size * 0.2 }, state === "selected" && styles.selected, state === "ok" && styles.ok, state === "dim" && styles.dim, style]}>
     <PicView pic={pic} size={size} />
   </View>;
@@ -72,6 +84,9 @@ const styles = StyleSheet.create({
   selected: { borderColor: play.sun, backgroundColor: "#FFF8DC" },
   ok: { borderColor: play.leaf, backgroundColor: "#E3F8EA" },
   dim: { opacity: 0.35 },
+  ring: { position: "absolute", borderWidth: 4 },
+  ringOk: { borderColor: play.leaf },
+  ringSel: { borderColor: play.sun },
   glyph: { ...playType.title, color: play.ink, textAlign: "center" },
   caption: { alignSelf: "center", maxWidth: "80%", backgroundColor: "rgba(255,255,255,0.88)", borderRadius: 14, paddingHorizontal: 12, paddingVertical: 4 },
   captionText: { ...playType.body, fontSize: 14, lineHeight: 18, color: play.ink, textAlign: "center" },

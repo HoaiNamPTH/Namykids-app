@@ -7,7 +7,7 @@ export default function AreaRoute() {
   const router = useRouter();
   const { areaId } = useLocalSearchParams<{ areaId: string }>();
   const area = findArea(areaId);
-  if (!area || !area.open) return <Redirect href="/home" />;
+  if (!area) return <Redirect href="/home" />;
   const back = () => (router.canGoBack() ? router.back() : router.replace("/home"));
   return <RequireAccount><AreaScreen area={area} onBack={back} onOpenGame={(game) => router.push(`/game/${game.id}`)} /></RequireAccount>;
 }

@@ -1,27 +1,33 @@
-import language from "../assets/play/areas/language.png";
-import life from "../assets/play/areas/life.png";
-import math from "../assets/play/areas/math.png";
-import senses from "../assets/play/areas/senses.png";
-import world from "../assets/play/areas/world.png";
+import animals from "../assets/play/groups/animals.jpg";
+import art from "../assets/play/groups/art.jpg";
+import colors from "../assets/play/groups/colors.jpg";
+import daily from "../assets/play/groups/daily.jpg";
+import family from "../assets/play/groups/family.jpg";
+import letters from "../assets/play/groups/letters.jpg";
+import numbers from "../assets/play/groups/numbers.jpg";
+import objects from "../assets/play/groups/objects.jpg";
 
-export type AreaId = "ngon-ngu" | "toan" | "giac-quan" | "ky-nang-song" | "kham-pha";
+/** The 8 learning groups of the approved Product Canon. */
+export type AreaId = "chu-cai" | "so-hoc" | "mau-sac" | "con-vat" | "do-vat" | "gia-dinh" | "nghe-thuat" | "ky-nang";
 
 export type Area = {
   id: AreaId;
   name: string;
-  hint: string;
-  icon: typeof language;
+  icon: typeof letters;
   tint: string;
-  open: boolean;
+  /** Pictures cropped from the approved 24/09 concept; the two marked false still use interim art. */
+  conceptArt: boolean;
 };
 
-/** The five Montessori-based learning areas chosen by the Product Owner (22/11/2026). */
 export const AREAS: readonly Area[] = [
-  { id: "ngon-ngu", name: "Ngôn ngữ", hint: "Từ, âm, chữ cái", icon: language, tint: "#D6ECFE", open: true },
-  { id: "toan", name: "Toán", hint: "Số, đếm, hình", icon: math, tint: "#DFFBE2", open: false },
-  { id: "giac-quan", name: "Giác quan", hint: "Màu, âm thanh, kích thước", icon: senses, tint: "#FEF7DA", open: false },
-  { id: "ky-nang-song", name: "Kỹ năng sống", hint: "Tự phục vụ, sinh hoạt", icon: life, tint: "#F1DDFD", open: false },
-  { id: "kham-pha", name: "Khám phá thế giới", hint: "Con vật, cây cối, đồ vật", icon: world, tint: "#FEF2C4", open: false },
+  { id: "chu-cai", name: "Chữ cái & vần", icon: letters, tint: "#D6ECFE", conceptArt: true },
+  { id: "so-hoc", name: "Số học & tư duy", icon: numbers, tint: "#DFFBE2", conceptArt: true },
+  { id: "mau-sac", name: "Màu sắc", icon: colors, tint: "#FEF7DA", conceptArt: true },
+  { id: "con-vat", name: "Con vật", icon: animals, tint: "#FEF2C4", conceptArt: true },
+  { id: "do-vat", name: "Đồ vật quanh bé", icon: objects, tint: "#E4E9FB", conceptArt: true },
+  { id: "gia-dinh", name: "Gia đình", icon: family, tint: "#F1DDFD", conceptArt: true },
+  { id: "nghe-thuat", name: "Nghệ thuật & sáng tạo", icon: art, tint: "#FFE8D6", conceptArt: false },
+  { id: "ky-nang", name: "Kỹ năng hằng ngày", icon: daily, tint: "#E1F0FF", conceptArt: false },
 ];
 
 export function findArea(id: string | undefined): Area | undefined {

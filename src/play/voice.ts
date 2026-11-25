@@ -59,8 +59,17 @@ export function onVoiceStatus(fn: (s: VoiceStatus) => void): () => void {
  * Speak one line. Stops whatever was playing so lines never overlap.
  * Resolves when the line has been said (or would have been, when no voice is available).
  */
+let voiceOn = true;
+/** Sound settings: the guide's voice can be turned off by a grown-up. */
+export function isVoiceOn(): boolean { return voiceOn; }
+export function setVoiceOn(on: boolean): void {
+  voiceOn = on;
+  if (!on) stopSpeaking();
+}
+
 export async function speak(text: string): Promise<void> {
   const estimate = 900 + text.length * 95;
+  if (!voiceOn) return new Promise((r) => setTimeout(r, 600));
   const recording = USE_RECORDED_VOICE ? RECORDED_LINES[text.trim()] : undefined;
   if (recording !== undefined) return playRecording(recording, estimate);
   const voice = await resolveVoice();

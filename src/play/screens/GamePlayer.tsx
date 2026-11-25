@@ -4,17 +4,16 @@ import duo from "../../assets/play/ui/win_duo.jpg";
 import banner from "../../assets/play/ui/win_banner.png";
 import { playType } from "../../ui/typography";
 import type { GameMeta } from "../catalog";
-import { type GameContent, type Level, type Round } from "../engine/types";
+import { LEVEL_NAMES, type GameContent, type Level, type Round } from "../engine/types";
 import { recordCompletion } from "../progress";
 import { ChooseBoard } from "../templates/ChooseBoard";
 import { RoundDots } from "../templates/common";
 import { FlipBoard } from "../templates/FlipBoard";
 import { FillBoard } from "../templates/FillBoard";
 import { MatchBoard } from "../templates/MatchBoard";
-import { stickerFor } from "../stickers";
-import { StickerView } from "../StickerView";
 import { play } from "../theme";
-import { PlayScreen, RoundButton } from "../ui";
+import { foundationAssets } from "../../ui/foundation-assets";
+import { PlayScreen, RoundButton, SayBubble } from "../ui";
 import { speak, stopSpeaking } from "../voice";
 
 /** Spoken when a game is finished. Warm, short, about effort as much as result. */
@@ -46,41 +45,54 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
     if (index + 1 < rounds.length) { setIndex(index + 1); return; }
     recordCompletion(game.id, level);
     const line = PRAISE[Math.floor(Math.random() * PRAISE.length)] ?? PRAISE[0] ?? "";
-    const sticker = level === 2 ? stickerFor(game.id) : undefined;
     setWon(line);
-    void speak(sticker ? `${line} Con nhận được sticker ${sticker.praise}` : line);
+    void speak(line);
   }, [index, rounds.length, game.id, level]);
 
   const restart = (next: Level) => { stopSpeaking(); setLevel(next); setSeed((s) => s + 1); };
   const onLayout = (e: LayoutChangeEvent) => setBoard({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height });
 
-  if (won) return <WinPanel level={level} gameId={game.id} onReplay={() => restart(level)} onNext={level < 2 ? () => restart((level + 1) as Level) : undefined} onOther={onOtherGame} />;
+  if (won) return <WinPanel line={won} level={level} onReplay={() => restart(level)} onNext={level < 2 ? () => restart((level + 1) as Level) : undefined} onOther={onOtherGame} />;
 
+  // Voice-first play (design v2): Nami says each instruction, the same line is shown in her bubble,
+  // and the bubble or the speaker plays it again.
   return <PlayScreen>
     <View style={styles.top}>
       <RoundButton kind="back" label="Quay lại" onPress={onBack} />
       <View style={styles.dots}><RoundDots total={rounds.length} done={index} /></View>
+      <Pressable accessibilityRole="button" accessibilityLabel={`Mức ${LEVEL_NAMES[level]}`} onPress={() => restart(((level + 1) % 3) as Level)} style={styles.levelPill}>
+        <Text style={styles.levelText}>Mức {LEVEL_NAMES[level]}</Text>
+        <View style={styles.levelDots}>{[0, 1, 2].map((i) => <View key={i} style={[styles.levelDot, i <= level && styles.levelDotOn]} />)}</View>
+      </Pressable>
       <RoundButton kind="speaker" label="Nghe lại" onPress={() => round && void speak(round.prompt)} />
     </View>
-    <View style={styles.board} onLayout={onLayout}>
-      {round?.kind === "choose" ? <ChooseBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} listen={game.template === "listen-choose"} onSolved={solved} /> : null}
-      {round?.kind === "match" ? <MatchBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
-      {round?.kind === "flip" ? <FlipBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
-      {round?.kind === "fill" ? <FillBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
+    <View style={styles.stage}>
+      <View style={styles.guide}>
+        {round ? <SayBubble text={round.prompt} style={styles.guideBubble} /> : null}
+        <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.guideNami} />
+      </View>
+      <View style={styles.board} onLayout={onLayout}>
+        {round?.kind === "choose" ? <ChooseBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} listen={false} onSolved={solved} /> : null}
+        {round?.kind === "match" ? <MatchBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
+        {round?.kind === "flip" ? <FlipBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
+        {round?.kind === "fill" ? <FillBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
+      </View>
     </View>
   </PlayScreen>;
 }
 
-/** One big "play on" button (next level, or again after Khó) and a small way back to the list. */
-function WinPanel({ level, gameId, onReplay, onNext, onOther }: { level: Level; gameId: string; onReplay: () => void; onNext?: () => void; onOther: () => void }) {
-  const sticker = level === 2 ? stickerFor(gameId) : undefined;
+/** Celebration with Nami and Niko: the praise is spoken and shown; one big "play on" button. */
+function WinPanel({ line, level, onReplay, onNext, onOther }: { line: string; level: Level; onReplay: () => void; onNext?: () => void; onOther: () => void }) {
   return <PlayScreen style={styles.win}>
     <View style={styles.duoFrame}><Image accessible={false} source={duo} resizeMode="cover" style={styles.duo} /></View>
     <View style={styles.winRight}>
       <Image accessible={false} source={banner} resizeMode="contain" style={styles.banner} />
-      {sticker ? <StickerView sticker={sticker} size={86} /> : null}
-      <Pill label="Chơi tiếp" tone="green" onPress={onNext ?? onReplay} big />
-      <Pill label="Trò khác" tone="white" onPress={onOther} />
+      <SayBubble text={line} />
+      <Pill label={onNext ? `Chơi tiếp · mức ${LEVEL_NAMES[level + 1]}` : "Chơi tiếp"} tone="green" onPress={onNext ?? onReplay} big />
+      <View style={styles.smallRow}>
+        <Pill label="Chơi lại" tone="white" onPress={onReplay} />
+        <Pill label="Trò khác" tone="white" onPress={onOther} />
+      </View>
     </View>
   </PlayScreen>;
 }
@@ -94,9 +106,19 @@ function Pill({ label, tone, onPress, big = false }: { label: string; tone: "whi
 const styles = StyleSheet.create({
   top: { flexDirection: "row", alignItems: "center", gap: 10, minHeight: 54 },
   dots: { flex: 1, alignItems: "center" },
-  pillBig: { minHeight: 64, paddingHorizontal: 48, borderRadius: 32 },
-  pillTextBig: { fontSize: 26 },
-  board: { flex: 1, marginTop: 4 },
+  pillBig: { minHeight: 60, paddingHorizontal: 34, borderRadius: 30 },
+  pillTextBig: { fontSize: 22 },
+  smallRow: { flexDirection: "row", gap: 10 },
+  stage: { flex: 1, flexDirection: "row", marginTop: 4 },
+  guide: { width: "24%", justifyContent: "flex-end" },
+  guideBubble: { marginBottom: -4, zIndex: 2 },
+  guideNami: { width: "100%", height: "62%" },
+  board: { flex: 1 },
+  levelPill: { flexDirection: "row", alignItems: "center", gap: 6, minHeight: 40, paddingHorizontal: 12, borderRadius: 20, backgroundColor: "#FFFFFF" },
+  levelText: { ...playType.bodyBold, fontSize: 13, color: play.ink },
+  levelDots: { flexDirection: "row", gap: 3 },
+  levelDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: "#DDE3EE" },
+  levelDotOn: { backgroundColor: play.leaf },
   win: { flexDirection: "row", alignItems: "center", gap: 12 },
   duoFrame: { width: "44%", aspectRatio: 635 / 372, borderRadius: 28, overflow: "hidden", borderWidth: 5, borderColor: "#FFFFFF", backgroundColor: "#E8F4FA" },
   duo: { width: "100%", height: "100%" },

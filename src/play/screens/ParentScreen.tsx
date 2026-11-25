@@ -25,7 +25,7 @@ export function ParentScreen({ onBack, onSignedOut }: { onBack: () => void; onSi
   const [gate, setGate] = useState(makeGate);
   if (!open) {
     return <PlayScreen>
-      <View style={styles.top}><RoundButton kind="back" label="Quay lại" onPress={onBack} /><Title>Góc phụ huynh</Title></View>
+      <View style={styles.top}><RoundButton kind="back" label="Quay lại" onPress={onBack} /><Title>Góc ba mẹ</Title></View>
       <View style={styles.gate}>
         <Sub>Dành cho bố mẹ. Bố mẹ chọn đáp án đúng để vào nhé.</Sub>
         <Text style={styles.sum}>{gate.text}</Text>
@@ -65,7 +65,7 @@ function ParentArea({ onBack, onSignedOut }: { onBack: () => void; onSignedOut: 
   return <PlayScreen>
     <View style={styles.top}>
       <RoundButton kind="back" label="Quay lại" onPress={onBack} />
-      <View style={{ flex: 1 }}><Title>Góc phụ huynh</Title><Sub>{account?.email}</Sub></View>
+      <View style={{ flex: 1 }}><Title>Góc ba mẹ</Title><Sub>{account?.email}</Sub></View>
       <Pressable accessibilityRole="button" onPress={() => { signOut(); onSignedOut(); }} style={styles.out}><Text style={styles.outText}>Đăng xuất</Text></Pressable>
     </View>
     <View style={styles.body}>

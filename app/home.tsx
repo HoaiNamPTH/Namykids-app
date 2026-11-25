@@ -4,5 +4,5 @@ import { HomeScreen } from "../src/play/screens/HomeScreen";
 
 export default function HomeRoute() {
   const router = useRouter();
-  return <RequireAccount><HomeScreen onOpenArea={(area) => router.push(`/area/${area.id}`)} onOpenAlbum={() => router.push("/album")} onOpenParents={() => router.push("/parents")} /></RequireAccount>;
+  return <RequireAccount><HomeScreen onOpenArea={(area) => router.push(`/area/${area.id}`)} onOpenParents={() => router.push("/parents")} /></RequireAccount>;
 }
