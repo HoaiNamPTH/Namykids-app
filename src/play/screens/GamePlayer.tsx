@@ -69,9 +69,7 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   return <PlayScreen>
     <View style={styles.top}>
       <RoundButton kind="back" label="Quay lại" onPress={onBack} />
-      {/* One replay control: the speaker sits inside the question, the whole bar plays the full sentence again. */}
       <Pressable accessibilityRole="button" accessibilityLabel={`Nghe lại: ${said}`} onPress={() => said && void speak(said)} style={({ pressed }) => [styles.question, pressed && { opacity: 0.85 }]}>
-        <Image accessible={false} source={foundationAssets.speaker} resizeMode="contain" style={styles.questionSpeaker} />
         <Text numberOfLines={1} adjustsFontSizeToFit style={styles.questionText}>{shown}</Text>
       </Pressable>
     </View>
@@ -79,6 +77,8 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
     <View style={styles.stage}>
       <View style={styles.guide}>
         <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.guideNami} />
+        {/* Nam 25/11/2026: the one replay button sits at Nami's feet, the top row stays text only. */}
+        <RoundButton kind="speaker" label="Nghe lại" onPress={() => said && void speak(said)} />
       </View>
       <View style={styles.board} onLayout={onLayout}>
         {round?.kind === "choose" ? <ChooseBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} listen={false} onSolved={solved} /> : null}
@@ -107,7 +107,7 @@ function WinPanel({ level, onReplay, onNext, onOther }: { level: Level; onReplay
         <Text style={styles.winTitle}>Chúc mừng con!</Text>
         <View style={styles.smallRow}>
           <Pill label="Chơi lại" tone="white" onPress={onReplay} big />
-          {onNext ? <Pill label={`Chơi tiếp · mức ${LEVEL_NAMES[level + 1]}`} tone="green" onPress={onNext} big /> : null}
+          {onNext ? <Pill label={`Chơi tiếp · ${LEVEL_NAMES[level + 1]}`} tone="green" onPress={onNext} big /> : null}
         </View>
       </View>
     </View>
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
   pillTextBig: { fontSize: 22 },
   smallRow: { flexDirection: "row", gap: 10 },
   stage: { flex: 1, flexDirection: "row", marginTop: 4 },
-  guide: { width: "20%", justifyContent: "flex-end" },
-  guideNami: { width: "100%", height: "92%" },
+  guide: { width: "20%", justifyContent: "flex-end", alignItems: "flex-start" },
+  guideNami: { width: "100%", height: "74%" },
   board: { flex: 1 },
   levelPill: { position: "absolute", right: 0, bottom: 4, flexDirection: "row", alignItems: "center", gap: 5, minHeight: 30, paddingHorizontal: 10, borderRadius: 15, backgroundColor: "rgba(255,255,255,0.7)" },
   levelText: { ...playType.bodyBold, fontSize: 12, color: play.ink, opacity: 0.8 },
