@@ -12,7 +12,7 @@ import { FillBoard } from "../templates/FillBoard";
 import { MatchBoard } from "../templates/MatchBoard";
 import { play } from "../theme";
 import { foundationAssets } from "../../ui/foundation-assets";
-import { PlayScreen, RoundButton, SayBubble } from "../ui";
+import { PlayScreen, RoundButton } from "../ui";
 import { speak, stopSpeaking } from "../voice";
 
 /** Spoken when a game is finished. Warm, short, about effort as much as result. */
@@ -60,21 +60,25 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
 
   if (won) return <WinPanel level={level} onReplay={() => restart(level)} onNext={level < 2 ? () => restart((level + 1) as Level) : undefined} onOther={onOtherGame} />;
 
-  // Voice-first play (design v2): Nami says each instruction, the same line is shown in her bubble,
-  // and the bubble or the speaker plays it again.
+  // Voice-first play (Nam 25/11/2026): Nami says each instruction by herself, with no speech bubble.
+  // The same words are printed large at the top of the screen so a 5–6-year-old can read along;
+  // tapping the words or the speaker plays them again.
+  const said = round ? (intro ? game.intro : round.prompt) : "";
   return <PlayScreen>
     <View style={styles.top}>
       <RoundButton kind="back" label="Quay lại" onPress={onBack} />
-      <View style={styles.dots}><RoundDots total={rounds.length} done={index} /></View>
+      <Pressable accessibilityRole="button" accessibilityLabel={`Nghe lại: ${said}`} onPress={() => said && void speak(said)} style={({ pressed }) => [styles.question, pressed && { opacity: 0.85 }]}>
+        <Text numberOfLines={2} adjustsFontSizeToFit style={styles.questionText}>{said}</Text>
+      </Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel={`Mức ${LEVEL_NAMES[level]}`} onPress={() => restart(((level + 1) % 3) as Level)} style={styles.levelPill}>
         <Text style={styles.levelText}>Mức {LEVEL_NAMES[level]}</Text>
         <View style={styles.levelDots}>{[0, 1, 2].map((i) => <View key={i} style={[styles.levelDot, i <= level && styles.levelDotOn]} />)}</View>
       </Pressable>
-      <RoundButton kind="speaker" label="Nghe lại" onPress={() => round && void speak(intro ? game.intro : round.prompt)} />
+      <RoundButton kind="speaker" label="Nghe lại" onPress={() => said && void speak(said)} />
     </View>
+    <View style={styles.dots}><RoundDots total={rounds.length} done={index} /></View>
     <View style={styles.stage}>
       <View style={styles.guide}>
-        {round ? <SayBubble text={intro ? game.intro : round.prompt} style={styles.guideBubble} /> : null}
         <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.guideNami} />
       </View>
       <View style={styles.board} onLayout={onLayout}>
@@ -113,14 +117,15 @@ function Pill({ label, tone, onPress, big = false }: { label: string; tone: "whi
 
 const styles = StyleSheet.create({
   top: { flexDirection: "row", alignItems: "center", gap: 10, minHeight: 54 },
-  dots: { flex: 1, alignItems: "center" },
+  dots: { alignItems: "center", marginTop: 6 },
+  question: { flex: 1, minHeight: 54, justifyContent: "center", paddingHorizontal: 22, paddingVertical: 6, borderRadius: 27, backgroundColor: "rgba(255,255,255,0.92)", shadowColor: play.shadow, shadowOpacity: 0.12, shadowRadius: 8, shadowOffset: { width: 0, height: 3 } },
+  questionText: { ...playType.titleSemi, fontSize: 24, lineHeight: 29, color: play.ink, textAlign: "center" },
   pillBig: { minHeight: 60, paddingHorizontal: 34, borderRadius: 30 },
   pillTextBig: { fontSize: 22 },
   smallRow: { flexDirection: "row", gap: 10 },
   stage: { flex: 1, flexDirection: "row", marginTop: 4 },
-  guide: { width: "24%", justifyContent: "flex-end" },
-  guideBubble: { marginBottom: -4, zIndex: 2 },
-  guideNami: { width: "100%", height: "62%" },
+  guide: { width: "20%", justifyContent: "flex-end" },
+  guideNami: { width: "100%", height: "92%" },
   board: { flex: 1 },
   levelPill: { flexDirection: "row", alignItems: "center", gap: 6, minHeight: 40, paddingHorizontal: 12, borderRadius: 20, backgroundColor: "#FFFFFF" },
   levelText: { ...playType.bodyBold, fontSize: 13, color: play.ink },
