@@ -22,6 +22,8 @@ export type Card = { id: string; pic: Pic; say: string; /** Picture shown once t
 export type ChooseRound = {
   kind: "choose";
   prompt: string;
+  /** A few words shown on screen; the voice still says the full prompt. Falls back to the game's short line. */
+  short?: string;
   cards: Card[];
   answers: string[];
   /** Picture shown big on the left instead of the speaker (e.g. the word being clapped). */
@@ -34,6 +36,7 @@ export type ChooseRound = {
 export type MatchRound = {
   kind: "match";
   prompt: string;
+  short?: string;
   top: Card[];
   bottom: Card[];
   /** top card id -> bottom card id */
@@ -46,6 +49,7 @@ export type Cell = { fixed: Pic; say?: string } | { gap: string; label?: string 
 export type FillRound = {
   kind: "fill";
   prompt: string;
+  short?: string;
   cells: Cell[];
   tray: Card[];
   /** Picture shown above the row (for "first letter of the picture"). */
@@ -62,6 +66,7 @@ export type FlipCard = Card & { pair: string };
 export type FlipRound = {
   kind: "flip";
   prompt: string;
+  short?: string;
   cards: FlipCard[];
   praise: string;
 };

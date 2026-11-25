@@ -38,7 +38,8 @@ function matchBoard(prompt: string, pairs: readonly (readonly [Card, Card])[], r
 const EVERYDAY: ItemId[] = ["apple", "banana", "ball", "car", "cap", "shoe", "teddy", "cup", "umbrella", "book", "bicycle", "balloon", "spoon", "chair"];
 
 const timDoVat: GameContent = {
-  rounds: (level, rng) => listenRounds(EVERYDAY, level, rng, (id) => `${cap(name(id))} đâu nhỉ? Con chạm vào ${name(id)} nhé.`, (id) => `Đúng rồi! Đây là ${name(id)}.`),
+  rounds: (level, rng) => listenRounds(EVERYDAY, level, rng, (id) => `${cap(name(id))} đâu nhỉ? Con chạm vào ${name(id)} nhé.`, (id) => `Đúng rồi! Đây là ${name(id)}.`)
+    .map((r) => ({ ...r, short: `${cap(name(r.answers[0] as ItemId))} đâu?` })),
 };
 
 /* ---------- 2. Ai kêu thế nhỉ? (never names the animal before the child chooses) ---------- */
@@ -49,7 +50,8 @@ const SOUNDS: Partial<Record<ItemId, string>> = {
 const SOUND_ANIMALS = Object.keys(SOUNDS) as ItemId[];
 
 const aiKeuThe: GameContent = {
-  rounds: (level, rng) => listenRounds(SOUND_ANIMALS, level, rng, (id) => `Ai kêu thế nhỉ? ${cap(SOUNDS[id] ?? "")}, ${SOUNDS[id]}!`, (id) => `Đúng rồi! ${cap(name(id))} kêu ${SOUNDS[id]}.`),
+  rounds: (level, rng) => listenRounds(SOUND_ANIMALS, level, rng, (id) => `Ai kêu thế nhỉ? ${cap(SOUNDS[id] ?? "")}, ${SOUNDS[id]}!`, (id) => `Đúng rồi! ${cap(name(id))} kêu ${SOUNDS[id]}.`)
+    .map((r) => ({ ...r, short: `${cap(SOUNDS[r.answers[0] as ItemId] ?? "")}?` })),
 };
 
 /* ---------- 3. Tìm bạn giống hệt ---------- */
@@ -104,7 +106,7 @@ const beGomNhom: GameContent = {
       const group = pickOne(GROUPS, rng);
       const yes = pick(group.items, right, rng);
       const no = pick(GROUPS.filter((g) => g !== group).flatMap((g) => g.items), total - right, rng);
-      return { kind: "choose", prompt: `Con chạm vào tất cả ${group.plural} nhé.`, cards: shuffle([...yes, ...no], rng).map((id) => itemCard(id)), answers: yes, praise: `Giỏi quá! Con tìm đủ ${group.plural} rồi.` };
+      return { kind: "choose", prompt: `Con chạm vào tất cả ${group.plural} nhé.`, short: `Tìm ${group.plural}`, cards: shuffle([...yes, ...no], rng).map((id) => itemCard(id)), answers: yes, praise: `Giỏi quá! Con tìm đủ ${group.plural} rồi.` };
     });
   },
 };
@@ -348,6 +350,7 @@ const trenDuoiTrong: GameContent = {
       return {
         kind: "choose",
         prompt: `Con chạm vào tranh ${label(target)} nhé.`,
+        short: cap(label(target)),
         cards: shuffle(wheres, rng).map((w) => ({ id: w, pic: { item: p.thing, on: p.on, where: w }, say: label(w) })),
         answers: [target],
         praise: `Đúng rồi! ${cap(label(target))}.`,

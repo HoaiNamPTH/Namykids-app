@@ -67,6 +67,7 @@ const chamDungMau: GameContent = {
       return {
         kind: "choose",
         prompt: `${cap(cname(target))} đâu nhỉ? Con chạm vào ${cname(target)} nhé.`,
+        short: cap(cname(target)),
         cards: shuffle([target, ...others], rng).map((c) => colorCard(c)),
         answers: [target],
         praise: `Đúng rồi! Đây là ${cname(target)}.`,
@@ -87,6 +88,7 @@ const timDoCungMau: GameContent = {
       return {
         kind: "choose",
         prompt: `Con chạm vào tất cả những thứ ${cname(color)} nhé.`,
+        short: `Tìm đồ ${cname(color)}`,
         cards: shuffle([...yes, ...no], rng).map((id) => itemCard(id)),
         answers: yes,
         scene: { color },
@@ -138,6 +140,7 @@ const phaMau: GameContent = {
       return {
         kind: "fill",
         prompt: `${cap(cname(a))} trộn với ${cname(b)} thì ra màu gì? Con kéo màu vào ô trống nhé.`,
+        short: `${cap(bareColor(a))} + ${bareColor(b)} = ?`,
         cells,
         tray: shuffle([result, ...wrong], rng).map((c) => colorCard(c)),
         praise: `Đúng rồi! ${cap(bareColor(a))} trộn với ${bareColor(b)} ra ${cname(result)}.`,
@@ -164,6 +167,7 @@ const aiDayNhi: GameContent = {
     return pick(pool, 3, rng).map((target): ChooseRound => ({
       kind: "choose",
       prompt: `${cap(name(target))} đâu nhỉ? Con chạm vào ${name(target)} nhé.`,
+      short: `${cap(name(target))} đâu?`,
       cards: shuffle([target, ...pick(pool.filter((p) => p !== target && !lookAlike(p, target)), choices - 1, rng)], rng).map((id) => itemCard(id)),
       answers: [target],
       praise: `Đúng rồi! Đây là ${name(target)}.`,
@@ -260,6 +264,7 @@ const nhacCu: GameContent = {
     return pick(pool, 3, rng).map((target): ChooseRound => ({
       kind: "choose",
       prompt: `${cap(name(target))} đâu nhỉ? Con chạm vào ${name(target)} nhé.`,
+      short: `${cap(name(target))} đâu?`,
       cards: shuffle([target, ...pick(pool.filter((p) => p !== target), choices - 1, rng)], rng).map((id) => itemCard(id)),
       answers: [target],
       praise: `Đúng rồi! Đây là ${name(target)}.`,

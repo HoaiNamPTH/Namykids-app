@@ -64,11 +64,13 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   // The same words are printed large at the top of the screen so a 5–6-year-old can read along;
   // tapping the words or the speaker plays them again.
   const said = round ? (intro ? game.intro : round.prompt) : "";
+  // Nam 25/11/2026: the screen shows only a few key words; the voice reads the whole sentence.
+  const shown = round ? (intro ? game.short : round.short ?? game.short) : "";
   return <PlayScreen>
     <View style={styles.top}>
       <RoundButton kind="back" label="Quay lại" onPress={onBack} />
       <Pressable accessibilityRole="button" accessibilityLabel={`Nghe lại: ${said}`} onPress={() => said && void speak(said)} style={({ pressed }) => [styles.question, pressed && { opacity: 0.85 }]}>
-        <Text numberOfLines={2} adjustsFontSizeToFit style={styles.questionText}>{said}</Text>
+        <Text numberOfLines={1} adjustsFontSizeToFit style={styles.questionText}>{shown}</Text>
       </Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel={`Mức ${LEVEL_NAMES[level]}`} onPress={() => restart(((level + 1) % 3) as Level)} style={styles.levelPill}>
         <Text style={styles.levelText}>Mức {LEVEL_NAMES[level]}</Text>
@@ -118,8 +120,8 @@ function Pill({ label, tone, onPress, big = false }: { label: string; tone: "whi
 const styles = StyleSheet.create({
   top: { flexDirection: "row", alignItems: "center", gap: 10, minHeight: 54 },
   dots: { alignItems: "center", marginTop: 6 },
-  question: { flex: 1, minHeight: 54, justifyContent: "center", paddingHorizontal: 22, paddingVertical: 6, borderRadius: 27, backgroundColor: "rgba(255,255,255,0.92)", shadowColor: play.shadow, shadowOpacity: 0.12, shadowRadius: 8, shadowOffset: { width: 0, height: 3 } },
-  questionText: { ...playType.titleSemi, fontSize: 24, lineHeight: 29, color: play.ink, textAlign: "center" },
+  question: { flex: 1, minHeight: 58, justifyContent: "center", paddingHorizontal: 22, paddingVertical: 6, borderRadius: 27, backgroundColor: "rgba(255,255,255,0.92)", shadowColor: play.shadow, shadowOpacity: 0.12, shadowRadius: 8, shadowOffset: { width: 0, height: 3 } },
+  questionText: { ...playType.title, fontSize: 30, lineHeight: 38, color: play.ink, textAlign: "center" },
   pillBig: { minHeight: 60, paddingHorizontal: 34, borderRadius: 30 },
   pillTextBig: { fontSize: 22 },
   smallRow: { flexDirection: "row", gap: 10 },
