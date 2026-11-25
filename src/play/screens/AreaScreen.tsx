@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import namiPeek from "../../assets/foundation-v1/illustrations/char_nami_loading_star.png";
 import { playType } from "../../ui/typography";
@@ -25,6 +26,11 @@ export function AreaScreen({ area, onBack, onOpenGame }: { area: Area; onBack: (
   const games = gamesForArea(area.id);
   const { best } = useProgress();
   const access = useAccess();
+  // Voice-first: say where we are and what to do here.
+  useEffect(() => {
+    const t = setTimeout(() => void speak(`${area.name}! Con chọn một trò để chơi nhé.`), 500);
+    return () => clearTimeout(t);
+  }, [area.name]);
   const side = Math.min(150, width * 0.17);
   const columns = 4;
   const tile = (width - 80 - side - 12 * columns) / columns;

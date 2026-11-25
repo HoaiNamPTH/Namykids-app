@@ -33,11 +33,18 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   const round = rounds[index];
 
   useEffect(() => { setIndex(0); setWon(null); }, [rounds]);
+  // Nam 25/11/2026: every game explains itself out loud first, so the child never has to guess.
+  // The intro is said once when the game opens, then each round's instruction follows.
+  const [intro, setIntro] = useState(true);
   useEffect(() => {
     if (!round || won) return;
-    const t = setTimeout(() => void speak(round.prompt), 350);
-    return () => clearTimeout(t);
-  }, [round, won]);
+    let live = true;
+    const t = setTimeout(() => {
+      if (intro) void speak(game.intro).then(() => { if (live) { setIntro(false); } });
+      else void speak(round.prompt);
+    }, 350);
+    return () => { live = false; clearTimeout(t); };
+  }, [round, won, intro, game.intro]);
   useEffect(() => () => stopSpeaking(), []);
 
   const solved = useCallback(() => {
@@ -63,11 +70,11 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
         <Text style={styles.levelText}>Mức {LEVEL_NAMES[level]}</Text>
         <View style={styles.levelDots}>{[0, 1, 2].map((i) => <View key={i} style={[styles.levelDot, i <= level && styles.levelDotOn]} />)}</View>
       </Pressable>
-      <RoundButton kind="speaker" label="Nghe lại" onPress={() => round && void speak(round.prompt)} />
+      <RoundButton kind="speaker" label="Nghe lại" onPress={() => round && void speak(intro ? game.intro : round.prompt)} />
     </View>
     <View style={styles.stage}>
       <View style={styles.guide}>
-        {round ? <SayBubble text={round.prompt} style={styles.guideBubble} /> : null}
+        {round ? <SayBubble text={intro ? game.intro : round.prompt} style={styles.guideBubble} /> : null}
         <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.guideNami} />
       </View>
       <View style={styles.board} onLayout={onLayout}>

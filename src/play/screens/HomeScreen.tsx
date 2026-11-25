@@ -31,8 +31,8 @@ export function HomeScreen({ onOpenArea, onOpenParents }: { onOpenArea: (area: A
 
   const tapArea = (area: Area) => {
     if (gamesForArea(area.id).length) {
-      void speak(area.name);
-      onOpenArea(area);
+      onOpenArea(area); // the group screen says its own name and what to do
+
       return;
     }
     setSoon(area.id);
