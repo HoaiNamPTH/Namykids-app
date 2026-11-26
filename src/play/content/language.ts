@@ -199,7 +199,8 @@ const amDau: GameContent = {
   rounds: (level, rng) => listenRounds(SOUND_ITEMS, level, rng,
     (id) => `Cái gì bắt đầu bằng âm ${letterName(firstLetter(id))}? ${cap(letterName(firstLetter(id)))}, ${letterName(firstLetter(id))}.`,
     (id) => `Đúng rồi! ${cap(FIRST_SOUND[id]?.word ?? "")} bắt đầu bằng âm ${letterName(firstLetter(id))}.`,
-    (a, b) => firstLetter(a) !== firstLetter(b)),
+    (a, b) => firstLetter(a) !== firstLetter(b))
+    .map((r) => ({ ...r, short: `Bắt đầu bằng "${firstLetter(r.answers[0] as ItemId)}"?` })),
 };
 
 /* ---------- 19. Nghe rồi chọn chữ ---------- */
@@ -214,7 +215,7 @@ const ngheChonChu: GameContent = {
       const extra = pick(ALPHABET.map((l) => l.toLowerCase()).filter((l) => !base.includes(l)), n - base.length, rng);
       const letters = shuffle([...base, ...extra], rng);
       const target = pickOne(base, rng);
-      return { kind: "choose", prompt: `Con chạm vào chữ ${letterName(target)}.`, cards: letters.map((l) => glyphCard(l, l, `chữ ${letterName(l)}`)), answers: [target], praise: `Đúng rồi! Đây là chữ ${letterName(target)}.` };
+      return { kind: "choose", prompt: `Con chạm vào chữ ${letterName(target)}.`, short: `Chữ ${letterName(target)}`, cards: letters.map((l) => glyphCard(l, l, `chữ ${letterName(l)}`)), answers: [target], praise: `Đúng rồi! Đây là chữ ${letterName(target)}.` };
     });
   },
 };
@@ -304,7 +305,8 @@ const USES: Partial<Record<ItemId, string>> = {
 const USE_ITEMS = Object.keys(USES) as ItemId[];
 
 const deLamGi: GameContent = {
-  rounds: (level, rng) => listenRounds(USE_ITEMS, level, rng, (id) => `Cái gì dùng ${USES[id]} nhỉ?`, (id) => `Đúng rồi! ${cap(name(id))} dùng ${USES[id]}.`),
+  rounds: (level, rng) => listenRounds(USE_ITEMS, level, rng, (id) => `Cái gì dùng ${USES[id]} nhỉ?`, (id) => `Đúng rồi! ${cap(name(id))} dùng ${USES[id]}.`)
+    .map((r) => ({ ...r, short: `Cái gì ${USES[r.answers[0] as ItemId]}?` })),
 };
 
 /* ---------- 9. Bạn đang thấy thế nào? (Dễ/Vừa: the feeling; Khó: a little story) ---------- */
@@ -323,7 +325,7 @@ const camXuc: GameContent = {
     return pick(FEELINGS, 3, rng).map((f): ChooseRound => {
       const others = pick(FEELINGS.filter((x) => x !== f), n - 1, rng);
       const prompt = level < 2 ? `Bạn nào đang ${f.word}? Con chạm vào khuôn mặt ${f.word} nhé.` : `${f.story} Bạn thấy thế nào nhỉ?`;
-      return { kind: "choose", prompt, cards: shuffle([f, ...others], rng).map((x) => itemCard(x.item)), answers: [f.item], praise: `Đúng rồi! Bạn ấy đang ${f.word}.` };
+      return { kind: "choose", prompt, short: level < 2 ? `Bạn nào ${f.word}?` : "Bạn thấy thế nào?", cards: shuffle([f, ...others], rng).map((x) => itemCard(x.item)), answers: [f.item], praise: `Đúng rồi! Bạn ấy đang ${f.word}.` };
     });
   },
 };
@@ -467,6 +469,7 @@ const voTayDemTieng: GameContent = {
       return {
         kind: "choose",
         prompt: `Con nghe nhé: ${c.words}. ${cap(slow)}. Có mấy tiếng?`,
+        short: `${cap(c.words)}: mấy tiếng?`,
         scene: { item: c.item },
         cards: Array.from({ length: max }, (_, i) => glyphCard(String(i + 1), `n${i + 1}`, `${NUMBER_WORDS[i]} tiếng`)),
         answers: [`n${count}`],

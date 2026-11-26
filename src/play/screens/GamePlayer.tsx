@@ -13,7 +13,7 @@ import { MatchBoard } from "../templates/MatchBoard";
 import { play } from "../theme";
 import { foundationAssets } from "../../ui/foundation-assets";
 import { PlayScreen, RoundButton } from "../ui";
-import { speak, stopSpeaking } from "../voice";
+import { onVoiceStatus, speak, stopSpeaking, type VoiceStatus } from "../voice";
 
 /** Spoken when a game is finished. Warm, short, about effort as much as result. */
 const PRAISE = [
@@ -37,6 +37,10 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   // The intro is said once when the game opens, then each round's instruction follows.
   const [intro, setIntro] = useState(true);
   const [levelOpen, setLevelOpen] = useState(false);
+  // Nam 26/11/2026: on a browser with no Vietnamese voice only the pre-recorded lines play, so the
+  // question for each round goes silent. Say so plainly instead of leaving the child guessing.
+  const [voice, setVoice] = useState<VoiceStatus>("unknown");
+  useEffect(() => onVoiceStatus(setVoice), []);
   useEffect(() => {
     if (!round || won) return;
     let live = true;
@@ -75,6 +79,7 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
       </Pressable>
     </View>
     <View style={styles.dots}><RoundDots total={rounds.length} done={index} /></View>
+    {voice === "none" ? <Text accessibilityRole="alert" style={styles.noVoice}>Máy này chưa có giọng đọc tiếng Việt. Ba mẹ mở bằng trình duyệt Edge để nghe câu hỏi nhé.</Text> : null}
     <View style={styles.stage}>
       <View style={styles.guide}>
         <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.guideNami} />
@@ -139,6 +144,7 @@ function Pill({ label, tone, onPress, big = false }: { label: string; tone: "whi
 const styles = StyleSheet.create({
   top: { flexDirection: "row", alignItems: "center", gap: 10, minHeight: 54 },
   dots: { alignItems: "center", marginTop: 6 },
+  noVoice: { ...playType.bodyBold, alignSelf: "center", marginTop: 4, paddingHorizontal: 12, paddingVertical: 4, borderRadius: 14, fontSize: 13, color: "#8A4B00", backgroundColor: "rgba(255,244,214,0.95)" },
   questionSpeaker: { width: 40, height: 40 },
   question: { flex: 1, minHeight: 64, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 12, paddingHorizontal: 22, paddingVertical: 6, borderRadius: 27, backgroundColor: "rgba(255,255,255,0.92)", shadowColor: play.shadow, shadowOpacity: 0.12, shadowRadius: 8, shadowOffset: { width: 0, height: 3 } },
   questionText: { ...playType.title, fontSize: 30, lineHeight: 38, color: play.ink, textAlign: "center", flexShrink: 1 },
