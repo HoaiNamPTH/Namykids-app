@@ -88,7 +88,7 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
         {round?.kind === "fill" ? <FillBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
       </View>
       {/* Nam 26/11/2026: the child picks the level. One small button in the corner shows the level in play;
-          tapping it opens the three levels above it, tapping outside closes them. Nami says the new level aloud. */}
+          tapping it opens the three levels in a row to its left (a row never covers the cards), tapping outside closes them. Nami says the new level aloud. */}
       {levelOpen ? <Pressable accessibilityLabel="Đóng chọn mức" onPress={() => setLevelOpen(false)} style={StyleSheet.absoluteFill} /> : null}
       <View style={styles.levelBox}>
         {levelOpen ? <View style={styles.levelMenu}>
@@ -105,7 +105,7 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
           hitSlop={6} onPress={() => setLevelOpen((o) => !o)}
           style={({ pressed }) => [styles.levelToggle, pressed && { opacity: 0.8 }]}>
           <Text style={styles.levelToggleText}>{LEVEL_NAMES[level]}</Text>
-          <Text style={styles.levelCaret}>{levelOpen ? "▾" : "▴"}</Text>
+          <Text style={styles.levelCaret}>{levelOpen ? "▸" : "◂"}</Text>
         </Pressable>
       </View>
     </View>
@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
   guide: { width: "20%", justifyContent: "flex-end", alignItems: "flex-start" },
   guideNami: { width: "100%", height: "74%" },
   board: { flex: 1 },
-  levelBox: { position: "absolute", right: 0, bottom: 2, alignItems: "flex-end", gap: 6 },
-  levelMenu: { gap: 4, padding: 4, borderRadius: 22, backgroundColor: "#FFFFFF", shadowColor: "#000", shadowOpacity: 0.15, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 4 },
+  levelBox: { position: "absolute", right: 0, bottom: 2, flexDirection: "row", alignItems: "center", gap: 6 },
+  levelMenu: { flexDirection: "row", gap: 4, padding: 4, borderRadius: 22, backgroundColor: "#FFFFFF", shadowColor: "#000", shadowOpacity: 0.15, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 4 },
   levelToggle: { flexDirection: "row", alignItems: "center", gap: 4, minHeight: 40, paddingHorizontal: 14, borderRadius: 20, backgroundColor: play.leaf, borderBottomWidth: 4, borderBottomColor: "#1F8C5D" },
   levelToggleText: { ...playType.bodyBold, fontSize: 16, color: "#FFFFFF" },
   levelCaret: { ...playType.bodyBold, fontSize: 13, color: "#FFFFFF" },
