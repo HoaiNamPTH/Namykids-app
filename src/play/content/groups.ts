@@ -157,6 +157,12 @@ const FAMILY_ALL: ItemId[] = [...FAMILY_EASY, "brother", "sister"];
 const familyPool = (level: Level) => (level === 0 ? FAMILY_EASY : FAMILY_ALL);
 /** The interim pictures of "anh trai" and "bố" are too alike to be told apart side by side. */
 const lookAlike = (a: ItemId, b: ItemId) => (a === "brother" && b === "dad") || (a === "dad" && b === "brother");
+/** The target plus distractors, never two look-alike pictures in the same round. */
+function pickApart(pool: readonly ItemId[], target: ItemId, n: number, rng: Rng): ItemId[] {
+  const out: ItemId[] = [target];
+  for (const p of shuffle(pool, rng)) if (out.length < n && !out.some((o) => o === p || lookAlike(o, p))) out.push(p);
+  return out;
+}
 
 /* ---------- F1. Ai đây nhỉ? (listen and choose, 2–4) ---------- */
 
@@ -168,7 +174,7 @@ const aiDayNhi: GameContent = {
       kind: "choose",
       prompt: `${cap(name(target))} đâu nhỉ? Con chạm vào ${name(target)} nhé.`,
       short: `${cap(name(target))} đâu?`,
-      cards: shuffle([target, ...pick(pool.filter((p) => p !== target && !lookAlike(p, target)), choices - 1, rng)], rng).map((id) => itemCard(id)),
+      cards: shuffle(pickApart(pool, target, choices, rng), rng).map((id) => itemCard(id)),
       answers: [target],
       praise: `Đúng rồi! Đây là ${name(target)}.`,
     }));
