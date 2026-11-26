@@ -76,6 +76,7 @@ export function FillBoard({ round, width, height, onSolved }: Props) {
   return <View style={styles.wrap}>
     {round.scene ? <View style={[styles.scene, { width: sceneSize, height: sceneSize }]}><PicView pic={round.scene} size={sceneSize} /></View> : null}
     <View style={styles.row}>
+      {round.strung ? <View pointerEvents="none" style={[styles.cord, { top: size / 2 - 3 }]} /> : null}
       {round.cells.map((cell, i) => {
         if ("fixed" in cell) {
           return <Pressable key={i} accessibilityLabel={cell.say} onPress={() => cell.say && void speak(cell.say)}>
@@ -154,6 +155,7 @@ const styles = StyleSheet.create({
   wrap: { flex: 1, alignItems: "center", justifyContent: "space-evenly" },
   scene: { alignItems: "center", justifyContent: "center", backgroundColor: "rgba(255,255,255,0.85)", borderRadius: 24 },
   row: { flexDirection: "row", gap: 12, justifyContent: "center" },
+  cord: { position: "absolute", left: -24, right: -24, height: 6, borderRadius: 3, backgroundColor: "#B07A4A" },
   gap: { backgroundColor: "#FFF8DC", borderWidth: 3, borderStyle: "dashed", borderColor: "#E0B000", alignItems: "center", justifyContent: "center" },
   gapLabel: { ...playType.title, color: "#C9A000" },
   tray: { flexDirection: "row", gap: 14, justifyContent: "center", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 24, backgroundColor: "rgba(255,255,255,0.55)", zIndex: 5 },

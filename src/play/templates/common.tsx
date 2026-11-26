@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Animated, Image, StyleSheet, Text, View, type ImageSourcePropType, type StyleProp, type ViewStyle } from "react-native";
 import type { Pic } from "../engine/types";
+import { COLORS } from "../colors";
 import { ITEMS } from "../items";
 import { play } from "../theme";
 import { playType } from "../../ui/typography";
@@ -23,9 +24,23 @@ export function useWiggle() {
 
 export function PicView({ pic, size }: { pic: Pic; size: number }) {
   if ("where" in pic) return <PlacedPic pic={pic} size={size} />;
+  if ("color" in pic) {
+    return <Image accessible={false} source={COLORS[pic.color].image as ImageSourcePropType} resizeMode="contain" style={{ width: size * 0.78, height: size * 0.78 }} />;
+  }
+  if ("blank" in pic) {
+    // Uncoloured picture: a soft grey silhouette with a faint outline look.
+    return <Image accessible={false} source={ITEMS[pic.item].image as ImageSourcePropType} resizeMode="contain" style={{ width: size * 0.86, height: size * 0.86, tintColor: "#C9D1DF" }} />;
+  }
+  if ("sign" in pic) {
+    return <Text style={[styles.glyph, { fontSize: size * 0.6, lineHeight: size * 0.75, color: play.ink }]}>{pic.sign}</Text>;
+  }
   if ("item" in pic) {
-    const s = pic.small ? size * 0.58 : size * 0.86;
-    return <Image accessible={false} source={ITEMS[pic.item].image as ImageSourcePropType} resizeMode="contain" style={{ width: s, height: s, marginTop: pic.small ? size * 0.22 : 0 }} />;
+    const s = pic.small ? size * 0.58 : size * 0.8;
+    // A soft ground shadow under the picture, so objects sit in the scene like the Soft CGI art.
+    return <View style={{ width: s, height: s, marginTop: pic.small ? size * 0.22 : 0, alignItems: "center" }}>
+      <View style={[styles.ground, { width: s * 0.62, height: s * 0.12, borderRadius: s, top: s * 0.9 }]} />
+      <Image accessible={false} source={ITEMS[pic.item].image as ImageSourcePropType} resizeMode="contain" style={{ width: s, height: s }} />
+    </View>;
   }
   const fontSize = size * (pic.glyph.length > 1 ? 0.42 : 0.62);
   return <Text style={[styles.glyph, { fontSize, lineHeight: fontSize * 1.25 }]}>{pic.glyph}</Text>;
@@ -57,7 +72,10 @@ const FRAMES = [foundationAssets.tileGreen, foundationAssets.tilePurple, foundat
 
 export function CardFace({ pic, size, state = "idle", style }: { pic: Pic; size: number; state?: CardState; style?: StyleProp<ViewStyle> }) {
   // Letters sit in the approved Soft CGI letter tiles; the frame colour follows the letter.
-  if ("glyph" in pic && !("item" in pic)) {
+  if ("sign" in pic) {
+    return <View style={[{ width: size * 0.6, height: size, alignItems: "center", justifyContent: "center" }, style]}><PicView pic={pic} size={size} /></View>;
+  }
+  if ("glyph" in pic) {
     const frame = FRAMES[((pic.glyph.charCodeAt(0) || 0) >> 2) % FRAMES.length];
     return <View style={[{ width: size, height: size, alignItems: "center", justifyContent: "center" }, state === "dim" && styles.dim, style]}>
       <Image accessible={false} source={frame as ImageSourcePropType} resizeMode="contain" style={{ position: "absolute", width: size, height: size }} />
@@ -80,9 +98,10 @@ export function RoundDots({ total, done }: { total: number; done: number }) {
 }
 
 const styles = StyleSheet.create({
-  card: { backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", borderWidth: 3, borderColor: "transparent", shadowColor: play.shadow, shadowOpacity: 0.14, shadowRadius: 8, shadowOffset: { width: 0, height: 5 }, elevation: 4 },
-  selected: { borderColor: play.sun, backgroundColor: "#FFF8DC" },
-  ok: { borderColor: play.leaf, backgroundColor: "#E3F8EA" },
+  card: { backgroundColor: "#FFFDF7", alignItems: "center", justifyContent: "center", borderWidth: 3, borderColor: "#FFFFFF", borderBottomWidth: 8, borderBottomColor: "#E9E2D3", shadowColor: play.shadow, shadowOpacity: 0.18, shadowRadius: 12, shadowOffset: { width: 0, height: 8 }, elevation: 6 },
+  ground: { position: "absolute", backgroundColor: "rgba(28,42,90,0.13)" },
+  selected: { borderColor: play.sun, borderBottomColor: "#E0A800", backgroundColor: "#FFF8DC" },
+  ok: { borderColor: play.leaf, borderBottomColor: "#1E8A5C", backgroundColor: "#E3F8EA" },
   dim: { opacity: 0.35 },
   ring: { position: "absolute", borderWidth: 4 },
   ringOk: { borderColor: play.leaf },

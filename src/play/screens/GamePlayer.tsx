@@ -12,7 +12,7 @@ import { FillBoard } from "../templates/FillBoard";
 import { MatchBoard } from "../templates/MatchBoard";
 import { play } from "../theme";
 import { foundationAssets } from "../../ui/foundation-assets";
-import { PlayScreen, RoundButton, SayBubble } from "../ui";
+import { PlayScreen, RoundButton } from "../ui";
 import { speak, stopSpeaking } from "../voice";
 
 /** Spoken when a game is finished. Warm, short, about effort as much as result. */
@@ -60,28 +60,37 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
 
   if (won) return <WinPanel level={level} onReplay={() => restart(level)} onNext={level < 2 ? () => restart((level + 1) as Level) : undefined} onOther={onOtherGame} />;
 
-  // Voice-first play (design v2): Nami says each instruction, the same line is shown in her bubble,
-  // and the bubble or the speaker plays it again.
+  // Voice-first play (Nam 25/11/2026): Nami says each instruction by herself, with no speech bubble.
+  // The same words are printed large at the top of the screen so a 5–6-year-old can read along;
+  // tapping the words or the speaker plays them again.
+  const said = round ? (intro ? game.intro : round.prompt) : "";
+  // Nam 25/11/2026: the screen shows only a few key words; the voice reads the whole sentence.
+  const shown = round ? (intro ? game.short : round.short ?? game.short) : "";
   return <PlayScreen>
     <View style={styles.top}>
       <RoundButton kind="back" label="Quay lại" onPress={onBack} />
-      <View style={styles.dots}><RoundDots total={rounds.length} done={index} /></View>
-      <Pressable accessibilityRole="button" accessibilityLabel={`Mức ${LEVEL_NAMES[level]}`} onPress={() => restart(((level + 1) % 3) as Level)} style={styles.levelPill}>
-        <Text style={styles.levelText}>Mức {LEVEL_NAMES[level]}</Text>
-        <View style={styles.levelDots}>{[0, 1, 2].map((i) => <View key={i} style={[styles.levelDot, i <= level && styles.levelDotOn]} />)}</View>
+      <Pressable accessibilityRole="button" accessibilityLabel={`Nghe lại: ${said}`} onPress={() => said && void speak(said)} style={({ pressed }) => [styles.question, pressed && { opacity: 0.85 }]}>
+        <Text numberOfLines={1} adjustsFontSizeToFit style={styles.questionText}>{shown}</Text>
       </Pressable>
-      <RoundButton kind="speaker" label="Nghe lại" onPress={() => round && void speak(intro ? game.intro : round.prompt)} />
     </View>
+    <View style={styles.dots}><RoundDots total={rounds.length} done={index} /></View>
     <View style={styles.stage}>
       <View style={styles.guide}>
-        {round ? <SayBubble text={intro ? game.intro : round.prompt} style={styles.guideBubble} /> : null}
         <Image accessible={false} source={foundationAssets.namiGuide} resizeMode="contain" style={styles.guideNami} />
+        {/* Nam 25/11/2026: the one replay button sits at Nami's feet, the top row stays text only. */}
+        <RoundButton kind="speaker" label="Nghe lại" onPress={() => said && void speak(said)} />
       </View>
       <View style={styles.board} onLayout={onLayout}>
         {round?.kind === "choose" ? <ChooseBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} listen={false} onSolved={solved} /> : null}
         {round?.kind === "match" ? <MatchBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
         {round?.kind === "flip" ? <FlipBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
         {round?.kind === "fill" ? <FillBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
+      </View>
+      {/* Nam 25/11/2026: the level sits small in the bottom corner so the top row only holds the question. */}
+      {/* Shown only, not a button: a stray tap must not restart the game. The level changes on the finish screen. */}
+      <View accessible accessibilityLabel={`Mức ${LEVEL_NAMES[level]}`} style={styles.levelPill}>
+        <Text style={styles.levelText}>{LEVEL_NAMES[level]}</Text>
+        <View style={styles.levelDots}>{[0, 1, 2].map((i) => <View key={i} style={[styles.levelDot, i <= level && styles.levelDotOn]} />)}</View>
       </View>
     </View>
   </PlayScreen>;
@@ -98,7 +107,7 @@ function WinPanel({ level, onReplay, onNext, onOther }: { level: Level; onReplay
         <Text style={styles.winTitle}>Chúc mừng con!</Text>
         <View style={styles.smallRow}>
           <Pill label="Chơi lại" tone="white" onPress={onReplay} big />
-          {onNext ? <Pill label={`Chơi tiếp · mức ${LEVEL_NAMES[level + 1]}`} tone="green" onPress={onNext} big /> : null}
+          {onNext ? <Pill label={`Chơi tiếp · ${LEVEL_NAMES[level + 1]}`} tone="green" onPress={onNext} big /> : null}
         </View>
       </View>
     </View>
@@ -113,17 +122,19 @@ function Pill({ label, tone, onPress, big = false }: { label: string; tone: "whi
 
 const styles = StyleSheet.create({
   top: { flexDirection: "row", alignItems: "center", gap: 10, minHeight: 54 },
-  dots: { flex: 1, alignItems: "center" },
+  dots: { alignItems: "center", marginTop: 6 },
+  questionSpeaker: { width: 40, height: 40 },
+  question: { flex: 1, minHeight: 64, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 12, paddingHorizontal: 22, paddingVertical: 6, borderRadius: 27, backgroundColor: "rgba(255,255,255,0.92)", shadowColor: play.shadow, shadowOpacity: 0.12, shadowRadius: 8, shadowOffset: { width: 0, height: 3 } },
+  questionText: { ...playType.title, fontSize: 30, lineHeight: 38, color: play.ink, textAlign: "center", flexShrink: 1 },
   pillBig: { minHeight: 60, paddingHorizontal: 34, borderRadius: 30 },
   pillTextBig: { fontSize: 22 },
   smallRow: { flexDirection: "row", gap: 10 },
   stage: { flex: 1, flexDirection: "row", marginTop: 4 },
-  guide: { width: "24%", justifyContent: "flex-end" },
-  guideBubble: { marginBottom: -4, zIndex: 2 },
-  guideNami: { width: "100%", height: "62%" },
+  guide: { width: "20%", justifyContent: "flex-end", alignItems: "flex-start" },
+  guideNami: { width: "100%", height: "74%" },
   board: { flex: 1 },
-  levelPill: { flexDirection: "row", alignItems: "center", gap: 6, minHeight: 40, paddingHorizontal: 12, borderRadius: 20, backgroundColor: "#FFFFFF" },
-  levelText: { ...playType.bodyBold, fontSize: 13, color: play.ink },
+  levelPill: { position: "absolute", right: 0, bottom: 4, flexDirection: "row", alignItems: "center", gap: 5, minHeight: 30, paddingHorizontal: 10, borderRadius: 15, backgroundColor: "rgba(255,255,255,0.7)" },
+  levelText: { ...playType.bodyBold, fontSize: 12, color: play.ink, opacity: 0.8 },
   levelDots: { flexDirection: "row", gap: 3 },
   levelDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: "#DDE3EE" },
   levelDotOn: { backgroundColor: play.leaf },
