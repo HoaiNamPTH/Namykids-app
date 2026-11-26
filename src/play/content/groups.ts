@@ -304,7 +304,8 @@ const xauVong: GameContent = {
         cells,
         strung: true,
         tray: shuffle([...answers, ...extra], rng).map((c) => colorCard(c)),
-        praise: `Đẹp quá! ${beads.map((c) => bareColor(c)).join(", ")}.`,
+        // A fixed line (not the list of beads) keeps the number of lines to record small.
+        praise: "Đẹp quá! Con xâu đúng quy luật rồi.",
       };
     });
   },
