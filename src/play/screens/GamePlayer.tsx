@@ -86,11 +86,17 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
         {round?.kind === "flip" ? <FlipBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
         {round?.kind === "fill" ? <FillBoard key={`${seed}-${index}`} round={round} width={board.width} height={board.height} onSolved={solved} /> : null}
       </View>
-      {/* Nam 25/11/2026: the level sits small in the bottom corner so the top row only holds the question. */}
-      {/* Shown only, not a button: a stray tap must not restart the game. The level changes on the finish screen. */}
-      <View accessible accessibilityLabel={`Mức ${LEVEL_NAMES[level]}`} style={styles.levelPill}>
-        <Text style={styles.levelText}>{LEVEL_NAMES[level]}</Text>
-        <View style={styles.levelDots}>{[0, 1, 2].map((i) => <View key={i} style={[styles.levelDot, i <= level && styles.levelDotOn]} />)}</View>
+      {/* Nam 26/11/2026: the child picks the level. Three small buttons in the corner, away from the cards;
+          tapping the level already in play does nothing, and Nami says the new level out loud. */}
+      <View style={styles.levelBar}>
+        {LEVEL_NAMES.map((name, i) => {
+          const on = i === level;
+          return <Pressable key={name} accessibilityRole="button" accessibilityState={{ selected: on }} accessibilityLabel={`Mức ${name}`}
+            hitSlop={4} onPress={() => { if (!on) { restart(i as Level); void speak(`Mình chơi mức ${name} nhé!`); } }}
+            style={({ pressed }) => [styles.levelBtn, on && styles.levelBtnOn, pressed && !on && { opacity: 0.7 }]}>
+            <Text style={[styles.levelBtnText, on && styles.levelBtnTextOn]}>{name}</Text>
+          </Pressable>;
+        })}
       </View>
     </View>
   </PlayScreen>;
@@ -133,11 +139,11 @@ const styles = StyleSheet.create({
   guide: { width: "20%", justifyContent: "flex-end", alignItems: "flex-start" },
   guideNami: { width: "100%", height: "74%" },
   board: { flex: 1 },
-  levelPill: { position: "absolute", right: 0, bottom: 4, flexDirection: "row", alignItems: "center", gap: 5, minHeight: 30, paddingHorizontal: 10, borderRadius: 15, backgroundColor: "rgba(255,255,255,0.7)" },
-  levelText: { ...playType.bodyBold, fontSize: 12, color: play.ink, opacity: 0.8 },
-  levelDots: { flexDirection: "row", gap: 3 },
-  levelDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: "#DDE3EE" },
-  levelDotOn: { backgroundColor: play.leaf },
+  levelBar: { position: "absolute", right: 0, bottom: 2, flexDirection: "row", gap: 4, padding: 4, borderRadius: 22, backgroundColor: "rgba(255,255,255,0.75)" },
+  levelBtn: { minWidth: 52, minHeight: 36, paddingHorizontal: 10, borderRadius: 18, alignItems: "center", justifyContent: "center" },
+  levelBtnOn: { backgroundColor: play.leaf },
+  levelBtnText: { ...playType.bodyBold, fontSize: 15, color: play.ink },
+  levelBtnTextOn: { color: "#FFFFFF" },
   winTop: { flexDirection: "row", minHeight: 56 },
   win: { flex: 1, flexDirection: "row", alignItems: "center", gap: 8 },
   duo: { width: "46%", height: "100%" },
