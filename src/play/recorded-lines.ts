@@ -1,5 +1,5 @@
 /**
- * GENERATED from app_lines_render.csv + cau-chua-thu-am.txt (27/11/2026). Do not edit by hand.
+ * GENERATED from app_lines_render.csv + cau-chua-thu-am.txt + every line found by tests/play-voice-coverage.test.ts (27/11/2026). Do not edit by hand.
  * Pre-recorded lines in the PO-chosen voice: ElevenLabs "Vita" (shared library voice
  * UHS2YO0dX7XwljIvctE7), model eleven_v3, language vi, stability 0.5, similarity 0.75.
  * Rendered on a paid ElevenLabs plan (commercial use allowed). File name = "l_" + first 10
@@ -967,6 +967,954 @@ import a958 from "../assets/audio/vita-v3/l_bb542eb4e0.mp3";
 import a959 from "../assets/audio/vita-v3/l_53a33eff10.mp3";
 import a960 from "../assets/audio/vita-v3/l_113c81b4d6.mp3";
 import a961 from "../assets/audio/vita-v3/l_c8edf09d58.mp3";
+import a962 from "../assets/audio/vita-v3/l_3fed043d5a.mp3";
+import a963 from "../assets/audio/vita-v3/l_3751e8c9ac.mp3";
+import a964 from "../assets/audio/vita-v3/l_fe0e01bde3.mp3";
+import a965 from "../assets/audio/vita-v3/l_0ce6a53d01.mp3";
+import a966 from "../assets/audio/vita-v3/l_656b56e9ff.mp3";
+import a967 from "../assets/audio/vita-v3/l_e71b64a5d6.mp3";
+import a968 from "../assets/audio/vita-v3/l_dfebcba3ba.mp3";
+import a969 from "../assets/audio/vita-v3/l_d54003bd64.mp3";
+import a970 from "../assets/audio/vita-v3/l_a9a043daa2.mp3";
+import a971 from "../assets/audio/vita-v3/l_60d24b7cbd.mp3";
+import a972 from "../assets/audio/vita-v3/l_7b7f9ef9c3.mp3";
+import a973 from "../assets/audio/vita-v3/l_b3692f35ba.mp3";
+import a974 from "../assets/audio/vita-v3/l_aa0171ca39.mp3";
+import a975 from "../assets/audio/vita-v3/l_3cfd5945fe.mp3";
+import a976 from "../assets/audio/vita-v3/l_fec3eb2937.mp3";
+import a977 from "../assets/audio/vita-v3/l_0442bc1861.mp3";
+import a978 from "../assets/audio/vita-v3/l_fffb25f3ae.mp3";
+import a979 from "../assets/audio/vita-v3/l_4ee78d0ce4.mp3";
+import a980 from "../assets/audio/vita-v3/l_6ebc504a25.mp3";
+import a981 from "../assets/audio/vita-v3/l_f89dadf8d7.mp3";
+import a982 from "../assets/audio/vita-v3/l_2ce012d6e2.mp3";
+import a983 from "../assets/audio/vita-v3/l_68d8b94572.mp3";
+import a984 from "../assets/audio/vita-v3/l_8dcaaa0c56.mp3";
+import a985 from "../assets/audio/vita-v3/l_34f52629d9.mp3";
+import a986 from "../assets/audio/vita-v3/l_b77d018a74.mp3";
+import a987 from "../assets/audio/vita-v3/l_9cc78b4853.mp3";
+import a988 from "../assets/audio/vita-v3/l_53aaddc69b.mp3";
+import a989 from "../assets/audio/vita-v3/l_62118bdc0b.mp3";
+import a990 from "../assets/audio/vita-v3/l_dbc768603a.mp3";
+import a991 from "../assets/audio/vita-v3/l_bb0ce01709.mp3";
+import a992 from "../assets/audio/vita-v3/l_a3b2384dfb.mp3";
+import a993 from "../assets/audio/vita-v3/l_2910715e04.mp3";
+import a994 from "../assets/audio/vita-v3/l_6efd733381.mp3";
+import a995 from "../assets/audio/vita-v3/l_8687f1430a.mp3";
+import a996 from "../assets/audio/vita-v3/l_b6758cc9be.mp3";
+import a997 from "../assets/audio/vita-v3/l_7a550f1486.mp3";
+import a998 from "../assets/audio/vita-v3/l_c97962713f.mp3";
+import a999 from "../assets/audio/vita-v3/l_ccff08317d.mp3";
+import a1000 from "../assets/audio/vita-v3/l_cffc7482ea.mp3";
+import a1001 from "../assets/audio/vita-v3/l_9b0b09b10c.mp3";
+import a1002 from "../assets/audio/vita-v3/l_289761cd03.mp3";
+import a1003 from "../assets/audio/vita-v3/l_3f60b0e784.mp3";
+import a1004 from "../assets/audio/vita-v3/l_0f1e79b7c7.mp3";
+import a1005 from "../assets/audio/vita-v3/l_1353da1417.mp3";
+import a1006 from "../assets/audio/vita-v3/l_3799fe8ccb.mp3";
+import a1007 from "../assets/audio/vita-v3/l_8809d19108.mp3";
+import a1008 from "../assets/audio/vita-v3/l_67de329508.mp3";
+import a1009 from "../assets/audio/vita-v3/l_009cd5d91d.mp3";
+import a1010 from "../assets/audio/vita-v3/l_e926854179.mp3";
+import a1011 from "../assets/audio/vita-v3/l_f6443f9631.mp3";
+import a1012 from "../assets/audio/vita-v3/l_383540c4c6.mp3";
+import a1013 from "../assets/audio/vita-v3/l_bb5371a093.mp3";
+import a1014 from "../assets/audio/vita-v3/l_e48b7f9768.mp3";
+import a1015 from "../assets/audio/vita-v3/l_03d3eb0494.mp3";
+import a1016 from "../assets/audio/vita-v3/l_5f6bbbe102.mp3";
+import a1017 from "../assets/audio/vita-v3/l_cfd7c25eb8.mp3";
+import a1018 from "../assets/audio/vita-v3/l_52b674f7d4.mp3";
+import a1019 from "../assets/audio/vita-v3/l_9fa81b0e7c.mp3";
+import a1020 from "../assets/audio/vita-v3/l_9c038c0fe8.mp3";
+import a1021 from "../assets/audio/vita-v3/l_b0fc8d5dd2.mp3";
+import a1022 from "../assets/audio/vita-v3/l_d2abda9c9e.mp3";
+import a1023 from "../assets/audio/vita-v3/l_eb3d20445c.mp3";
+import a1024 from "../assets/audio/vita-v3/l_5a0e3b6bee.mp3";
+import a1025 from "../assets/audio/vita-v3/l_eec6396d73.mp3";
+import a1026 from "../assets/audio/vita-v3/l_049d6a2141.mp3";
+import a1027 from "../assets/audio/vita-v3/l_31c2674447.mp3";
+import a1028 from "../assets/audio/vita-v3/l_6115262a57.mp3";
+import a1029 from "../assets/audio/vita-v3/l_ddcf99b39c.mp3";
+import a1030 from "../assets/audio/vita-v3/l_aa47555397.mp3";
+import a1031 from "../assets/audio/vita-v3/l_790edbc041.mp3";
+import a1032 from "../assets/audio/vita-v3/l_015b4aa078.mp3";
+import a1033 from "../assets/audio/vita-v3/l_6881c69c66.mp3";
+import a1034 from "../assets/audio/vita-v3/l_f303b6ea11.mp3";
+import a1035 from "../assets/audio/vita-v3/l_49e26bd170.mp3";
+import a1036 from "../assets/audio/vita-v3/l_a37671a674.mp3";
+import a1037 from "../assets/audio/vita-v3/l_606762aeb5.mp3";
+import a1038 from "../assets/audio/vita-v3/l_e32f926e0d.mp3";
+import a1039 from "../assets/audio/vita-v3/l_910f3169c7.mp3";
+import a1040 from "../assets/audio/vita-v3/l_62b0f65995.mp3";
+import a1041 from "../assets/audio/vita-v3/l_8b5efd3ba3.mp3";
+import a1042 from "../assets/audio/vita-v3/l_d45a65cfaf.mp3";
+import a1043 from "../assets/audio/vita-v3/l_276fca8684.mp3";
+import a1044 from "../assets/audio/vita-v3/l_2051c3ef75.mp3";
+import a1045 from "../assets/audio/vita-v3/l_a523017f9b.mp3";
+import a1046 from "../assets/audio/vita-v3/l_9a1709e6f4.mp3";
+import a1047 from "../assets/audio/vita-v3/l_47176cb366.mp3";
+import a1048 from "../assets/audio/vita-v3/l_eb2c85e679.mp3";
+import a1049 from "../assets/audio/vita-v3/l_77247fc7fa.mp3";
+import a1050 from "../assets/audio/vita-v3/l_443dadeebf.mp3";
+import a1051 from "../assets/audio/vita-v3/l_a45810c24b.mp3";
+import a1052 from "../assets/audio/vita-v3/l_a0fb050c27.mp3";
+import a1053 from "../assets/audio/vita-v3/l_b573dadc13.mp3";
+import a1054 from "../assets/audio/vita-v3/l_83f795fedc.mp3";
+import a1055 from "../assets/audio/vita-v3/l_a59d94af28.mp3";
+import a1056 from "../assets/audio/vita-v3/l_5efd87509d.mp3";
+import a1057 from "../assets/audio/vita-v3/l_1c5603dc0d.mp3";
+import a1058 from "../assets/audio/vita-v3/l_d190bb3c0a.mp3";
+import a1059 from "../assets/audio/vita-v3/l_9e4c08c79d.mp3";
+import a1060 from "../assets/audio/vita-v3/l_d0b4c8468b.mp3";
+import a1061 from "../assets/audio/vita-v3/l_ab463e8d0a.mp3";
+import a1062 from "../assets/audio/vita-v3/l_6f8b1b3ac6.mp3";
+import a1063 from "../assets/audio/vita-v3/l_22023f25ea.mp3";
+import a1064 from "../assets/audio/vita-v3/l_60f0c1daec.mp3";
+import a1065 from "../assets/audio/vita-v3/l_5484d81963.mp3";
+import a1066 from "../assets/audio/vita-v3/l_fb0d93893a.mp3";
+import a1067 from "../assets/audio/vita-v3/l_a0f9d9056e.mp3";
+import a1068 from "../assets/audio/vita-v3/l_abfbd37eed.mp3";
+import a1069 from "../assets/audio/vita-v3/l_64afa04113.mp3";
+import a1070 from "../assets/audio/vita-v3/l_f69e8d811b.mp3";
+import a1071 from "../assets/audio/vita-v3/l_61121725b3.mp3";
+import a1072 from "../assets/audio/vita-v3/l_5ef0c0d614.mp3";
+import a1073 from "../assets/audio/vita-v3/l_752c63e57d.mp3";
+import a1074 from "../assets/audio/vita-v3/l_8856233df5.mp3";
+import a1075 from "../assets/audio/vita-v3/l_a133c0d3fd.mp3";
+import a1076 from "../assets/audio/vita-v3/l_d3caf506d3.mp3";
+import a1077 from "../assets/audio/vita-v3/l_d7456b29cb.mp3";
+import a1078 from "../assets/audio/vita-v3/l_fc91bf6705.mp3";
+import a1079 from "../assets/audio/vita-v3/l_6061e65401.mp3";
+import a1080 from "../assets/audio/vita-v3/l_99648a2e0b.mp3";
+import a1081 from "../assets/audio/vita-v3/l_0b1295ec94.mp3";
+import a1082 from "../assets/audio/vita-v3/l_1b2a54d765.mp3";
+import a1083 from "../assets/audio/vita-v3/l_bcf5b0d44a.mp3";
+import a1084 from "../assets/audio/vita-v3/l_c24def3696.mp3";
+import a1085 from "../assets/audio/vita-v3/l_0bfde67f0d.mp3";
+import a1086 from "../assets/audio/vita-v3/l_49f7c2aa02.mp3";
+import a1087 from "../assets/audio/vita-v3/l_4213c1e677.mp3";
+import a1088 from "../assets/audio/vita-v3/l_aebd79eabe.mp3";
+import a1089 from "../assets/audio/vita-v3/l_562ec896f0.mp3";
+import a1090 from "../assets/audio/vita-v3/l_ed99ccda4c.mp3";
+import a1091 from "../assets/audio/vita-v3/l_d4d6396fc3.mp3";
+import a1092 from "../assets/audio/vita-v3/l_49cfc22b26.mp3";
+import a1093 from "../assets/audio/vita-v3/l_80905fd00b.mp3";
+import a1094 from "../assets/audio/vita-v3/l_8e68db2d84.mp3";
+import a1095 from "../assets/audio/vita-v3/l_d3a3e8e5c7.mp3";
+import a1096 from "../assets/audio/vita-v3/l_78648a58d7.mp3";
+import a1097 from "../assets/audio/vita-v3/l_da424941b1.mp3";
+import a1098 from "../assets/audio/vita-v3/l_75db04ab13.mp3";
+import a1099 from "../assets/audio/vita-v3/l_236c7bae78.mp3";
+import a1100 from "../assets/audio/vita-v3/l_c9fb15432a.mp3";
+import a1101 from "../assets/audio/vita-v3/l_c1935243f3.mp3";
+import a1102 from "../assets/audio/vita-v3/l_3c76797d63.mp3";
+import a1103 from "../assets/audio/vita-v3/l_5930447a77.mp3";
+import a1104 from "../assets/audio/vita-v3/l_0c15ad85c3.mp3";
+import a1105 from "../assets/audio/vita-v3/l_f787a3e366.mp3";
+import a1106 from "../assets/audio/vita-v3/l_b8ddd8fcb7.mp3";
+import a1107 from "../assets/audio/vita-v3/l_e55811d2e5.mp3";
+import a1108 from "../assets/audio/vita-v3/l_77431dc78f.mp3";
+import a1109 from "../assets/audio/vita-v3/l_8daaf93ea6.mp3";
+import a1110 from "../assets/audio/vita-v3/l_0b37623239.mp3";
+import a1111 from "../assets/audio/vita-v3/l_9950c3ad25.mp3";
+import a1112 from "../assets/audio/vita-v3/l_251eaeea32.mp3";
+import a1113 from "../assets/audio/vita-v3/l_ecdbcf5c87.mp3";
+import a1114 from "../assets/audio/vita-v3/l_8e21acab2d.mp3";
+import a1115 from "../assets/audio/vita-v3/l_2ab14cae69.mp3";
+import a1116 from "../assets/audio/vita-v3/l_00f24d97c3.mp3";
+import a1117 from "../assets/audio/vita-v3/l_970fa0445e.mp3";
+import a1118 from "../assets/audio/vita-v3/l_434aa3d6ac.mp3";
+import a1119 from "../assets/audio/vita-v3/l_27b55dfbbd.mp3";
+import a1120 from "../assets/audio/vita-v3/l_c461190f79.mp3";
+import a1121 from "../assets/audio/vita-v3/l_9ec0f74757.mp3";
+import a1122 from "../assets/audio/vita-v3/l_4e15dd8ac1.mp3";
+import a1123 from "../assets/audio/vita-v3/l_39058dbd28.mp3";
+import a1124 from "../assets/audio/vita-v3/l_e9632f02bf.mp3";
+import a1125 from "../assets/audio/vita-v3/l_40073ef774.mp3";
+import a1126 from "../assets/audio/vita-v3/l_aa30f6f431.mp3";
+import a1127 from "../assets/audio/vita-v3/l_53e9deab35.mp3";
+import a1128 from "../assets/audio/vita-v3/l_9e7783a8d3.mp3";
+import a1129 from "../assets/audio/vita-v3/l_4e68497487.mp3";
+import a1130 from "../assets/audio/vita-v3/l_d00547e2b1.mp3";
+import a1131 from "../assets/audio/vita-v3/l_9c44d29e3e.mp3";
+import a1132 from "../assets/audio/vita-v3/l_b95a465837.mp3";
+import a1133 from "../assets/audio/vita-v3/l_3d9ef05655.mp3";
+import a1134 from "../assets/audio/vita-v3/l_6893f70fcd.mp3";
+import a1135 from "../assets/audio/vita-v3/l_0967ee35a8.mp3";
+import a1136 from "../assets/audio/vita-v3/l_2f3a53fd6c.mp3";
+import a1137 from "../assets/audio/vita-v3/l_fa52ef5889.mp3";
+import a1138 from "../assets/audio/vita-v3/l_c9db3ae16a.mp3";
+import a1139 from "../assets/audio/vita-v3/l_c5e9d83f62.mp3";
+import a1140 from "../assets/audio/vita-v3/l_42cfb468b2.mp3";
+import a1141 from "../assets/audio/vita-v3/l_5847701f74.mp3";
+import a1142 from "../assets/audio/vita-v3/l_465073f0ee.mp3";
+import a1143 from "../assets/audio/vita-v3/l_2ce2531d9a.mp3";
+import a1144 from "../assets/audio/vita-v3/l_4a86813bb2.mp3";
+import a1145 from "../assets/audio/vita-v3/l_9ab02f4825.mp3";
+import a1146 from "../assets/audio/vita-v3/l_c56fb16459.mp3";
+import a1147 from "../assets/audio/vita-v3/l_b953013799.mp3";
+import a1148 from "../assets/audio/vita-v3/l_70902e87a2.mp3";
+import a1149 from "../assets/audio/vita-v3/l_93d80e92ee.mp3";
+import a1150 from "../assets/audio/vita-v3/l_4a4ca5068d.mp3";
+import a1151 from "../assets/audio/vita-v3/l_b4551a324e.mp3";
+import a1152 from "../assets/audio/vita-v3/l_fd0dce9217.mp3";
+import a1153 from "../assets/audio/vita-v3/l_4e4fd1c9b3.mp3";
+import a1154 from "../assets/audio/vita-v3/l_f6384a772f.mp3";
+import a1155 from "../assets/audio/vita-v3/l_d4a9136eb2.mp3";
+import a1156 from "../assets/audio/vita-v3/l_e28cf74fad.mp3";
+import a1157 from "../assets/audio/vita-v3/l_e759b47ae3.mp3";
+import a1158 from "../assets/audio/vita-v3/l_4d5685e677.mp3";
+import a1159 from "../assets/audio/vita-v3/l_8427e46608.mp3";
+import a1160 from "../assets/audio/vita-v3/l_6dcf28b0f0.mp3";
+import a1161 from "../assets/audio/vita-v3/l_e2a6913a79.mp3";
+import a1162 from "../assets/audio/vita-v3/l_8fe67fc0da.mp3";
+import a1163 from "../assets/audio/vita-v3/l_e24d155f1b.mp3";
+import a1164 from "../assets/audio/vita-v3/l_4ec63b9842.mp3";
+import a1165 from "../assets/audio/vita-v3/l_ee79b17cfb.mp3";
+import a1166 from "../assets/audio/vita-v3/l_6afe4d575b.mp3";
+import a1167 from "../assets/audio/vita-v3/l_aed4e0c09c.mp3";
+import a1168 from "../assets/audio/vita-v3/l_8b44a740d8.mp3";
+import a1169 from "../assets/audio/vita-v3/l_0e0d63bb89.mp3";
+import a1170 from "../assets/audio/vita-v3/l_ea9fc78796.mp3";
+import a1171 from "../assets/audio/vita-v3/l_62b066b0ad.mp3";
+import a1172 from "../assets/audio/vita-v3/l_cdcda8ff3d.mp3";
+import a1173 from "../assets/audio/vita-v3/l_7692fab1c2.mp3";
+import a1174 from "../assets/audio/vita-v3/l_8ec3859739.mp3";
+import a1175 from "../assets/audio/vita-v3/l_338f1d74b5.mp3";
+import a1176 from "../assets/audio/vita-v3/l_1bd09c94f1.mp3";
+import a1177 from "../assets/audio/vita-v3/l_c612ca4462.mp3";
+import a1178 from "../assets/audio/vita-v3/l_2d80a2fceb.mp3";
+import a1179 from "../assets/audio/vita-v3/l_f677a1ca67.mp3";
+import a1180 from "../assets/audio/vita-v3/l_fef908c19a.mp3";
+import a1181 from "../assets/audio/vita-v3/l_64980e4a89.mp3";
+import a1182 from "../assets/audio/vita-v3/l_67614d043d.mp3";
+import a1183 from "../assets/audio/vita-v3/l_2f96aa1e02.mp3";
+import a1184 from "../assets/audio/vita-v3/l_920440fdbb.mp3";
+import a1185 from "../assets/audio/vita-v3/l_f4836a7c20.mp3";
+import a1186 from "../assets/audio/vita-v3/l_2e7530c34e.mp3";
+import a1187 from "../assets/audio/vita-v3/l_ee767f4eeb.mp3";
+import a1188 from "../assets/audio/vita-v3/l_c5b124b045.mp3";
+import a1189 from "../assets/audio/vita-v3/l_cf8e51f6b2.mp3";
+import a1190 from "../assets/audio/vita-v3/l_a4bd02f514.mp3";
+import a1191 from "../assets/audio/vita-v3/l_758cac4556.mp3";
+import a1192 from "../assets/audio/vita-v3/l_5e57dc39bc.mp3";
+import a1193 from "../assets/audio/vita-v3/l_1b1ac439c0.mp3";
+import a1194 from "../assets/audio/vita-v3/l_812a40e6d4.mp3";
+import a1195 from "../assets/audio/vita-v3/l_89c511de59.mp3";
+import a1196 from "../assets/audio/vita-v3/l_0689eec6b1.mp3";
+import a1197 from "../assets/audio/vita-v3/l_eec46678eb.mp3";
+import a1198 from "../assets/audio/vita-v3/l_404aa31c21.mp3";
+import a1199 from "../assets/audio/vita-v3/l_a101f61b6d.mp3";
+import a1200 from "../assets/audio/vita-v3/l_02eed7c5a6.mp3";
+import a1201 from "../assets/audio/vita-v3/l_6b4eb57b5d.mp3";
+import a1202 from "../assets/audio/vita-v3/l_69cc83df5b.mp3";
+import a1203 from "../assets/audio/vita-v3/l_7c06c24de0.mp3";
+import a1204 from "../assets/audio/vita-v3/l_00c0aa694e.mp3";
+import a1205 from "../assets/audio/vita-v3/l_556c1f30bc.mp3";
+import a1206 from "../assets/audio/vita-v3/l_46769eada0.mp3";
+import a1207 from "../assets/audio/vita-v3/l_aae44206ba.mp3";
+import a1208 from "../assets/audio/vita-v3/l_434050ef10.mp3";
+import a1209 from "../assets/audio/vita-v3/l_7ae9e54a8e.mp3";
+import a1210 from "../assets/audio/vita-v3/l_beb6a75c48.mp3";
+import a1211 from "../assets/audio/vita-v3/l_ad29e3aa80.mp3";
+import a1212 from "../assets/audio/vita-v3/l_2fd5592321.mp3";
+import a1213 from "../assets/audio/vita-v3/l_33d914c6f9.mp3";
+import a1214 from "../assets/audio/vita-v3/l_57449d1ca4.mp3";
+import a1215 from "../assets/audio/vita-v3/l_29f157a952.mp3";
+import a1216 from "../assets/audio/vita-v3/l_34d8ab4d01.mp3";
+import a1217 from "../assets/audio/vita-v3/l_4ee44118ef.mp3";
+import a1218 from "../assets/audio/vita-v3/l_4a685b2e88.mp3";
+import a1219 from "../assets/audio/vita-v3/l_a7276c7306.mp3";
+import a1220 from "../assets/audio/vita-v3/l_a86a1ea822.mp3";
+import a1221 from "../assets/audio/vita-v3/l_c9e9317e80.mp3";
+import a1222 from "../assets/audio/vita-v3/l_6632ab2e3f.mp3";
+import a1223 from "../assets/audio/vita-v3/l_d110742675.mp3";
+import a1224 from "../assets/audio/vita-v3/l_6ab39b500c.mp3";
+import a1225 from "../assets/audio/vita-v3/l_8d1e6cb302.mp3";
+import a1226 from "../assets/audio/vita-v3/l_734498b1ff.mp3";
+import a1227 from "../assets/audio/vita-v3/l_acc5d9e448.mp3";
+import a1228 from "../assets/audio/vita-v3/l_6cd230ccd1.mp3";
+import a1229 from "../assets/audio/vita-v3/l_225723ffc5.mp3";
+import a1230 from "../assets/audio/vita-v3/l_eb7f787335.mp3";
+import a1231 from "../assets/audio/vita-v3/l_828fcd5dd5.mp3";
+import a1232 from "../assets/audio/vita-v3/l_010e45c9f8.mp3";
+import a1233 from "../assets/audio/vita-v3/l_a7532e165e.mp3";
+import a1234 from "../assets/audio/vita-v3/l_5a485d151e.mp3";
+import a1235 from "../assets/audio/vita-v3/l_2047d8ed8d.mp3";
+import a1236 from "../assets/audio/vita-v3/l_a2d45aa338.mp3";
+import a1237 from "../assets/audio/vita-v3/l_a4f7d2c908.mp3";
+import a1238 from "../assets/audio/vita-v3/l_31553ec3be.mp3";
+import a1239 from "../assets/audio/vita-v3/l_1246104f9a.mp3";
+import a1240 from "../assets/audio/vita-v3/l_65d8c5e1c2.mp3";
+import a1241 from "../assets/audio/vita-v3/l_c46cd84342.mp3";
+import a1242 from "../assets/audio/vita-v3/l_c4333bc65e.mp3";
+import a1243 from "../assets/audio/vita-v3/l_10d170bb52.mp3";
+import a1244 from "../assets/audio/vita-v3/l_4a1bbdc23f.mp3";
+import a1245 from "../assets/audio/vita-v3/l_1bbf69a145.mp3";
+import a1246 from "../assets/audio/vita-v3/l_3419b5412b.mp3";
+import a1247 from "../assets/audio/vita-v3/l_4d3bf93b80.mp3";
+import a1248 from "../assets/audio/vita-v3/l_d498388de5.mp3";
+import a1249 from "../assets/audio/vita-v3/l_c7e660403b.mp3";
+import a1250 from "../assets/audio/vita-v3/l_5c7fda7a89.mp3";
+import a1251 from "../assets/audio/vita-v3/l_fdbcc1dc0d.mp3";
+import a1252 from "../assets/audio/vita-v3/l_0d8f689b54.mp3";
+import a1253 from "../assets/audio/vita-v3/l_01299ac9e6.mp3";
+import a1254 from "../assets/audio/vita-v3/l_b9e36033f0.mp3";
+import a1255 from "../assets/audio/vita-v3/l_d23fae6beb.mp3";
+import a1256 from "../assets/audio/vita-v3/l_5a7b4d35ff.mp3";
+import a1257 from "../assets/audio/vita-v3/l_8d8f2cb9ff.mp3";
+import a1258 from "../assets/audio/vita-v3/l_0680757485.mp3";
+import a1259 from "../assets/audio/vita-v3/l_b3d898f5f7.mp3";
+import a1260 from "../assets/audio/vita-v3/l_121053b9ad.mp3";
+import a1261 from "../assets/audio/vita-v3/l_965be5ebe5.mp3";
+import a1262 from "../assets/audio/vita-v3/l_fd0893956d.mp3";
+import a1263 from "../assets/audio/vita-v3/l_273083acc7.mp3";
+import a1264 from "../assets/audio/vita-v3/l_0deb2e8643.mp3";
+import a1265 from "../assets/audio/vita-v3/l_603d29eeef.mp3";
+import a1266 from "../assets/audio/vita-v3/l_4d5104d36f.mp3";
+import a1267 from "../assets/audio/vita-v3/l_23447111d6.mp3";
+import a1268 from "../assets/audio/vita-v3/l_53119dd102.mp3";
+import a1269 from "../assets/audio/vita-v3/l_3779634ad4.mp3";
+import a1270 from "../assets/audio/vita-v3/l_7cfee749a6.mp3";
+import a1271 from "../assets/audio/vita-v3/l_76120db5a5.mp3";
+import a1272 from "../assets/audio/vita-v3/l_5c44cc78ee.mp3";
+import a1273 from "../assets/audio/vita-v3/l_72d66072d3.mp3";
+import a1274 from "../assets/audio/vita-v3/l_9f6603181a.mp3";
+import a1275 from "../assets/audio/vita-v3/l_f5329710fe.mp3";
+import a1276 from "../assets/audio/vita-v3/l_9e7b6a6c86.mp3";
+import a1277 from "../assets/audio/vita-v3/l_ce3e66e197.mp3";
+import a1278 from "../assets/audio/vita-v3/l_cb8008f9f5.mp3";
+import a1279 from "../assets/audio/vita-v3/l_7981da7661.mp3";
+import a1280 from "../assets/audio/vita-v3/l_23d2b1fa91.mp3";
+import a1281 from "../assets/audio/vita-v3/l_564d304271.mp3";
+import a1282 from "../assets/audio/vita-v3/l_57ad76d00e.mp3";
+import a1283 from "../assets/audio/vita-v3/l_46a35c63ef.mp3";
+import a1284 from "../assets/audio/vita-v3/l_d6b123cdb0.mp3";
+import a1285 from "../assets/audio/vita-v3/l_4fc7a2ccd6.mp3";
+import a1286 from "../assets/audio/vita-v3/l_13b9cae4bf.mp3";
+import a1287 from "../assets/audio/vita-v3/l_19287cbd31.mp3";
+import a1288 from "../assets/audio/vita-v3/l_0d1b6827de.mp3";
+import a1289 from "../assets/audio/vita-v3/l_f159853ee2.mp3";
+import a1290 from "../assets/audio/vita-v3/l_7f44d3025f.mp3";
+import a1291 from "../assets/audio/vita-v3/l_4148ed7188.mp3";
+import a1292 from "../assets/audio/vita-v3/l_6af8552d82.mp3";
+import a1293 from "../assets/audio/vita-v3/l_be01ea59b9.mp3";
+import a1294 from "../assets/audio/vita-v3/l_dd8c3d219d.mp3";
+import a1295 from "../assets/audio/vita-v3/l_6ebccdcfe4.mp3";
+import a1296 from "../assets/audio/vita-v3/l_9df34cbc70.mp3";
+import a1297 from "../assets/audio/vita-v3/l_a75ace6784.mp3";
+import a1298 from "../assets/audio/vita-v3/l_383f0e9c1c.mp3";
+import a1299 from "../assets/audio/vita-v3/l_83eefb29f1.mp3";
+import a1300 from "../assets/audio/vita-v3/l_7c6511358d.mp3";
+import a1301 from "../assets/audio/vita-v3/l_ca186b9129.mp3";
+import a1302 from "../assets/audio/vita-v3/l_30fedc748d.mp3";
+import a1303 from "../assets/audio/vita-v3/l_21faae90a8.mp3";
+import a1304 from "../assets/audio/vita-v3/l_4666999dce.mp3";
+import a1305 from "../assets/audio/vita-v3/l_c12ac5ae1e.mp3";
+import a1306 from "../assets/audio/vita-v3/l_ffda3036d7.mp3";
+import a1307 from "../assets/audio/vita-v3/l_0e6caf53a5.mp3";
+import a1308 from "../assets/audio/vita-v3/l_de8448d37f.mp3";
+import a1309 from "../assets/audio/vita-v3/l_ee1918edf0.mp3";
+import a1310 from "../assets/audio/vita-v3/l_6e0797d82e.mp3";
+import a1311 from "../assets/audio/vita-v3/l_6e5d5586b9.mp3";
+import a1312 from "../assets/audio/vita-v3/l_132552475e.mp3";
+import a1313 from "../assets/audio/vita-v3/l_9d6decf35a.mp3";
+import a1314 from "../assets/audio/vita-v3/l_693a8ac7c2.mp3";
+import a1315 from "../assets/audio/vita-v3/l_e271d79bf2.mp3";
+import a1316 from "../assets/audio/vita-v3/l_5808b5dba2.mp3";
+import a1317 from "../assets/audio/vita-v3/l_f780e0bf38.mp3";
+import a1318 from "../assets/audio/vita-v3/l_15f090663d.mp3";
+import a1319 from "../assets/audio/vita-v3/l_dcb8edd836.mp3";
+import a1320 from "../assets/audio/vita-v3/l_b49a1bb001.mp3";
+import a1321 from "../assets/audio/vita-v3/l_01d0079bb9.mp3";
+import a1322 from "../assets/audio/vita-v3/l_b1995a2c4e.mp3";
+import a1323 from "../assets/audio/vita-v3/l_6bf549a3f2.mp3";
+import a1324 from "../assets/audio/vita-v3/l_20cf21d401.mp3";
+import a1325 from "../assets/audio/vita-v3/l_cc3c532f00.mp3";
+import a1326 from "../assets/audio/vita-v3/l_15521c09e5.mp3";
+import a1327 from "../assets/audio/vita-v3/l_e15100ff32.mp3";
+import a1328 from "../assets/audio/vita-v3/l_1c81ab72c7.mp3";
+import a1329 from "../assets/audio/vita-v3/l_5002453a86.mp3";
+import a1330 from "../assets/audio/vita-v3/l_317bae249e.mp3";
+import a1331 from "../assets/audio/vita-v3/l_28d5dad4f4.mp3";
+import a1332 from "../assets/audio/vita-v3/l_459aaca29f.mp3";
+import a1333 from "../assets/audio/vita-v3/l_421b7dcaa1.mp3";
+import a1334 from "../assets/audio/vita-v3/l_3259dc4ba1.mp3";
+import a1335 from "../assets/audio/vita-v3/l_ef3b822869.mp3";
+import a1336 from "../assets/audio/vita-v3/l_6b3a1e10ed.mp3";
+import a1337 from "../assets/audio/vita-v3/l_0719f0ac6b.mp3";
+import a1338 from "../assets/audio/vita-v3/l_defc0e07bc.mp3";
+import a1339 from "../assets/audio/vita-v3/l_255cb1c167.mp3";
+import a1340 from "../assets/audio/vita-v3/l_93cf3a6014.mp3";
+import a1341 from "../assets/audio/vita-v3/l_6625b69ef7.mp3";
+import a1342 from "../assets/audio/vita-v3/l_acc24dc119.mp3";
+import a1343 from "../assets/audio/vita-v3/l_7879343cba.mp3";
+import a1344 from "../assets/audio/vita-v3/l_4aad3d32b7.mp3";
+import a1345 from "../assets/audio/vita-v3/l_e08defb41a.mp3";
+import a1346 from "../assets/audio/vita-v3/l_0739bb7414.mp3";
+import a1347 from "../assets/audio/vita-v3/l_73e56d62e8.mp3";
+import a1348 from "../assets/audio/vita-v3/l_73cf91d897.mp3";
+import a1349 from "../assets/audio/vita-v3/l_24418fdf01.mp3";
+import a1350 from "../assets/audio/vita-v3/l_5dfb7819b4.mp3";
+import a1351 from "../assets/audio/vita-v3/l_d545b8792b.mp3";
+import a1352 from "../assets/audio/vita-v3/l_377d290b55.mp3";
+import a1353 from "../assets/audio/vita-v3/l_36cd5c610c.mp3";
+import a1354 from "../assets/audio/vita-v3/l_63c8e349d3.mp3";
+import a1355 from "../assets/audio/vita-v3/l_b29703ec21.mp3";
+import a1356 from "../assets/audio/vita-v3/l_14a9ef1e5b.mp3";
+import a1357 from "../assets/audio/vita-v3/l_a96f120c09.mp3";
+import a1358 from "../assets/audio/vita-v3/l_b4f25918f2.mp3";
+import a1359 from "../assets/audio/vita-v3/l_849ca0e973.mp3";
+import a1360 from "../assets/audio/vita-v3/l_e1b09e00b1.mp3";
+import a1361 from "../assets/audio/vita-v3/l_ef179e6117.mp3";
+import a1362 from "../assets/audio/vita-v3/l_2d29d6a2c5.mp3";
+import a1363 from "../assets/audio/vita-v3/l_ae947d40a6.mp3";
+import a1364 from "../assets/audio/vita-v3/l_dc6442a40b.mp3";
+import a1365 from "../assets/audio/vita-v3/l_c0dc9b0d51.mp3";
+import a1366 from "../assets/audio/vita-v3/l_fc794a4404.mp3";
+import a1367 from "../assets/audio/vita-v3/l_0f171e763b.mp3";
+import a1368 from "../assets/audio/vita-v3/l_0e7cc573e1.mp3";
+import a1369 from "../assets/audio/vita-v3/l_734ebb86e1.mp3";
+import a1370 from "../assets/audio/vita-v3/l_719edc6c9c.mp3";
+import a1371 from "../assets/audio/vita-v3/l_24ca5a9c93.mp3";
+import a1372 from "../assets/audio/vita-v3/l_adcd07551f.mp3";
+import a1373 from "../assets/audio/vita-v3/l_6cd3e4ddd0.mp3";
+import a1374 from "../assets/audio/vita-v3/l_9399e6354d.mp3";
+import a1375 from "../assets/audio/vita-v3/l_1e4f7bdfd3.mp3";
+import a1376 from "../assets/audio/vita-v3/l_acc4dc4a22.mp3";
+import a1377 from "../assets/audio/vita-v3/l_33379ddb89.mp3";
+import a1378 from "../assets/audio/vita-v3/l_8502a7e651.mp3";
+import a1379 from "../assets/audio/vita-v3/l_6ea742adc8.mp3";
+import a1380 from "../assets/audio/vita-v3/l_4d1e87ad6f.mp3";
+import a1381 from "../assets/audio/vita-v3/l_e60c711db8.mp3";
+import a1382 from "../assets/audio/vita-v3/l_99e6f7eda3.mp3";
+import a1383 from "../assets/audio/vita-v3/l_f1032a2d3d.mp3";
+import a1384 from "../assets/audio/vita-v3/l_66da705ed7.mp3";
+import a1385 from "../assets/audio/vita-v3/l_8f27675b04.mp3";
+import a1386 from "../assets/audio/vita-v3/l_88b7acbf12.mp3";
+import a1387 from "../assets/audio/vita-v3/l_207b4f5bb8.mp3";
+import a1388 from "../assets/audio/vita-v3/l_2bdbf89b89.mp3";
+import a1389 from "../assets/audio/vita-v3/l_fc0cad3af2.mp3";
+import a1390 from "../assets/audio/vita-v3/l_be843579e4.mp3";
+import a1391 from "../assets/audio/vita-v3/l_b4e64bc5bb.mp3";
+import a1392 from "../assets/audio/vita-v3/l_6cd8c22458.mp3";
+import a1393 from "../assets/audio/vita-v3/l_68cf55f70b.mp3";
+import a1394 from "../assets/audio/vita-v3/l_239f971f1e.mp3";
+import a1395 from "../assets/audio/vita-v3/l_34f849c78b.mp3";
+import a1396 from "../assets/audio/vita-v3/l_3fa465a435.mp3";
+import a1397 from "../assets/audio/vita-v3/l_0e158edaf7.mp3";
+import a1398 from "../assets/audio/vita-v3/l_3debb4cfc1.mp3";
+import a1399 from "../assets/audio/vita-v3/l_fbfa866be9.mp3";
+import a1400 from "../assets/audio/vita-v3/l_4e6745d00c.mp3";
+import a1401 from "../assets/audio/vita-v3/l_b0904ba23c.mp3";
+import a1402 from "../assets/audio/vita-v3/l_fce21087e1.mp3";
+import a1403 from "../assets/audio/vita-v3/l_9cb0f7e6b1.mp3";
+import a1404 from "../assets/audio/vita-v3/l_eab853175e.mp3";
+import a1405 from "../assets/audio/vita-v3/l_fc5e755d97.mp3";
+import a1406 from "../assets/audio/vita-v3/l_5b60e82959.mp3";
+import a1407 from "../assets/audio/vita-v3/l_8a153f1679.mp3";
+import a1408 from "../assets/audio/vita-v3/l_6a01c4e7b6.mp3";
+import a1409 from "../assets/audio/vita-v3/l_2f6f367668.mp3";
+import a1410 from "../assets/audio/vita-v3/l_85c1696483.mp3";
+import a1411 from "../assets/audio/vita-v3/l_0cd60bf8c7.mp3";
+import a1412 from "../assets/audio/vita-v3/l_d9601ae25f.mp3";
+import a1413 from "../assets/audio/vita-v3/l_2d62ee24e6.mp3";
+import a1414 from "../assets/audio/vita-v3/l_02ad2d363d.mp3";
+import a1415 from "../assets/audio/vita-v3/l_fc55f1b68e.mp3";
+import a1416 from "../assets/audio/vita-v3/l_3b22a2f6fe.mp3";
+import a1417 from "../assets/audio/vita-v3/l_bb4ea47d76.mp3";
+import a1418 from "../assets/audio/vita-v3/l_bc80f9791e.mp3";
+import a1419 from "../assets/audio/vita-v3/l_ee825cdb99.mp3";
+import a1420 from "../assets/audio/vita-v3/l_af125ead21.mp3";
+import a1421 from "../assets/audio/vita-v3/l_0c3c1f8de2.mp3";
+import a1422 from "../assets/audio/vita-v3/l_ec7a3a3862.mp3";
+import a1423 from "../assets/audio/vita-v3/l_988a45d7d4.mp3";
+import a1424 from "../assets/audio/vita-v3/l_e7d354d703.mp3";
+import a1425 from "../assets/audio/vita-v3/l_e1e1bf6eb0.mp3";
+import a1426 from "../assets/audio/vita-v3/l_9a64bd70e4.mp3";
+import a1427 from "../assets/audio/vita-v3/l_b225b2b883.mp3";
+import a1428 from "../assets/audio/vita-v3/l_52feb96406.mp3";
+import a1429 from "../assets/audio/vita-v3/l_2b1d9237d9.mp3";
+import a1430 from "../assets/audio/vita-v3/l_02aea5d7f6.mp3";
+import a1431 from "../assets/audio/vita-v3/l_37d8a3200c.mp3";
+import a1432 from "../assets/audio/vita-v3/l_e3d8856b2b.mp3";
+import a1433 from "../assets/audio/vita-v3/l_e591839044.mp3";
+import a1434 from "../assets/audio/vita-v3/l_dbf489bba5.mp3";
+import a1435 from "../assets/audio/vita-v3/l_5670d4bb21.mp3";
+import a1436 from "../assets/audio/vita-v3/l_32a3eaba91.mp3";
+import a1437 from "../assets/audio/vita-v3/l_772ca3a560.mp3";
+import a1438 from "../assets/audio/vita-v3/l_3322b25e8d.mp3";
+import a1439 from "../assets/audio/vita-v3/l_f3c9eb717d.mp3";
+import a1440 from "../assets/audio/vita-v3/l_e7e03f91ee.mp3";
+import a1441 from "../assets/audio/vita-v3/l_3e968f057b.mp3";
+import a1442 from "../assets/audio/vita-v3/l_5f29710114.mp3";
+import a1443 from "../assets/audio/vita-v3/l_3d2649160c.mp3";
+import a1444 from "../assets/audio/vita-v3/l_da73ee68fc.mp3";
+import a1445 from "../assets/audio/vita-v3/l_b722f1b158.mp3";
+import a1446 from "../assets/audio/vita-v3/l_409016b37a.mp3";
+import a1447 from "../assets/audio/vita-v3/l_995e965f0e.mp3";
+import a1448 from "../assets/audio/vita-v3/l_fb1c09ad76.mp3";
+import a1449 from "../assets/audio/vita-v3/l_d2d0adfa36.mp3";
+import a1450 from "../assets/audio/vita-v3/l_c0834b34c2.mp3";
+import a1451 from "../assets/audio/vita-v3/l_f7c4a90f29.mp3";
+import a1452 from "../assets/audio/vita-v3/l_b5847c6e7e.mp3";
+import a1453 from "../assets/audio/vita-v3/l_43c3b2c98c.mp3";
+import a1454 from "../assets/audio/vita-v3/l_28e9d26795.mp3";
+import a1455 from "../assets/audio/vita-v3/l_139d9f4dc4.mp3";
+import a1456 from "../assets/audio/vita-v3/l_9055a88340.mp3";
+import a1457 from "../assets/audio/vita-v3/l_ebee8f370d.mp3";
+import a1458 from "../assets/audio/vita-v3/l_1e96e651b7.mp3";
+import a1459 from "../assets/audio/vita-v3/l_f3952ca349.mp3";
+import a1460 from "../assets/audio/vita-v3/l_ed8d4dbc17.mp3";
+import a1461 from "../assets/audio/vita-v3/l_183c36483f.mp3";
+import a1462 from "../assets/audio/vita-v3/l_4d19747e02.mp3";
+import a1463 from "../assets/audio/vita-v3/l_394dc432c1.mp3";
+import a1464 from "../assets/audio/vita-v3/l_e795f20716.mp3";
+import a1465 from "../assets/audio/vita-v3/l_41252656a0.mp3";
+import a1466 from "../assets/audio/vita-v3/l_89165cf09d.mp3";
+import a1467 from "../assets/audio/vita-v3/l_8e701c00b0.mp3";
+import a1468 from "../assets/audio/vita-v3/l_86b60dacb0.mp3";
+import a1469 from "../assets/audio/vita-v3/l_d136b52bad.mp3";
+import a1470 from "../assets/audio/vita-v3/l_ab8e983e16.mp3";
+import a1471 from "../assets/audio/vita-v3/l_b54ca65e94.mp3";
+import a1472 from "../assets/audio/vita-v3/l_680160cd8c.mp3";
+import a1473 from "../assets/audio/vita-v3/l_740afbd3ff.mp3";
+import a1474 from "../assets/audio/vita-v3/l_0b173f1f7a.mp3";
+import a1475 from "../assets/audio/vita-v3/l_c77fc87741.mp3";
+import a1476 from "../assets/audio/vita-v3/l_b3439d7714.mp3";
+import a1477 from "../assets/audio/vita-v3/l_37948368ad.mp3";
+import a1478 from "../assets/audio/vita-v3/l_da01e0cfbd.mp3";
+import a1479 from "../assets/audio/vita-v3/l_d20d4d8ca4.mp3";
+import a1480 from "../assets/audio/vita-v3/l_7d206ea8f8.mp3";
+import a1481 from "../assets/audio/vita-v3/l_341f47404a.mp3";
+import a1482 from "../assets/audio/vita-v3/l_de9d4812cd.mp3";
+import a1483 from "../assets/audio/vita-v3/l_6b9065c568.mp3";
+import a1484 from "../assets/audio/vita-v3/l_c3c7208a7e.mp3";
+import a1485 from "../assets/audio/vita-v3/l_348f1fedae.mp3";
+import a1486 from "../assets/audio/vita-v3/l_bc10972f1d.mp3";
+import a1487 from "../assets/audio/vita-v3/l_06c648c6a5.mp3";
+import a1488 from "../assets/audio/vita-v3/l_3ebbf451e4.mp3";
+import a1489 from "../assets/audio/vita-v3/l_ee2d811697.mp3";
+import a1490 from "../assets/audio/vita-v3/l_942d1c4455.mp3";
+import a1491 from "../assets/audio/vita-v3/l_d351bc2a45.mp3";
+import a1492 from "../assets/audio/vita-v3/l_c8f7c99331.mp3";
+import a1493 from "../assets/audio/vita-v3/l_7d248826b6.mp3";
+import a1494 from "../assets/audio/vita-v3/l_29b424af2d.mp3";
+import a1495 from "../assets/audio/vita-v3/l_f1d146692d.mp3";
+import a1496 from "../assets/audio/vita-v3/l_8502888d2b.mp3";
+import a1497 from "../assets/audio/vita-v3/l_8366179c48.mp3";
+import a1498 from "../assets/audio/vita-v3/l_117a689b2c.mp3";
+import a1499 from "../assets/audio/vita-v3/l_850bbe5e3d.mp3";
+import a1500 from "../assets/audio/vita-v3/l_9e3552eecc.mp3";
+import a1501 from "../assets/audio/vita-v3/l_3fc456a482.mp3";
+import a1502 from "../assets/audio/vita-v3/l_cfc9e26687.mp3";
+import a1503 from "../assets/audio/vita-v3/l_75cf58a35c.mp3";
+import a1504 from "../assets/audio/vita-v3/l_7c06be90c6.mp3";
+import a1505 from "../assets/audio/vita-v3/l_dcf24f1937.mp3";
+import a1506 from "../assets/audio/vita-v3/l_19ad47c2c0.mp3";
+import a1507 from "../assets/audio/vita-v3/l_74cff8013d.mp3";
+import a1508 from "../assets/audio/vita-v3/l_ac2fe2c6ce.mp3";
+import a1509 from "../assets/audio/vita-v3/l_2b22162bb9.mp3";
+import a1510 from "../assets/audio/vita-v3/l_02807de8f6.mp3";
+import a1511 from "../assets/audio/vita-v3/l_886ec21e84.mp3";
+import a1512 from "../assets/audio/vita-v3/l_6e392a55b8.mp3";
+import a1513 from "../assets/audio/vita-v3/l_26a24f9b0b.mp3";
+import a1514 from "../assets/audio/vita-v3/l_59f69a2acb.mp3";
+import a1515 from "../assets/audio/vita-v3/l_5c72898a00.mp3";
+import a1516 from "../assets/audio/vita-v3/l_90b10750ee.mp3";
+import a1517 from "../assets/audio/vita-v3/l_d74b9ab382.mp3";
+import a1518 from "../assets/audio/vita-v3/l_2daca7bf0e.mp3";
+import a1519 from "../assets/audio/vita-v3/l_64534c6fee.mp3";
+import a1520 from "../assets/audio/vita-v3/l_6892774623.mp3";
+import a1521 from "../assets/audio/vita-v3/l_38915c40b1.mp3";
+import a1522 from "../assets/audio/vita-v3/l_a61f3b429b.mp3";
+import a1523 from "../assets/audio/vita-v3/l_9577c70ae0.mp3";
+import a1524 from "../assets/audio/vita-v3/l_2806c7c1be.mp3";
+import a1525 from "../assets/audio/vita-v3/l_8251e0bbf1.mp3";
+import a1526 from "../assets/audio/vita-v3/l_be8cd8be1a.mp3";
+import a1527 from "../assets/audio/vita-v3/l_c12345add0.mp3";
+import a1528 from "../assets/audio/vita-v3/l_3930a84794.mp3";
+import a1529 from "../assets/audio/vita-v3/l_0a416c8733.mp3";
+import a1530 from "../assets/audio/vita-v3/l_3314f9cb72.mp3";
+import a1531 from "../assets/audio/vita-v3/l_d4921122ea.mp3";
+import a1532 from "../assets/audio/vita-v3/l_a530dcfb47.mp3";
+import a1533 from "../assets/audio/vita-v3/l_238e7e225c.mp3";
+import a1534 from "../assets/audio/vita-v3/l_1165d55602.mp3";
+import a1535 from "../assets/audio/vita-v3/l_fb4ffaf186.mp3";
+import a1536 from "../assets/audio/vita-v3/l_fdf12b6d76.mp3";
+import a1537 from "../assets/audio/vita-v3/l_3e96f54ed5.mp3";
+import a1538 from "../assets/audio/vita-v3/l_2ff9d90a3b.mp3";
+import a1539 from "../assets/audio/vita-v3/l_fa528f8e6f.mp3";
+import a1540 from "../assets/audio/vita-v3/l_5f68a14284.mp3";
+import a1541 from "../assets/audio/vita-v3/l_756e44025c.mp3";
+import a1542 from "../assets/audio/vita-v3/l_d53c1ecb6e.mp3";
+import a1543 from "../assets/audio/vita-v3/l_bb62870a5b.mp3";
+import a1544 from "../assets/audio/vita-v3/l_06edd00c47.mp3";
+import a1545 from "../assets/audio/vita-v3/l_59ceda89c6.mp3";
+import a1546 from "../assets/audio/vita-v3/l_fb24b1c447.mp3";
+import a1547 from "../assets/audio/vita-v3/l_7a091b69b7.mp3";
+import a1548 from "../assets/audio/vita-v3/l_0f3e963d43.mp3";
+import a1549 from "../assets/audio/vita-v3/l_92d3d3e406.mp3";
+import a1550 from "../assets/audio/vita-v3/l_c3cd502352.mp3";
+import a1551 from "../assets/audio/vita-v3/l_7e411dabdc.mp3";
+import a1552 from "../assets/audio/vita-v3/l_6e55ae40d5.mp3";
+import a1553 from "../assets/audio/vita-v3/l_e84c8f03fd.mp3";
+import a1554 from "../assets/audio/vita-v3/l_336b73d6e7.mp3";
+import a1555 from "../assets/audio/vita-v3/l_67ce1cf3fe.mp3";
+import a1556 from "../assets/audio/vita-v3/l_ed36095e54.mp3";
+import a1557 from "../assets/audio/vita-v3/l_ef520b5dcf.mp3";
+import a1558 from "../assets/audio/vita-v3/l_3f0cc35bd7.mp3";
+import a1559 from "../assets/audio/vita-v3/l_2e02acf03e.mp3";
+import a1560 from "../assets/audio/vita-v3/l_cf5e1bfede.mp3";
+import a1561 from "../assets/audio/vita-v3/l_b9c1e89c73.mp3";
+import a1562 from "../assets/audio/vita-v3/l_9878374999.mp3";
+import a1563 from "../assets/audio/vita-v3/l_ba35aa88db.mp3";
+import a1564 from "../assets/audio/vita-v3/l_68a1487559.mp3";
+import a1565 from "../assets/audio/vita-v3/l_02e4151b8e.mp3";
+import a1566 from "../assets/audio/vita-v3/l_13660462fb.mp3";
+import a1567 from "../assets/audio/vita-v3/l_ebe95848bc.mp3";
+import a1568 from "../assets/audio/vita-v3/l_8deefa57de.mp3";
+import a1569 from "../assets/audio/vita-v3/l_f6fa718dce.mp3";
+import a1570 from "../assets/audio/vita-v3/l_1410d8fe66.mp3";
+import a1571 from "../assets/audio/vita-v3/l_a995595ac4.mp3";
+import a1572 from "../assets/audio/vita-v3/l_2d4f00534a.mp3";
+import a1573 from "../assets/audio/vita-v3/l_45befe7db0.mp3";
+import a1574 from "../assets/audio/vita-v3/l_f8e0458780.mp3";
+import a1575 from "../assets/audio/vita-v3/l_2e65088aa7.mp3";
+import a1576 from "../assets/audio/vita-v3/l_04b876ca25.mp3";
+import a1577 from "../assets/audio/vita-v3/l_ece193e6f6.mp3";
+import a1578 from "../assets/audio/vita-v3/l_6186d4ff97.mp3";
+import a1579 from "../assets/audio/vita-v3/l_4a3dfe96aa.mp3";
+import a1580 from "../assets/audio/vita-v3/l_363bbc1bdc.mp3";
+import a1581 from "../assets/audio/vita-v3/l_bd78d5a112.mp3";
+import a1582 from "../assets/audio/vita-v3/l_729d7b36d6.mp3";
+import a1583 from "../assets/audio/vita-v3/l_ad01d788ce.mp3";
+import a1584 from "../assets/audio/vita-v3/l_6869c34132.mp3";
+import a1585 from "../assets/audio/vita-v3/l_e154c46533.mp3";
+import a1586 from "../assets/audio/vita-v3/l_f783399283.mp3";
+import a1587 from "../assets/audio/vita-v3/l_074ca142db.mp3";
+import a1588 from "../assets/audio/vita-v3/l_93d1385cae.mp3";
+import a1589 from "../assets/audio/vita-v3/l_978001330e.mp3";
+import a1590 from "../assets/audio/vita-v3/l_25bfb8caa2.mp3";
+import a1591 from "../assets/audio/vita-v3/l_ed33e2aac4.mp3";
+import a1592 from "../assets/audio/vita-v3/l_5ddba34249.mp3";
+import a1593 from "../assets/audio/vita-v3/l_45e951caac.mp3";
+import a1594 from "../assets/audio/vita-v3/l_1b7d279d2c.mp3";
+import a1595 from "../assets/audio/vita-v3/l_16cca8d632.mp3";
+import a1596 from "../assets/audio/vita-v3/l_08f74d2d6a.mp3";
+import a1597 from "../assets/audio/vita-v3/l_e0b5d145f3.mp3";
+import a1598 from "../assets/audio/vita-v3/l_7f58345f51.mp3";
+import a1599 from "../assets/audio/vita-v3/l_e77f2587bf.mp3";
+import a1600 from "../assets/audio/vita-v3/l_77299ab0e0.mp3";
+import a1601 from "../assets/audio/vita-v3/l_5d8ef1cd7e.mp3";
+import a1602 from "../assets/audio/vita-v3/l_c7904f1f2d.mp3";
+import a1603 from "../assets/audio/vita-v3/l_a04940e2ba.mp3";
+import a1604 from "../assets/audio/vita-v3/l_aa91e90d81.mp3";
+import a1605 from "../assets/audio/vita-v3/l_b8aa6c1600.mp3";
+import a1606 from "../assets/audio/vita-v3/l_8a241b04f3.mp3";
+import a1607 from "../assets/audio/vita-v3/l_857ab61e26.mp3";
+import a1608 from "../assets/audio/vita-v3/l_35d04a11f5.mp3";
+import a1609 from "../assets/audio/vita-v3/l_827bfa0494.mp3";
+import a1610 from "../assets/audio/vita-v3/l_bebcf0d827.mp3";
+import a1611 from "../assets/audio/vita-v3/l_dbe7e43541.mp3";
+import a1612 from "../assets/audio/vita-v3/l_3b54df8e48.mp3";
+import a1613 from "../assets/audio/vita-v3/l_b20d6170d9.mp3";
+import a1614 from "../assets/audio/vita-v3/l_a78c48e690.mp3";
+import a1615 from "../assets/audio/vita-v3/l_2a3a7a6173.mp3";
+import a1616 from "../assets/audio/vita-v3/l_ceb5e2455c.mp3";
+import a1617 from "../assets/audio/vita-v3/l_792ed26bfd.mp3";
+import a1618 from "../assets/audio/vita-v3/l_bf338a02d9.mp3";
+import a1619 from "../assets/audio/vita-v3/l_e21d5631e8.mp3";
+import a1620 from "../assets/audio/vita-v3/l_e9cfab9c70.mp3";
+import a1621 from "../assets/audio/vita-v3/l_4220037704.mp3";
+import a1622 from "../assets/audio/vita-v3/l_e199572cf8.mp3";
+import a1623 from "../assets/audio/vita-v3/l_3d0b9698c0.mp3";
+import a1624 from "../assets/audio/vita-v3/l_b2cd14704d.mp3";
+import a1625 from "../assets/audio/vita-v3/l_e2f57ef6ff.mp3";
+import a1626 from "../assets/audio/vita-v3/l_638fdf10cd.mp3";
+import a1627 from "../assets/audio/vita-v3/l_748ccd528f.mp3";
+import a1628 from "../assets/audio/vita-v3/l_3ed2335315.mp3";
+import a1629 from "../assets/audio/vita-v3/l_9f11b8e1ba.mp3";
+import a1630 from "../assets/audio/vita-v3/l_a397f17069.mp3";
+import a1631 from "../assets/audio/vita-v3/l_4c1f9162b0.mp3";
+import a1632 from "../assets/audio/vita-v3/l_ef31364c88.mp3";
+import a1633 from "../assets/audio/vita-v3/l_bc826f8822.mp3";
+import a1634 from "../assets/audio/vita-v3/l_c45ea2a07a.mp3";
+import a1635 from "../assets/audio/vita-v3/l_cc1c7e5692.mp3";
+import a1636 from "../assets/audio/vita-v3/l_75b75e36c1.mp3";
+import a1637 from "../assets/audio/vita-v3/l_4672057a86.mp3";
+import a1638 from "../assets/audio/vita-v3/l_728c5cbe13.mp3";
+import a1639 from "../assets/audio/vita-v3/l_89f39e9305.mp3";
+import a1640 from "../assets/audio/vita-v3/l_fae60e9db6.mp3";
+import a1641 from "../assets/audio/vita-v3/l_f0f3d2bd10.mp3";
+import a1642 from "../assets/audio/vita-v3/l_e4af4742b8.mp3";
+import a1643 from "../assets/audio/vita-v3/l_f9f98bebe2.mp3";
+import a1644 from "../assets/audio/vita-v3/l_f3003616ef.mp3";
+import a1645 from "../assets/audio/vita-v3/l_6169cc8002.mp3";
+import a1646 from "../assets/audio/vita-v3/l_1b37a9cdfc.mp3";
+import a1647 from "../assets/audio/vita-v3/l_a3f31f04cf.mp3";
+import a1648 from "../assets/audio/vita-v3/l_12a9fd01a5.mp3";
+import a1649 from "../assets/audio/vita-v3/l_2333370083.mp3";
+import a1650 from "../assets/audio/vita-v3/l_360d3cfd55.mp3";
+import a1651 from "../assets/audio/vita-v3/l_69158a6297.mp3";
+import a1652 from "../assets/audio/vita-v3/l_4ff9d7e77d.mp3";
+import a1653 from "../assets/audio/vita-v3/l_ca32baf626.mp3";
+import a1654 from "../assets/audio/vita-v3/l_38c2a1dfcf.mp3";
+import a1655 from "../assets/audio/vita-v3/l_4c97da3fe6.mp3";
+import a1656 from "../assets/audio/vita-v3/l_b5aa7a9193.mp3";
+import a1657 from "../assets/audio/vita-v3/l_29e0ca023e.mp3";
+import a1658 from "../assets/audio/vita-v3/l_5e0edd2548.mp3";
+import a1659 from "../assets/audio/vita-v3/l_4aa4728907.mp3";
+import a1660 from "../assets/audio/vita-v3/l_1d292cca91.mp3";
+import a1661 from "../assets/audio/vita-v3/l_790e93a446.mp3";
+import a1662 from "../assets/audio/vita-v3/l_2629012a1c.mp3";
+import a1663 from "../assets/audio/vita-v3/l_0a7bcc3b33.mp3";
+import a1664 from "../assets/audio/vita-v3/l_c1ec2c5cae.mp3";
+import a1665 from "../assets/audio/vita-v3/l_b31c6f6a72.mp3";
+import a1666 from "../assets/audio/vita-v3/l_5f715e91a0.mp3";
+import a1667 from "../assets/audio/vita-v3/l_99500d30f1.mp3";
+import a1668 from "../assets/audio/vita-v3/l_4e0c53f90d.mp3";
+import a1669 from "../assets/audio/vita-v3/l_7d32152f77.mp3";
+import a1670 from "../assets/audio/vita-v3/l_37f06bbfb4.mp3";
+import a1671 from "../assets/audio/vita-v3/l_d8ad4d924a.mp3";
+import a1672 from "../assets/audio/vita-v3/l_aa19a83ad2.mp3";
+import a1673 from "../assets/audio/vita-v3/l_1854b41474.mp3";
+import a1674 from "../assets/audio/vita-v3/l_4b5aac3bf6.mp3";
+import a1675 from "../assets/audio/vita-v3/l_d4fafa1524.mp3";
+import a1676 from "../assets/audio/vita-v3/l_46db7cd9d6.mp3";
+import a1677 from "../assets/audio/vita-v3/l_4613dc73bd.mp3";
+import a1678 from "../assets/audio/vita-v3/l_fc3c6993aa.mp3";
+import a1679 from "../assets/audio/vita-v3/l_7e1c0d8530.mp3";
+import a1680 from "../assets/audio/vita-v3/l_ca23c56727.mp3";
+import a1681 from "../assets/audio/vita-v3/l_8a8f02adb9.mp3";
+import a1682 from "../assets/audio/vita-v3/l_84fa60f5d2.mp3";
+import a1683 from "../assets/audio/vita-v3/l_2dcab02dc8.mp3";
+import a1684 from "../assets/audio/vita-v3/l_914ae65d20.mp3";
+import a1685 from "../assets/audio/vita-v3/l_cb6df906d4.mp3";
+import a1686 from "../assets/audio/vita-v3/l_22a12e3f1d.mp3";
+import a1687 from "../assets/audio/vita-v3/l_53775ff8bd.mp3";
+import a1688 from "../assets/audio/vita-v3/l_105e10eafe.mp3";
+import a1689 from "../assets/audio/vita-v3/l_56ac449590.mp3";
+import a1690 from "../assets/audio/vita-v3/l_745857c0cf.mp3";
+import a1691 from "../assets/audio/vita-v3/l_277f40916e.mp3";
+import a1692 from "../assets/audio/vita-v3/l_a4aba531bc.mp3";
+import a1693 from "../assets/audio/vita-v3/l_57f3c2b58a.mp3";
+import a1694 from "../assets/audio/vita-v3/l_8046463b6c.mp3";
+import a1695 from "../assets/audio/vita-v3/l_d88100ac77.mp3";
+import a1696 from "../assets/audio/vita-v3/l_80745b39ef.mp3";
+import a1697 from "../assets/audio/vita-v3/l_9e5e211c2e.mp3";
+import a1698 from "../assets/audio/vita-v3/l_35bafdb6d7.mp3";
+import a1699 from "../assets/audio/vita-v3/l_31af8da03a.mp3";
+import a1700 from "../assets/audio/vita-v3/l_3d7f223616.mp3";
+import a1701 from "../assets/audio/vita-v3/l_021c857943.mp3";
+import a1702 from "../assets/audio/vita-v3/l_90f1850334.mp3";
+import a1703 from "../assets/audio/vita-v3/l_4cd5b67522.mp3";
+import a1704 from "../assets/audio/vita-v3/l_3d91a2775a.mp3";
+import a1705 from "../assets/audio/vita-v3/l_860e0aaeec.mp3";
+import a1706 from "../assets/audio/vita-v3/l_3e484a755b.mp3";
+import a1707 from "../assets/audio/vita-v3/l_9b379699d4.mp3";
+import a1708 from "../assets/audio/vita-v3/l_ca4380c7c9.mp3";
+import a1709 from "../assets/audio/vita-v3/l_fd348eb7fc.mp3";
+import a1710 from "../assets/audio/vita-v3/l_5faea07364.mp3";
+import a1711 from "../assets/audio/vita-v3/l_06ba2b9291.mp3";
+import a1712 from "../assets/audio/vita-v3/l_9935eef260.mp3";
+import a1713 from "../assets/audio/vita-v3/l_573aaa20b1.mp3";
+import a1714 from "../assets/audio/vita-v3/l_d2d6dba280.mp3";
+import a1715 from "../assets/audio/vita-v3/l_fe4c49caa0.mp3";
+import a1716 from "../assets/audio/vita-v3/l_94c215ab5d.mp3";
+import a1717 from "../assets/audio/vita-v3/l_ad2d9009d9.mp3";
+import a1718 from "../assets/audio/vita-v3/l_e010362ce0.mp3";
+import a1719 from "../assets/audio/vita-v3/l_d61fba26e1.mp3";
+import a1720 from "../assets/audio/vita-v3/l_2dcce02a3b.mp3";
+import a1721 from "../assets/audio/vita-v3/l_e96e16af32.mp3";
+import a1722 from "../assets/audio/vita-v3/l_d56bdc8e7a.mp3";
+import a1723 from "../assets/audio/vita-v3/l_479a31ae6b.mp3";
+import a1724 from "../assets/audio/vita-v3/l_861133a0c9.mp3";
+import a1725 from "../assets/audio/vita-v3/l_4ebf27e992.mp3";
+import a1726 from "../assets/audio/vita-v3/l_6d0a0c1496.mp3";
+import a1727 from "../assets/audio/vita-v3/l_e39f795950.mp3";
+import a1728 from "../assets/audio/vita-v3/l_9c24ff5ff3.mp3";
+import a1729 from "../assets/audio/vita-v3/l_f37da93206.mp3";
+import a1730 from "../assets/audio/vita-v3/l_2ca630e466.mp3";
+import a1731 from "../assets/audio/vita-v3/l_21dbd2985f.mp3";
+import a1732 from "../assets/audio/vita-v3/l_dc93e24327.mp3";
+import a1733 from "../assets/audio/vita-v3/l_3e6cdc21f6.mp3";
+import a1734 from "../assets/audio/vita-v3/l_e1911305bf.mp3";
+import a1735 from "../assets/audio/vita-v3/l_3e9f16e3f1.mp3";
+import a1736 from "../assets/audio/vita-v3/l_94158ad8f9.mp3";
+import a1737 from "../assets/audio/vita-v3/l_65c76513f7.mp3";
+import a1738 from "../assets/audio/vita-v3/l_0f0479018b.mp3";
+import a1739 from "../assets/audio/vita-v3/l_b551d5077c.mp3";
+import a1740 from "../assets/audio/vita-v3/l_f0dc8dfb65.mp3";
+import a1741 from "../assets/audio/vita-v3/l_b74b646f99.mp3";
+import a1742 from "../assets/audio/vita-v3/l_b29e59dccb.mp3";
+import a1743 from "../assets/audio/vita-v3/l_754c86f119.mp3";
+import a1744 from "../assets/audio/vita-v3/l_2e2fa9750c.mp3";
+import a1745 from "../assets/audio/vita-v3/l_9e4b9d25fa.mp3";
+import a1746 from "../assets/audio/vita-v3/l_f6f09ed979.mp3";
+import a1747 from "../assets/audio/vita-v3/l_09bd8e7618.mp3";
+import a1748 from "../assets/audio/vita-v3/l_dffe77bd1f.mp3";
+import a1749 from "../assets/audio/vita-v3/l_de7fa882a9.mp3";
+import a1750 from "../assets/audio/vita-v3/l_f1d8177ec5.mp3";
+import a1751 from "../assets/audio/vita-v3/l_1a88369609.mp3";
+import a1752 from "../assets/audio/vita-v3/l_3eadab9b57.mp3";
+import a1753 from "../assets/audio/vita-v3/l_59cfb665f4.mp3";
+import a1754 from "../assets/audio/vita-v3/l_d0c95fae64.mp3";
+import a1755 from "../assets/audio/vita-v3/l_2a2e547e70.mp3";
+import a1756 from "../assets/audio/vita-v3/l_e05273fb27.mp3";
+import a1757 from "../assets/audio/vita-v3/l_e14d754a68.mp3";
+import a1758 from "../assets/audio/vita-v3/l_52d09e8ddb.mp3";
+import a1759 from "../assets/audio/vita-v3/l_54e5756297.mp3";
+import a1760 from "../assets/audio/vita-v3/l_3e1eb1c53d.mp3";
+import a1761 from "../assets/audio/vita-v3/l_ec3bcd8010.mp3";
+import a1762 from "../assets/audio/vita-v3/l_d933443d00.mp3";
+import a1763 from "../assets/audio/vita-v3/l_4a3cc50f9d.mp3";
+import a1764 from "../assets/audio/vita-v3/l_2903df3d74.mp3";
+import a1765 from "../assets/audio/vita-v3/l_0ae2056c1c.mp3";
+import a1766 from "../assets/audio/vita-v3/l_05b86936bd.mp3";
+import a1767 from "../assets/audio/vita-v3/l_9165d8ec2b.mp3";
+import a1768 from "../assets/audio/vita-v3/l_3032f18093.mp3";
+import a1769 from "../assets/audio/vita-v3/l_d4043d227f.mp3";
+import a1770 from "../assets/audio/vita-v3/l_5ed841fec8.mp3";
+import a1771 from "../assets/audio/vita-v3/l_8c44b7371a.mp3";
+import a1772 from "../assets/audio/vita-v3/l_04b6d841be.mp3";
+import a1773 from "../assets/audio/vita-v3/l_e4db550452.mp3";
+import a1774 from "../assets/audio/vita-v3/l_e0f7958849.mp3";
+import a1775 from "../assets/audio/vita-v3/l_c609c963e7.mp3";
+import a1776 from "../assets/audio/vita-v3/l_dfa42aa685.mp3";
+import a1777 from "../assets/audio/vita-v3/l_d5e6bde309.mp3";
+import a1778 from "../assets/audio/vita-v3/l_677354bac5.mp3";
+import a1779 from "../assets/audio/vita-v3/l_ad3fddd595.mp3";
+import a1780 from "../assets/audio/vita-v3/l_4c6ece4f41.mp3";
+import a1781 from "../assets/audio/vita-v3/l_15382d4ec0.mp3";
+import a1782 from "../assets/audio/vita-v3/l_314b816a2e.mp3";
+import a1783 from "../assets/audio/vita-v3/l_73f16f7925.mp3";
+import a1784 from "../assets/audio/vita-v3/l_0255fce84e.mp3";
+import a1785 from "../assets/audio/vita-v3/l_dfdf50ede1.mp3";
+import a1786 from "../assets/audio/vita-v3/l_74b2ce9911.mp3";
+import a1787 from "../assets/audio/vita-v3/l_6edcd5c898.mp3";
+import a1788 from "../assets/audio/vita-v3/l_0f661b68ec.mp3";
+import a1789 from "../assets/audio/vita-v3/l_b5cd45cd0e.mp3";
+import a1790 from "../assets/audio/vita-v3/l_e92dcb8a20.mp3";
+import a1791 from "../assets/audio/vita-v3/l_10dd0799a3.mp3";
+import a1792 from "../assets/audio/vita-v3/l_28430726e1.mp3";
+import a1793 from "../assets/audio/vita-v3/l_0c53ef4507.mp3";
+import a1794 from "../assets/audio/vita-v3/l_dbbdf270b0.mp3";
+import a1795 from "../assets/audio/vita-v3/l_1ea78a1c2a.mp3";
+import a1796 from "../assets/audio/vita-v3/l_dfc6f90b6b.mp3";
+import a1797 from "../assets/audio/vita-v3/l_12260955f3.mp3";
+import a1798 from "../assets/audio/vita-v3/l_4ccc31449a.mp3";
+import a1799 from "../assets/audio/vita-v3/l_9da5a99b6c.mp3";
+import a1800 from "../assets/audio/vita-v3/l_2cad31cb98.mp3";
+import a1801 from "../assets/audio/vita-v3/l_294e3b4508.mp3";
+import a1802 from "../assets/audio/vita-v3/l_b0f6f66290.mp3";
+import a1803 from "../assets/audio/vita-v3/l_c3281062f6.mp3";
+import a1804 from "../assets/audio/vita-v3/l_3f5a080dae.mp3";
+import a1805 from "../assets/audio/vita-v3/l_0e86420152.mp3";
+import a1806 from "../assets/audio/vita-v3/l_9016edddad.mp3";
+import a1807 from "../assets/audio/vita-v3/l_0ecd5c06d9.mp3";
+import a1808 from "../assets/audio/vita-v3/l_096cf151cb.mp3";
+import a1809 from "../assets/audio/vita-v3/l_022412b782.mp3";
+import a1810 from "../assets/audio/vita-v3/l_9aae493c44.mp3";
+import a1811 from "../assets/audio/vita-v3/l_e4ef538334.mp3";
+import a1812 from "../assets/audio/vita-v3/l_7dfa8f7a10.mp3";
+import a1813 from "../assets/audio/vita-v3/l_2176cd69d9.mp3";
+import a1814 from "../assets/audio/vita-v3/l_7a25ea1168.mp3";
+import a1815 from "../assets/audio/vita-v3/l_a73d051521.mp3";
+import a1816 from "../assets/audio/vita-v3/l_1756603aa0.mp3";
+import a1817 from "../assets/audio/vita-v3/l_75bc13fceb.mp3";
+import a1818 from "../assets/audio/vita-v3/l_ce3aef5959.mp3";
+import a1819 from "../assets/audio/vita-v3/l_dd0b13964b.mp3";
+import a1820 from "../assets/audio/vita-v3/l_c7cb632d14.mp3";
+import a1821 from "../assets/audio/vita-v3/l_a711af0308.mp3";
+import a1822 from "../assets/audio/vita-v3/l_4b22085fa7.mp3";
+import a1823 from "../assets/audio/vita-v3/l_992f4c455a.mp3";
+import a1824 from "../assets/audio/vita-v3/l_2d58472c0d.mp3";
+import a1825 from "../assets/audio/vita-v3/l_4ec7ef5446.mp3";
+import a1826 from "../assets/audio/vita-v3/l_897fc567e1.mp3";
+import a1827 from "../assets/audio/vita-v3/l_841343a8cd.mp3";
+import a1828 from "../assets/audio/vita-v3/l_4fc11bb873.mp3";
+import a1829 from "../assets/audio/vita-v3/l_4003a56269.mp3";
+import a1830 from "../assets/audio/vita-v3/l_412081aa4a.mp3";
+import a1831 from "../assets/audio/vita-v3/l_bfb5647def.mp3";
+import a1832 from "../assets/audio/vita-v3/l_429787cefd.mp3";
+import a1833 from "../assets/audio/vita-v3/l_d89d21253e.mp3";
+import a1834 from "../assets/audio/vita-v3/l_e9ddf24b53.mp3";
+import a1835 from "../assets/audio/vita-v3/l_9972730390.mp3";
+import a1836 from "../assets/audio/vita-v3/l_40a2e2b394.mp3";
+import a1837 from "../assets/audio/vita-v3/l_dd5a80d5d1.mp3";
+import a1838 from "../assets/audio/vita-v3/l_84183a6cad.mp3";
+import a1839 from "../assets/audio/vita-v3/l_76010de6d9.mp3";
+import a1840 from "../assets/audio/vita-v3/l_19dd065fe7.mp3";
+import a1841 from "../assets/audio/vita-v3/l_209b889067.mp3";
+import a1842 from "../assets/audio/vita-v3/l_f75eb914e6.mp3";
+import a1843 from "../assets/audio/vita-v3/l_e78eb8aa95.mp3";
+import a1844 from "../assets/audio/vita-v3/l_edc27dd0b7.mp3";
+import a1845 from "../assets/audio/vita-v3/l_82c50ce8e5.mp3";
+import a1846 from "../assets/audio/vita-v3/l_27916c5bf5.mp3";
+import a1847 from "../assets/audio/vita-v3/l_0b56b6ea95.mp3";
+import a1848 from "../assets/audio/vita-v3/l_075eb2ce69.mp3";
+import a1849 from "../assets/audio/vita-v3/l_8d2c255a3d.mp3";
+import a1850 from "../assets/audio/vita-v3/l_668c16123c.mp3";
+import a1851 from "../assets/audio/vita-v3/l_6586be2f7b.mp3";
+import a1852 from "../assets/audio/vita-v3/l_cdce458e7b.mp3";
+import a1853 from "../assets/audio/vita-v3/l_2191c5d324.mp3";
+import a1854 from "../assets/audio/vita-v3/l_b256581faf.mp3";
+import a1855 from "../assets/audio/vita-v3/l_f5688a10ba.mp3";
+import a1856 from "../assets/audio/vita-v3/l_4ef1f7c08a.mp3";
+import a1857 from "../assets/audio/vita-v3/l_b18de822f1.mp3";
+import a1858 from "../assets/audio/vita-v3/l_f3413152e2.mp3";
+import a1859 from "../assets/audio/vita-v3/l_cede11b4b8.mp3";
+import a1860 from "../assets/audio/vita-v3/l_04c686e308.mp3";
+import a1861 from "../assets/audio/vita-v3/l_2567df6e3f.mp3";
+import a1862 from "../assets/audio/vita-v3/l_6029beffca.mp3";
+import a1863 from "../assets/audio/vita-v3/l_8baad6c8dd.mp3";
+import a1864 from "../assets/audio/vita-v3/l_76c301c2cf.mp3";
+import a1865 from "../assets/audio/vita-v3/l_1ad490a47e.mp3";
+import a1866 from "../assets/audio/vita-v3/l_8eaa951c46.mp3";
+import a1867 from "../assets/audio/vita-v3/l_71bc3f8552.mp3";
+import a1868 from "../assets/audio/vita-v3/l_e816833ec3.mp3";
+import a1869 from "../assets/audio/vita-v3/l_6181c5fcac.mp3";
+import a1870 from "../assets/audio/vita-v3/l_d13eadf6ef.mp3";
+import a1871 from "../assets/audio/vita-v3/l_44a9ae9ccf.mp3";
+import a1872 from "../assets/audio/vita-v3/l_b5d9032508.mp3";
+import a1873 from "../assets/audio/vita-v3/l_5cc19479a6.mp3";
+import a1874 from "../assets/audio/vita-v3/l_cba6e910c3.mp3";
+import a1875 from "../assets/audio/vita-v3/l_fe818b8bb4.mp3";
+import a1876 from "../assets/audio/vita-v3/l_4d4ba65c71.mp3";
+import a1877 from "../assets/audio/vita-v3/l_d6a3bdcaaa.mp3";
+import a1878 from "../assets/audio/vita-v3/l_640259c42e.mp3";
+import a1879 from "../assets/audio/vita-v3/l_1c9fe16c41.mp3";
+import a1880 from "../assets/audio/vita-v3/l_81d1f6355a.mp3";
+import a1881 from "../assets/audio/vita-v3/l_faee2c95e8.mp3";
+import a1882 from "../assets/audio/vita-v3/l_1c7b68c36c.mp3";
+import a1883 from "../assets/audio/vita-v3/l_b57c74d0e4.mp3";
+import a1884 from "../assets/audio/vita-v3/l_516d9c97fe.mp3";
+import a1885 from "../assets/audio/vita-v3/l_d7e393ecb1.mp3";
+import a1886 from "../assets/audio/vita-v3/l_132f0f2489.mp3";
+import a1887 from "../assets/audio/vita-v3/l_8bde7f7aaa.mp3";
+import a1888 from "../assets/audio/vita-v3/l_f895e5964a.mp3";
+import a1889 from "../assets/audio/vita-v3/l_7b78b425e6.mp3";
+import a1890 from "../assets/audio/vita-v3/l_6ef9e10010.mp3";
+import a1891 from "../assets/audio/vita-v3/l_b9efd4d7ad.mp3";
+import a1892 from "../assets/audio/vita-v3/l_f36950437c.mp3";
+import a1893 from "../assets/audio/vita-v3/l_37025d0f6e.mp3";
+import a1894 from "../assets/audio/vita-v3/l_bab303938f.mp3";
+import a1895 from "../assets/audio/vita-v3/l_2d8fe4e45d.mp3";
+import a1896 from "../assets/audio/vita-v3/l_b4401e4441.mp3";
+import a1897 from "../assets/audio/vita-v3/l_49d73e9c70.mp3";
+import a1898 from "../assets/audio/vita-v3/l_ec12d7b607.mp3";
+import a1899 from "../assets/audio/vita-v3/l_a74ce1cd49.mp3";
+import a1900 from "../assets/audio/vita-v3/l_a89860ac76.mp3";
+import a1901 from "../assets/audio/vita-v3/l_1a91398595.mp3";
+import a1902 from "../assets/audio/vita-v3/l_976652e318.mp3";
+import a1903 from "../assets/audio/vita-v3/l_30ad709c81.mp3";
+import a1904 from "../assets/audio/vita-v3/l_e0177afd22.mp3";
+import a1905 from "../assets/audio/vita-v3/l_52362c38a9.mp3";
+import a1906 from "../assets/audio/vita-v3/l_9ba626984f.mp3";
+import a1907 from "../assets/audio/vita-v3/l_c42e58c049.mp3";
+import a1908 from "../assets/audio/vita-v3/l_3a7fcc9036.mp3";
+import a1909 from "../assets/audio/vita-v3/l_59f61ab476.mp3";
 
 export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Bé tìm đồ vật": a0,
@@ -1931,4 +2879,952 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "ớ, bờ, cờ, dờ.": a959,
   "ớ, bờ, cờ.": a960,
   "Ụt ịt, ụt ịt!": a961,
+  "Con nghe tên đồ vật, rồi chạm vào tranh đúng nhé. Trò này sắp có nhé!": a962,
+  "Trò Bé tìm đồ vật cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a963,
+  "Con chơi xong mức Khó trò Bé tìm đồ vật để nhận sticker này nhé.": a964,
+  "Quả chuối đâu nhỉ? Con chạm vào quả chuối nhé.": a965,
+  "Đúng rồi! Đây là quả chuối.": a966,
+  "Cái ghế đâu nhỉ? Con chạm vào cái ghế nhé.": a967,
+  "Đúng rồi! Đây là cái ghế.": a968,
+  "Đôi giày đâu nhỉ? Con chạm vào đôi giày nhé.": a969,
+  "Đúng rồi! Đây là đôi giày.": a970,
+  "Quả bóng đâu nhỉ? Con chạm vào quả bóng nhé.": a971,
+  "Đúng rồi! Đây là quả bóng.": a972,
+  "Ô tô đâu nhỉ? Con chạm vào ô tô nhé.": a973,
+  "Đúng rồi! Đây là ô tô.": a974,
+  "Xe đạp đâu nhỉ? Con chạm vào xe đạp nhé.": a975,
+  "Đúng rồi! Đây là xe đạp.": a976,
+  "Cái cốc đâu nhỉ? Con chạm vào cái cốc nhé.": a977,
+  "Đúng rồi! Đây là cái cốc.": a978,
+  "Bóng bay đâu nhỉ? Con chạm vào bóng bay nhé.": a979,
+  "Đúng rồi! Đây là bóng bay.": a980,
+  "Gấu bông đâu nhỉ? Con chạm vào gấu bông nhé.": a981,
+  "Đúng rồi! Đây là gấu bông.": a982,
+  "Quả táo đâu nhỉ? Con chạm vào quả táo nhé.": a983,
+  "Đúng rồi! Đây là quả táo.": a984,
+  "Cái thìa đâu nhỉ? Con chạm vào cái thìa nhé.": a985,
+  "Đúng rồi! Đây là cái thìa.": a986,
+  "Quyển sách đâu nhỉ? Con chạm vào quyển sách nhé.": a987,
+  "Đúng rồi! Đây là quyển sách.": a988,
+  "Cái mũ đâu nhỉ? Con chạm vào cái mũ nhé.": a989,
+  "Đúng rồi! Đây là cái mũ.": a990,
+  "Cái ô đâu nhỉ? Con chạm vào cái ô nhé.": a991,
+  "Đúng rồi! Đây là cái ô.": a992,
+  "Con nghe tiếng kêu, rồi chạm vào bạn kêu như thế nhé. Trò này sắp có nhé!": a993,
+  "Trò Ai kêu thế nhỉ? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a994,
+  "Con chơi xong mức Khó trò Ai kêu thế nhỉ? để nhận sticker này nhé.": a995,
+  "Ai kêu thế nhỉ? Gâu gâu, gâu gâu!": a996,
+  "Đúng rồi! Con chó kêu gâu gâu.": a997,
+  "Ai kêu thế nhỉ? Ộp ộp, ộp ộp!": a998,
+  "Đúng rồi! Con ếch kêu ộp ộp.": a999,
+  "Ai kêu thế nhỉ? Ò ó o, ò ó o!": a1000,
+  "Đúng rồi! Con gà trống kêu ò ó o.": a1001,
+  "Ai kêu thế nhỉ? Chíp chíp, chíp chíp!": a1002,
+  "Đúng rồi! Gà con kêu chíp chíp.": a1003,
+  "Ai kêu thế nhỉ? Ụt ịt, ụt ịt!": a1004,
+  "Đúng rồi! Con lợn kêu ụt ịt.": a1005,
+  "Ai kêu thế nhỉ? Vo ve, vo ve!": a1006,
+  "Đúng rồi! Con ong kêu vo ve.": a1007,
+  "Ai kêu thế nhỉ? Ùm ùm, ùm ùm!": a1008,
+  "Đúng rồi! Con bò kêu ùm ùm.": a1009,
+  "Ai kêu thế nhỉ? Meo meo, meo meo!": a1010,
+  "Đúng rồi! Con mèo kêu meo meo.": a1011,
+  "Ai kêu thế nhỉ? Cạp cạp, cạp cạp!": a1012,
+  "Đúng rồi! Con vịt kêu cạp cạp.": a1013,
+  "Con chạm hai tranh giống hệt nhau nhé. Trò này sắp có nhé!": a1014,
+  "Trò Tìm bạn giống hệt cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1015,
+  "Con chơi xong mức Khó trò Tìm bạn giống hệt để nhận sticker này nhé.": a1016,
+  "Đúng rồi! ngôi sao và ngôi sao.": a1017,
+  "Đúng rồi! ngôi sao và ngôi sao. Con ghép xong rồi!": a1018,
+  "Đúng rồi! con vịt và con vịt.": a1019,
+  "Đúng rồi! con vịt và con vịt. Con ghép xong rồi!": a1020,
+  "Đúng rồi! quả táo và quả táo.": a1021,
+  "Đúng rồi! quả táo và quả táo. Con ghép xong rồi!": a1022,
+  "Đúng rồi! con cá và con cá.": a1023,
+  "Đúng rồi! con cá và con cá. Con ghép xong rồi!": a1024,
+  "Đúng rồi! quả bóng và quả bóng.": a1025,
+  "Đúng rồi! quả bóng và quả bóng. Con ghép xong rồi!": a1026,
+  "Đúng rồi! quả chuối và quả chuối.": a1027,
+  "Đúng rồi! quả chuối và quả chuối. Con ghép xong rồi!": a1028,
+  "Đúng rồi! ô tô và ô tô.": a1029,
+  "Đúng rồi! ô tô và ô tô. Con ghép xong rồi!": a1030,
+  "Đúng rồi! con diều và con diều.": a1031,
+  "Đúng rồi! con diều và con diều. Con ghép xong rồi!": a1032,
+  "Đúng rồi! bóng bay và bóng bay.": a1033,
+  "Đúng rồi! bóng bay và bóng bay. Con ghép xong rồi!": a1034,
+  "Đúng rồi! cái trống và cái trống.": a1035,
+  "Đúng rồi! cái trống và cái trống. Con ghép xong rồi!": a1036,
+  "Đúng rồi! con mèo và con mèo.": a1037,
+  "Đúng rồi! con mèo và con mèo. Con ghép xong rồi!": a1038,
+  "Đúng rồi! gấu bông và gấu bông.": a1039,
+  "Đúng rồi! gấu bông và gấu bông. Con ghép xong rồi!": a1040,
+  "Con giúp mỗi bạn mẹ tìm em bé của mình nhé. Trò này sắp có nhé!": a1041,
+  "Trò Mẹ ơi, con đâu? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1042,
+  "Con chơi xong mức Khó trò Mẹ ơi, con đâu? để nhận sticker này nhé.": a1043,
+  "Đúng rồi! chó mẹ và chó con.": a1044,
+  "Đúng rồi! chó mẹ và chó con. Con ghép xong rồi!": a1045,
+  "Đúng rồi! thỏ mẹ và thỏ con.": a1046,
+  "Đúng rồi! thỏ mẹ và thỏ con. Con ghép xong rồi!": a1047,
+  "Đúng rồi! lợn mẹ và lợn con.": a1048,
+  "Đúng rồi! lợn mẹ và lợn con. Con ghép xong rồi!": a1049,
+  "Đúng rồi! bò mẹ và bò con.": a1050,
+  "Đúng rồi! bò mẹ và bò con. Con ghép xong rồi!": a1051,
+  "Đúng rồi! khỉ mẹ và khỉ con.": a1052,
+  "Đúng rồi! khỉ mẹ và khỉ con. Con ghép xong rồi!": a1053,
+  "Đúng rồi! mèo mẹ và mèo con.": a1054,
+  "Đúng rồi! mèo mẹ và mèo con. Con ghép xong rồi!": a1055,
+  "Đúng rồi! ngựa mẹ và ngựa con.": a1056,
+  "Đúng rồi! ngựa mẹ và ngựa con. Con ghép xong rồi!": a1057,
+  "Đúng rồi! voi mẹ và voi con.": a1058,
+  "Đúng rồi! voi mẹ và voi con. Con ghép xong rồi!": a1059,
+  "Đúng rồi! vịt mẹ và vịt con.": a1060,
+  "Đúng rồi! vịt mẹ và vịt con. Con ghép xong rồi!": a1061,
+  "Con ghép hai đồ vật hay đi cùng nhau nhé. Trò này sắp có nhé!": a1062,
+  "Trò Đôi bạn thân cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1063,
+  "Con chơi xong mức Khó trò Đôi bạn thân để nhận sticker này nhé.": a1064,
+  "Đúng rồi! đám mây và cái ô.": a1065,
+  "Đúng rồi! đám mây và cái ô. Con ghép xong rồi!": a1066,
+  "Đúng rồi! cái bát và cái thìa.": a1067,
+  "Đúng rồi! cái bát và cái thìa. Con ghép xong rồi!": a1068,
+  "Đúng rồi! cái cốc và cốc sữa.": a1069,
+  "Đúng rồi! cái cốc và cốc sữa. Con ghép xong rồi!": a1070,
+  "Đúng rồi! đôi giày và đôi tất.": a1071,
+  "Đúng rồi! đôi giày và đôi tất. Con ghép xong rồi!": a1072,
+  "Đúng rồi! ổ khóa và chìa khóa.": a1073,
+  "Đúng rồi! ổ khóa và chìa khóa. Con ghép xong rồi!": a1074,
+  "Đúng rồi! quyển sách và bút chì.": a1075,
+  "Đúng rồi! quyển sách và bút chì. Con ghép xong rồi!": a1076,
+  "Con chạm vào tất cả các bạn cùng nhóm nhé. Trò này sắp có nhé!": a1077,
+  "Trò Bé gom nhóm cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1078,
+  "Con chơi xong mức Khó trò Bé gom nhóm để nhận sticker này nhé.": a1079,
+  "Giỏi quá! Con tìm đủ các loại xe rồi.": a1080,
+  "Giỏi quá! Con tìm đủ các loại quả rồi.": a1081,
+  "Giỏi quá! Con tìm đủ các con vật rồi.": a1082,
+  "Giỏi quá! Con tìm đủ các đồ chơi rồi.": a1083,
+  "Có một bạn không cùng nhóm. Con tìm bạn ấy nhé. Trò này sắp có nhé!": a1084,
+  "Trò Cái nào khác nhóm? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1085,
+  "Con chơi xong mức Khó trò Cái nào khác nhóm? để nhận sticker này nhé.": a1086,
+  "Đúng rồi! Quả táo không cùng nhóm đồ chơi.": a1087,
+  "Đúng rồi! Quả táo không cùng nhóm con vật.": a1088,
+  "Đúng rồi! Con diều không cùng nhóm xe.": a1089,
+  "Đúng rồi! Con mèo không cùng nhóm quả.": a1090,
+  "Đúng rồi! Con voi không cùng nhóm đồ chơi.": a1091,
+  "Đúng rồi! Xe đạp không cùng nhóm quả.": a1092,
+  "Đúng rồi! Con mèo không cùng nhóm đồ chơi.": a1093,
+  "Đúng rồi! Con lợn không cùng nhóm quả.": a1094,
+  "Đúng rồi! Quả dâu tây không cùng nhóm con vật.": a1095,
+  "Đúng rồi! Máy bay không cùng nhóm con vật.": a1096,
+  "Đúng rồi! Quả dâu tây không cùng nhóm xe.": a1097,
+  "Đúng rồi! Máy bay không cùng nhóm đồ chơi.": a1098,
+  "Đúng rồi! Con bò không cùng nhóm đồ chơi.": a1099,
+  "Đúng rồi! Xe buýt không cùng nhóm quả.": a1100,
+  "Đúng rồi! Bóng bay không cùng nhóm con vật.": a1101,
+  "Đúng rồi! Gấu bông không cùng nhóm quả.": a1102,
+  "Đúng rồi! Con diều không cùng nhóm con vật.": a1103,
+  "Đúng rồi! Con lợn không cùng nhóm đồ chơi.": a1104,
+  "Đúng rồi! Ô tô không cùng nhóm con vật.": a1105,
+  "Đúng rồi! Cái trống không cùng nhóm xe.": a1106,
+  "Đúng rồi! Con chó không cùng nhóm quả.": a1107,
+  "Đúng rồi! Con thỏ không cùng nhóm đồ chơi.": a1108,
+  "Đúng rồi! Quả bóng không cùng nhóm quả.": a1109,
+  "Đúng rồi! Gấu bông không cùng nhóm con vật.": a1110,
+  "Đúng rồi! Quả chuối không cùng nhóm xe.": a1111,
+  "Đúng rồi! Chùm nho không cùng nhóm xe.": a1112,
+  "Đúng rồi! Ô tô không cùng nhóm đồ chơi.": a1113,
+  "Đúng rồi! Con voi không cùng nhóm quả.": a1114,
+  "Đúng rồi! Quả bóng không cùng nhóm xe.": a1115,
+  "Đúng rồi! Con bò không cùng nhóm quả.": a1116,
+  "Đúng rồi! Con vịt không cùng nhóm xe.": a1117,
+  "Đúng rồi! Quả cam không cùng nhóm con vật.": a1118,
+  "Đúng rồi! Quả dưa hấu không cùng nhóm xe.": a1119,
+  "Đúng rồi! Cái trống không cùng nhóm quả.": a1120,
+  "Đúng rồi! Con vịt không cùng nhóm quả.": a1121,
+  "Đúng rồi! Con thỏ không cùng nhóm xe.": a1122,
+  "Đúng rồi! Quả bóng không cùng nhóm con vật.": a1123,
+  "Đúng rồi! Xe tải không cùng nhóm đồ chơi.": a1124,
+  "Đúng rồi! Xe tải không cùng nhóm con vật.": a1125,
+  "Đúng rồi! Xe buýt không cùng nhóm con vật.": a1126,
+  "Đúng rồi! Quả cam không cùng nhóm xe.": a1127,
+  "Đúng rồi! Con thuyền không cùng nhóm quả.": a1128,
+  "Đúng rồi! Quả táo không cùng nhóm xe.": a1129,
+  "Đúng rồi! Con voi không cùng nhóm xe.": a1130,
+  "Đúng rồi! Xe tải không cùng nhóm quả.": a1131,
+  "Đúng rồi! Quả chuối không cùng nhóm đồ chơi.": a1132,
+  "Đúng rồi! Gấu bông không cùng nhóm xe.": a1133,
+  "Đúng rồi! Cái trống không cùng nhóm con vật.": a1134,
+  "Đúng rồi! Quả dưa hấu không cùng nhóm đồ chơi.": a1135,
+  "Đúng rồi! Quả chuối không cùng nhóm con vật.": a1136,
+  "Đúng rồi! Con thuyền không cùng nhóm con vật.": a1137,
+  "Đúng rồi! Xe buýt không cùng nhóm đồ chơi.": a1138,
+  "Đúng rồi! Con thuyền không cùng nhóm đồ chơi.": a1139,
+  "Đúng rồi! Bóng bay không cùng nhóm xe.": a1140,
+  "Đúng rồi! Quả dưa hấu không cùng nhóm con vật.": a1141,
+  "Đúng rồi! Con vịt không cùng nhóm đồ chơi.": a1142,
+  "Đúng rồi! Con diều không cùng nhóm quả.": a1143,
+  "Đúng rồi! Con chó không cùng nhóm xe.": a1144,
+  "Đúng rồi! Con mèo không cùng nhóm xe.": a1145,
+  "Đúng rồi! Xe đạp không cùng nhóm đồ chơi.": a1146,
+  "Đúng rồi! Ô tô không cùng nhóm quả.": a1147,
+  "Đúng rồi! Xe đạp không cùng nhóm con vật.": a1148,
+  "Đúng rồi! Quả cam không cùng nhóm đồ chơi.": a1149,
+  "Đúng rồi! Chùm nho không cùng nhóm con vật.": a1150,
+  "Đúng rồi! Bóng bay không cùng nhóm quả.": a1151,
+  "Đúng rồi! Con lợn không cùng nhóm xe.": a1152,
+  "Đúng rồi! Máy bay không cùng nhóm quả.": a1153,
+  "Đúng rồi! Con chó không cùng nhóm đồ chơi.": a1154,
+  "Đúng rồi! Con bò không cùng nhóm xe.": a1155,
+  "Đúng rồi! Chùm nho không cùng nhóm đồ chơi.": a1156,
+  "Đúng rồi! Quả dâu tây không cùng nhóm đồ chơi.": a1157,
+  "Đúng rồi! Con thỏ không cùng nhóm quả.": a1158,
+  "Con nghe câu hỏi, rồi chạm vào đồ vật đúng nhé. Trò này sắp có nhé!": a1159,
+  "Trò Cái gì để làm gì? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1160,
+  "Con chơi xong mức Khó trò Cái gì để làm gì? để nhận sticker này nhé.": a1161,
+  "Đúng rồi! Chìa khóa dùng để mở khóa.": a1162,
+  "Đúng rồi! Bút chì dùng để vẽ tranh.": a1163,
+  "Đúng rồi! Đồng hồ dùng để xem giờ.": a1164,
+  "Đúng rồi! Cái thìa dùng để xúc cơm.": a1165,
+  "Đúng rồi! Bàn chải đánh răng dùng để đánh răng.": a1166,
+  "Đúng rồi! Bóng đèn dùng để thắp sáng.": a1167,
+  "Đúng rồi! Xà phòng dùng để rửa tay.": a1168,
+  "Đúng rồi! Khăn giấy dùng để lau tay.": a1169,
+  "Đúng rồi! Cái cốc dùng để uống nước.": a1170,
+  "Đúng rồi! Cái ô dùng để che mưa.": a1171,
+  "Cái gì dùng để cắt giấy nhỉ?": a1172,
+  "Đúng rồi! Cái kéo dùng để cắt giấy.": a1173,
+  "Đúng rồi! Cái giường dùng để nằm ngủ.": a1174,
+  "Con nghe rồi chạm vào khuôn mặt đúng nhé. Trò này sắp có nhé!": a1175,
+  "Trò Bạn đang thấy thế nào? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1176,
+  "Con chơi xong mức Khó trò Bạn đang thấy thế nào? để nhận sticker này nhé.": a1177,
+  "Bạn nào đang sợ hãi? Con chạm vào khuôn mặt sợ hãi nhé.": a1178,
+  "Đúng rồi! Bạn ấy đang sợ hãi.": a1179,
+  "Bạn nào đang ngạc nhiên? Con chạm vào khuôn mặt ngạc nhiên nhé.": a1180,
+  "Đúng rồi! Bạn ấy đang ngạc nhiên.": a1181,
+  "Bạn nào đang vui? Con chạm vào khuôn mặt vui nhé.": a1182,
+  "Đúng rồi! Bạn ấy đang vui.": a1183,
+  "Bạn nào đang buồn? Con chạm vào khuôn mặt buồn nhé.": a1184,
+  "Đúng rồi! Bạn ấy đang buồn.": a1185,
+  "Bạn nào đang tức giận? Con chạm vào khuôn mặt tức giận nhé.": a1186,
+  "Đúng rồi! Bạn ấy đang tức giận.": a1187,
+  "Bạn bị lấy mất đồ chơi. Bạn thấy thế nào nhỉ?": a1188,
+  "Bạn được mẹ tặng quà sinh nhật. Bạn thấy thế nào nhỉ?": a1189,
+  "Trời tối và có tiếng sấm to. Bạn thấy thế nào nhỉ?": a1190,
+  "Bạn làm rơi mất quả bóng bay. Bạn thấy thế nào nhỉ?": a1191,
+  "Bạn mở hộp ra và thấy một chú mèo con. Bạn thấy thế nào nhỉ?": a1192,
+  "Con nghe rồi chạm vào tranh đúng chỗ nhé. Trò này sắp có nhé!": a1193,
+  "Trò Trên, dưới, trong cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1194,
+  "Con chơi xong mức Khó trò Trên, dưới, trong để nhận sticker này nhé.": a1195,
+  "Đúng rồi! Con chim ở trên cái cây.": a1196,
+  "Đúng rồi! Con mèo ở trên cái ghế.": a1197,
+  "Đúng rồi! Quả bóng ở trên cái ghế.": a1198,
+  "Đúng rồi! Con mèo ở dưới cái ghế.": a1199,
+  "Đúng rồi! Con chim ở dưới cái cây.": a1200,
+  "Đúng rồi! Quả bóng ở dưới cái ghế.": a1201,
+  "Đúng rồi! Gấu bông ở trong ngôi nhà.": a1202,
+  "Đúng rồi, con mèo ở bên cạnh cái ghế!": a1203,
+  "Đúng rồi! Quả táo ở trên cái bát.": a1204,
+  "Đúng rồi! Con chim ở bên cạnh cái cây.": a1205,
+  "Đúng rồi! Quả bóng ở bên cạnh cái ghế.": a1206,
+  "Đúng rồi! Quả táo ở bên cạnh cái bát.": a1207,
+  "Đúng rồi! Gấu bông ở bên cạnh ngôi nhà.": a1208,
+  "Đúng rồi! Quả táo ở trong cái bát.": a1209,
+  "Đúng rồi! Gấu bông ở trên ngôi nhà.": a1210,
+  "Con chạm vào tranh con mèo ở bên cạnh cái ghế nhé.": a1211,
+  "Đúng rồi! Con mèo ở bên cạnh cái ghế.": a1212,
+  "Con ghép hai tranh ngược nhau nhé. Trò này sắp có nhé!": a1213,
+  "Trò Ngược nhau cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1214,
+  "Con chơi xong mức Khó trò Ngược nhau để nhận sticker này nhé.": a1215,
+  "Đúng rồi! nhanh và chậm.": a1216,
+  "Đúng rồi! nhanh và chậm. Con ghép xong rồi!": a1217,
+  "Đúng rồi! vui và buồn.": a1218,
+  "Đúng rồi! vui và buồn. Con ghép xong rồi!": a1219,
+  "Đúng rồi! cao và thấp.": a1220,
+  "Đúng rồi! cao và thấp. Con ghép xong rồi!": a1221,
+  "Đúng rồi! ban ngày và ban đêm.": a1222,
+  "Đúng rồi! ban ngày và ban đêm. Con ghép xong rồi!": a1223,
+  "Đúng rồi! nóng và lạnh.": a1224,
+  "Đúng rồi! nóng và lạnh. Con ghép xong rồi!": a1225,
+  "Đúng rồi! to và nhỏ.": a1226,
+  "Đúng rồi! to và nhỏ. Con ghép xong rồi!": a1227,
+  "Con xếp tranh theo thứ tự cây lớn lên nhé. Trò này sắp có nhé!": a1228,
+  "Trò Chuyện cây con cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1229,
+  "Con chơi xong mức Khó trò Chuyện cây con để nhận sticker này nhé.": a1230,
+  "Con xếp tranh theo thứ tự cây lớn lên nhé. Cái gì đến trước?": a1231,
+  "Đúng rồi! Cây mầm lớn lên rồi nở hoa.": a1232,
+  "Giỏi quá! Cây mầm lớn thành cây to.": a1233,
+  "Tuyệt vời! Cây lớn lên rồi ra quả.": a1234,
+  "Con xếp các việc buổi sáng theo đúng thứ tự nhé. Trò này sắp có nhé!": a1235,
+  "Trò Một ngày của bé cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1236,
+  "Con chơi xong mức Khó trò Một ngày của bé để nhận sticker này nhé.": a1237,
+  "Bé làm việc gì trước, việc gì sau? Con xếp theo thứ tự nhé.": a1238,
+  "Đúng rồi! Buổi sáng bé thức dậy, đánh răng rồi ăn sáng.": a1239,
+  "Giỏi quá! Buổi tối bé ăn tối, đi tắm rồi nghe kể chuyện.": a1240,
+  "Con xếp các bước rửa tay theo thứ tự nhé. Trò này sắp có nhé!": a1241,
+  "Trò Bé rửa tay cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1242,
+  "Con chơi xong mức Khó trò Bé rửa tay để nhận sticker này nhé.": a1243,
+  "Rửa tay thế nào nhỉ? Con xếp các bước theo thứ tự nhé.": a1244,
+  "Giỏi quá! Làm ướt tay, xoa xà phòng, rồi lau khô.": a1245,
+  "Đánh răng thế nào nhỉ? Con xếp các bước theo thứ tự nhé.": a1246,
+  "Tuyệt vời! Răng con sạch bóng rồi.": a1247,
+  "Con nghe âm, rồi chạm vào tranh bắt đầu bằng âm đó nhé. Trò này sắp có nhé!": a1248,
+  "Trò Âm đầu là gì? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1249,
+  "Con chơi xong mức Khó trò Âm đầu là gì? để nhận sticker này nhé.": a1250,
+  "Cái gì bắt đầu bằng âm cờ? Cờ, cờ.": a1251,
+  "Đúng rồi! Cá bắt đầu bằng âm cờ.": a1252,
+  "Cái gì bắt đầu bằng âm gờ? Gờ, gờ.": a1253,
+  "Đúng rồi! Ghế bắt đầu bằng âm gờ.": a1254,
+  "Cái gì bắt đầu bằng âm rờ? Rờ, rờ.": a1255,
+  "Đúng rồi! Rùa bắt đầu bằng âm rờ.": a1256,
+  "Cái gì bắt đầu bằng âm mờ? Mờ, mờ.": a1257,
+  "Đúng rồi! Mèo bắt đầu bằng âm mờ.": a1258,
+  "Cái gì bắt đầu bằng âm vờ? Vờ, vờ.": a1259,
+  "Đúng rồi! Vịt bắt đầu bằng âm vờ.": a1260,
+  "Cái gì bắt đầu bằng âm lờ? Lờ, lờ.": a1261,
+  "Đúng rồi! Lá bắt đầu bằng âm lờ.": a1262,
+  "Đúng rồi! Loa bắt đầu bằng âm lờ.": a1263,
+  "Cái gì bắt đầu bằng âm bờ? Bờ, bờ.": a1264,
+  "Đúng rồi! Bò bắt đầu bằng âm bờ.": a1265,
+  "Đúng rồi! Gà bắt đầu bằng âm gờ.": a1266,
+  "Cái gì bắt đầu bằng âm hờ? Hờ, hờ.": a1267,
+  "Đúng rồi! Hoa bắt đầu bằng âm hờ.": a1268,
+  "Cái gì bắt đầu bằng âm tờ? Tờ, tờ.": a1269,
+  "Đúng rồi! Táo bắt đầu bằng âm tờ.": a1270,
+  "Đúng rồi! Voi bắt đầu bằng âm vờ.": a1271,
+  "Đúng rồi! Bóng bắt đầu bằng âm bờ.": a1272,
+  "Đúng rồi! Hổ bắt đầu bằng âm hờ.": a1273,
+  "Đúng rồi! Cua bắt đầu bằng âm cờ.": a1274,
+  "Đúng rồi! Mũ bắt đầu bằng âm mờ.": a1275,
+  "Con ghép hai tranh có cùng âm đầu nhé. Trò này sắp có nhé!": a1276,
+  "Trò Cùng âm đầu cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1277,
+  "Con chơi xong mức Khó trò Cùng âm đầu để nhận sticker này nhé.": a1278,
+  "Đúng rồi! cá và cua.": a1279,
+  "Đúng rồi! cá và cua. Con ghép xong rồi!": a1280,
+  "Đúng rồi! hoa và hổ.": a1281,
+  "Đúng rồi! hoa và hổ. Con ghép xong rồi!": a1282,
+  "Đúng rồi! bóng và bò.": a1283,
+  "Đúng rồi! bóng và bò. Con ghép xong rồi!": a1284,
+  "Đúng rồi! voi và vịt.": a1285,
+  "Đúng rồi! voi và vịt. Con ghép xong rồi!": a1286,
+  "Đúng rồi! mèo và mũ.": a1287,
+  "Đúng rồi! mèo và mũ. Con ghép xong rồi!": a1288,
+  "Đúng rồi! gà và ghế.": a1289,
+  "Đúng rồi! gà và ghế. Con ghép xong rồi!": a1290,
+  "Đúng rồi! lá và loa.": a1291,
+  "Đúng rồi! lá và loa. Con ghép xong rồi!": a1292,
+  "Con ghép hai tranh có tên vần với nhau nhé. Trò này sắp có nhé!": a1293,
+  "Trò Vần với nhau cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1294,
+  "Con chơi xong mức Khó trò Vần với nhau để nhận sticker này nhé.": a1295,
+  "Con ghép hai tranh có tên nghe vần với nhau nhé. Cá với lá, nghe giống nhau đó!": a1296,
+  "Đúng rồi! gà và nhà.": a1297,
+  "Đúng rồi! gà và nhà. Con ghép xong rồi!": a1298,
+  "Đúng rồi! cua và rùa.": a1299,
+  "Đúng rồi! cua và rùa. Con ghép xong rồi!": a1300,
+  "Đúng rồi! bò và nho.": a1301,
+  "Đúng rồi! bò và nho. Con ghép xong rồi!": a1302,
+  "Đúng rồi! mèo và kéo.": a1303,
+  "Đúng rồi! mèo và kéo. Con ghép xong rồi!": a1304,
+  "Đúng rồi! mây và cây.": a1305,
+  "Đúng rồi! mây và cây. Con ghép xong rồi!": a1306,
+  "Đúng rồi! cá và lá.": a1307,
+  "Đúng rồi! cá và lá. Con ghép xong rồi!": a1308,
+  "Đúng rồi! thỏ và chó.": a1309,
+  "Đúng rồi! thỏ và chó. Con ghép xong rồi!": a1310,
+  "Đúng rồi! táo và sao.": a1311,
+  "Đúng rồi! táo và sao. Con ghép xong rồi!": a1312,
+  "Con nghe rồi chọn số tiếng nhé. Trò này sắp có nhé!": a1313,
+  "Trò Vỗ tay đếm tiếng cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1314,
+  "Con chơi xong mức Khó trò Vỗ tay đếm tiếng để nhận sticker này nhé.": a1315,
+  "Con nghe nhé: voi. Voi. Có mấy tiếng?": a1316,
+  "Đúng rồi! Voi có một tiếng.": a1317,
+  "Con nghe nhé: xe đạp. Xe... đạp. Có mấy tiếng?": a1318,
+  "Đúng rồi! Xe đạp có hai tiếng.": a1319,
+  "Con nghe nhé: bò. Bò. Có mấy tiếng?": a1320,
+  "Đúng rồi! Bò có một tiếng.": a1321,
+  "Con nghe nhé: gấu bông. Gấu... bông. Có mấy tiếng?": a1322,
+  "Đúng rồi! Gấu bông có hai tiếng.": a1323,
+  "Con nghe nhé: hoa. Hoa. Có mấy tiếng?": a1324,
+  "Đúng rồi! Hoa có một tiếng.": a1325,
+  "Con nghe nhé: máy bay. Máy... bay. Có mấy tiếng?": a1326,
+  "Đúng rồi! Máy bay có hai tiếng.": a1327,
+  "Con nghe nhé: cá. Cá. Có mấy tiếng?": a1328,
+  "Đúng rồi! Cá có một tiếng.": a1329,
+  "Con nghe nhé: ô tô. Ô... tô. Có mấy tiếng?": a1330,
+  "Đúng rồi! Ô tô có hai tiếng.": a1331,
+  "Con nghe nhé: củ cà rốt. Củ... cà... rốt. Có mấy tiếng?": a1332,
+  "Đúng rồi! Củ cà rốt có ba tiếng.": a1333,
+  "Con nghe nhé: quả dâu tây. Quả... dâu... tây. Có mấy tiếng?": a1334,
+  "Đúng rồi! Quả dâu tây có ba tiếng.": a1335,
+  "Con nghe nhé: hoa hướng dương. Hoa... hướng... dương. Có mấy tiếng?": a1336,
+  "Đúng rồi! Hoa hướng dương có ba tiếng.": a1337,
+  "Con nghe nhé: hươu cao cổ. Hươu... cao... cổ. Có mấy tiếng?": a1338,
+  "Đúng rồi! Hươu cao cổ có ba tiếng.": a1339,
+  "Con nghe nhé: bàn chải đánh răng. Bàn... chải... đánh... răng. Có mấy tiếng?": a1340,
+  "Đúng rồi! Bàn chải đánh răng có bốn tiếng.": a1341,
+  "Con nghe nhé: đồng hồ báo thức. Đồng... hồ... báo... thức. Có mấy tiếng?": a1342,
+  "Đúng rồi! Đồng hồ báo thức có bốn tiếng.": a1343,
+  "Con nghe tên chữ, rồi chạm vào chữ đó nhé. Trò này sắp có nhé!": a1344,
+  "Trò Nghe rồi chọn chữ cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1345,
+  "Con chơi xong mức Khó trò Nghe rồi chọn chữ để nhận sticker này nhé.": a1346,
+  "Đúng rồi! Đây là chữ a.": a1347,
+  "Đúng rồi! Đây là chữ quờ.": a1348,
+  "Đúng rồi! Đây là chữ ư.": a1349,
+  "Đúng rồi! Đây là chữ i.": a1350,
+  "Đúng rồi! Đây là chữ e.": a1351,
+  "Đúng rồi! Đây là chữ ê.": a1352,
+  "Đúng rồi! Đây là chữ dờ.": a1353,
+  "Đúng rồi! Đây là chữ ớ.": a1354,
+  "Đúng rồi! Đây là chữ pờ.": a1355,
+  "Đúng rồi! Đây là chữ lờ.": a1356,
+  "Đúng rồi! Đây là chữ ơ.": a1357,
+  "Đúng rồi! Đây là chữ mờ.": a1358,
+  "Đúng rồi! Đây là chữ u.": a1359,
+  "Đúng rồi! Đây là chữ á.": a1360,
+  "Đúng rồi! Đây là chữ o.": a1361,
+  "Đúng rồi! Đây là chữ đờ.": a1362,
+  "Đúng rồi! Đây là chữ nờ.": a1363,
+  "Đúng rồi! Đây là chữ ô.": a1364,
+  "Đúng rồi! Đây là chữ bờ.": a1365,
+  "Con ghép chữ với tranh bắt đầu bằng chữ đó nhé. Trò này sắp có nhé!": a1366,
+  "Trò Chữ cái và tranh cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1367,
+  "Con chơi xong mức Khó trò Chữ cái và tranh để nhận sticker này nhé.": a1368,
+  "Đúng rồi! chữ cờ và cá.": a1369,
+  "Đúng rồi! chữ cờ và cá. Con ghép xong rồi!": a1370,
+  "Đúng rồi! chữ vờ và voi.": a1371,
+  "Đúng rồi! chữ vờ và voi. Con ghép xong rồi!": a1372,
+  "Đúng rồi! chữ mờ và mèo.": a1373,
+  "Đúng rồi! chữ mờ và mèo. Con ghép xong rồi!": a1374,
+  "Đúng rồi! chữ tờ và táo.": a1375,
+  "Đúng rồi! chữ tờ và táo. Con ghép xong rồi!": a1376,
+  "Đúng rồi! chữ lờ và lá.": a1377,
+  "Đúng rồi! chữ lờ và lá. Con ghép xong rồi!": a1378,
+  "Đúng rồi! chữ bờ và bóng.": a1379,
+  "Đúng rồi! chữ bờ và bóng. Con ghép xong rồi!": a1380,
+  "Đúng rồi! chữ gờ và gà.": a1381,
+  "Đúng rồi! chữ gờ và gà. Con ghép xong rồi!": a1382,
+  "Đúng rồi! chữ hờ và hoa.": a1383,
+  "Đúng rồi! chữ hờ và hoa. Con ghép xong rồi!": a1384,
+  "Con ghép chữ hoa với chữ thường của nó nhé. Trò này sắp có nhé!": a1385,
+  "Trò Chữ hoa, chữ thường cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1386,
+  "Con chơi xong mức Khó trò Chữ hoa, chữ thường để nhận sticker này nhé.": a1387,
+  "Đúng rồi! chữ i dài hoa và chữ i dài thường.": a1388,
+  "Đúng rồi! chữ i dài hoa và chữ i dài thường. Con ghép xong rồi!": a1389,
+  "Đúng rồi! chữ gờ hoa và chữ gờ thường.": a1390,
+  "Đúng rồi! chữ gờ hoa và chữ gờ thường. Con ghép xong rồi!": a1391,
+  "Đúng rồi! chữ tờ hoa và chữ tờ thường.": a1392,
+  "Đúng rồi! chữ tờ hoa và chữ tờ thường. Con ghép xong rồi!": a1393,
+  "Đúng rồi! chữ sờ hoa và chữ sờ thường.": a1394,
+  "Đúng rồi! chữ sờ hoa và chữ sờ thường. Con ghép xong rồi!": a1395,
+  "Đúng rồi! chữ bờ hoa và chữ bờ thường.": a1396,
+  "Đúng rồi! chữ bờ hoa và chữ bờ thường. Con ghép xong rồi!": a1397,
+  "Đúng rồi! chữ quờ hoa và chữ quờ thường.": a1398,
+  "Đúng rồi! chữ quờ hoa và chữ quờ thường. Con ghép xong rồi!": a1399,
+  "Đúng rồi! chữ dờ hoa và chữ dờ thường.": a1400,
+  "Đúng rồi! chữ dờ hoa và chữ dờ thường. Con ghép xong rồi!": a1401,
+  "Đúng rồi! chữ rờ hoa và chữ rờ thường.": a1402,
+  "Đúng rồi! chữ rờ hoa và chữ rờ thường. Con ghép xong rồi!": a1403,
+  "Đúng rồi! chữ e hoa và chữ e thường.": a1404,
+  "Đúng rồi! chữ e hoa và chữ e thường. Con ghép xong rồi!": a1405,
+  "Đúng rồi! chữ ô hoa và chữ ô thường.": a1406,
+  "Đúng rồi! chữ ô hoa và chữ ô thường. Con ghép xong rồi!": a1407,
+  "Đúng rồi! chữ o hoa và chữ o thường.": a1408,
+  "Đúng rồi! chữ o hoa và chữ o thường. Con ghép xong rồi!": a1409,
+  "Đúng rồi! chữ ư hoa và chữ ư thường.": a1410,
+  "Đúng rồi! chữ ư hoa và chữ ư thường. Con ghép xong rồi!": a1411,
+  "Đúng rồi! chữ pờ hoa và chữ pờ thường.": a1412,
+  "Đúng rồi! chữ pờ hoa và chữ pờ thường. Con ghép xong rồi!": a1413,
+  "Đúng rồi! chữ vờ hoa và chữ vờ thường.": a1414,
+  "Đúng rồi! chữ vờ hoa và chữ vờ thường. Con ghép xong rồi!": a1415,
+  "Đúng rồi! chữ a hoa và chữ a thường.": a1416,
+  "Đúng rồi! chữ a hoa và chữ a thường. Con ghép xong rồi!": a1417,
+  "Đúng rồi! chữ ớ hoa và chữ ớ thường.": a1418,
+  "Đúng rồi! chữ ớ hoa và chữ ớ thường. Con ghép xong rồi!": a1419,
+  "Đúng rồi! chữ u hoa và chữ u thường.": a1420,
+  "Đúng rồi! chữ u hoa và chữ u thường. Con ghép xong rồi!": a1421,
+  "Đúng rồi! chữ nờ hoa và chữ nờ thường.": a1422,
+  "Đúng rồi! chữ nờ hoa và chữ nờ thường. Con ghép xong rồi!": a1423,
+  "Đúng rồi! chữ i hoa và chữ i thường.": a1424,
+  "Đúng rồi! chữ i hoa và chữ i thường. Con ghép xong rồi!": a1425,
+  "Đúng rồi! chữ lờ hoa và chữ lờ thường.": a1426,
+  "Đúng rồi! chữ lờ hoa và chữ lờ thường. Con ghép xong rồi!": a1427,
+  "Đúng rồi! chữ mờ hoa và chữ mờ thường.": a1428,
+  "Đúng rồi! chữ mờ hoa và chữ mờ thường. Con ghép xong rồi!": a1429,
+  "Đúng rồi! chữ hờ hoa và chữ hờ thường.": a1430,
+  "Đúng rồi! chữ hờ hoa và chữ hờ thường. Con ghép xong rồi!": a1431,
+  "Đúng rồi! chữ ơ hoa và chữ ơ thường.": a1432,
+  "Đúng rồi! chữ ơ hoa và chữ ơ thường. Con ghép xong rồi!": a1433,
+  "Đúng rồi! chữ xờ hoa và chữ xờ thường.": a1434,
+  "Đúng rồi! chữ xờ hoa và chữ xờ thường. Con ghép xong rồi!": a1435,
+  "Đúng rồi! chữ ca hoa và chữ ca thường.": a1436,
+  "Đúng rồi! chữ ca hoa và chữ ca thường. Con ghép xong rồi!": a1437,
+  "Đúng rồi! chữ ê hoa và chữ ê thường.": a1438,
+  "Đúng rồi! chữ ê hoa và chữ ê thường. Con ghép xong rồi!": a1439,
+  "Đúng rồi! chữ á hoa và chữ á thường.": a1440,
+  "Đúng rồi! chữ á hoa và chữ á thường. Con ghép xong rồi!": a1441,
+  "Đúng rồi! chữ cờ hoa và chữ cờ thường.": a1442,
+  "Đúng rồi! chữ cờ hoa và chữ cờ thường. Con ghép xong rồi!": a1443,
+  "Đúng rồi! chữ đờ hoa và chữ đờ thường.": a1444,
+  "Đúng rồi! chữ đờ hoa và chữ đờ thường. Con ghép xong rồi!": a1445,
+  "Chữ nào còn thiếu? Con kéo chữ vào ô trống nhé. Trò này sắp có nhé!": a1446,
+  "Trò Chữ nào còn thiếu? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1447,
+  "Con chơi xong mức Khó trò Chữ nào còn thiếu? để nhận sticker này nhé.": a1448,
+  "Giỏi quá! lờ, mờ, nờ, o, ô.": a1449,
+  "Giỏi quá! a, á, ớ, bờ, cờ.": a1450,
+  "Giỏi quá! ca, lờ, mờ, nờ, o.": a1451,
+  "Giỏi quá! nờ, o, ô, ơ, pờ.": a1452,
+  "Giỏi quá! á, ớ, bờ, cờ, dờ.": a1453,
+  "Giỏi quá! o, ô, ơ, pờ, quờ.": a1454,
+  "Giỏi quá! dờ, đờ, e, ê, gờ.": a1455,
+  "Giỏi quá! đờ, e, ê, gờ, hờ.": a1456,
+  "Giỏi quá! ớ, bờ, cờ, dờ, đờ.": a1457,
+  "Giỏi quá! ơ, pờ, quờ, rờ, sờ.": a1458,
+  "Giỏi quá! i, ca, lờ, mờ, nờ.": a1459,
+  "Giỏi quá! tờ, u, ư, vờ, xờ.": a1460,
+  "Giỏi quá! bờ, cờ, dờ, đờ, e.": a1461,
+  "Giỏi quá! cờ, dờ, đờ, e, ê.": a1462,
+  "Giỏi quá! ê, gờ, hờ, i, ca.": a1463,
+  "Giỏi quá! rờ, sờ, tờ, u, ư.": a1464,
+  "Giỏi quá! hờ, i, ca, lờ, mờ.": a1465,
+  "Giỏi quá! e, ê, gờ, hờ, i.": a1466,
+  "Giỏi quá! ô, ơ, pờ, quờ, rờ.": a1467,
+  "Giỏi quá! quờ, rờ, sờ, tờ, u.": a1468,
+  "Giỏi quá! mờ, nờ, o, ô, ơ.": a1469,
+  "Giỏi quá! gờ, hờ, i, ca, lờ.": a1470,
+  "Giỏi quá! sờ, tờ, u, ư, vờ.": a1471,
+  "Giỏi quá! pờ, quờ, rờ, sờ, tờ.": a1472,
+  "Giỏi quá! hờ, i, ca, lờ, mờ, nờ.": a1473,
+  "Giỏi quá! mờ, nờ, o, ô, ơ, pờ.": a1474,
+  "Giỏi quá! gờ, hờ, i, ca, lờ, mờ.": a1475,
+  "Giỏi quá! bờ, cờ, dờ, đờ, e, ê.": a1476,
+  "Giỏi quá! i, ca, lờ, mờ, nờ, o.": a1477,
+  "Giỏi quá! á, ớ, bờ, cờ, dờ, đờ.": a1478,
+  "Giỏi quá! a, á, ớ, bờ, cờ, dờ.": a1479,
+  "Giỏi quá! ớ, bờ, cờ, dờ, đờ, e.": a1480,
+  "Giỏi quá! ô, ơ, pờ, quờ, rờ, sờ.": a1481,
+  "Giỏi quá! pờ, quờ, rờ, sờ, tờ, u.": a1482,
+  "Giỏi quá! ê, gờ, hờ, i, ca, lờ.": a1483,
+  "Giỏi quá! cờ, dờ, đờ, e, ê, gờ.": a1484,
+  "Giỏi quá! o, ô, ơ, pờ, quờ, rờ.": a1485,
+  "Giỏi quá! dờ, đờ, e, ê, gờ, hờ.": a1486,
+  "Giỏi quá! sờ, tờ, u, ư, vờ, xờ.": a1487,
+  "Giỏi quá! nờ, o, ô, ơ, pờ, quờ.": a1488,
+  "Giỏi quá! e, ê, gờ, hờ, i, ca.": a1489,
+  "Giỏi quá! rờ, sờ, tờ, u, ư, vờ.": a1490,
+  "Giỏi quá! đờ, e, ê, gờ, hờ, i.": a1491,
+  "Giỏi quá! ơ, pờ, quờ, rờ, sờ, tờ.": a1492,
+  "Giỏi quá! ca, lờ, mờ, nờ, o, ô.": a1493,
+  "Giỏi quá! quờ, rờ, sờ, tờ, u, ư.": a1494,
+  "Giỏi quá! lờ, mờ, nờ, o, ô, ơ.": a1495,
+  "Giỏi quá! dờ, đờ, e, ê, gờ, hờ, i.": a1496,
+  "Giỏi quá! ca, lờ, mờ, nờ, o, ô, ơ.": a1497,
+  "Giỏi quá! gờ, hờ, i, ca, lờ, mờ, nờ.": a1498,
+  "Giỏi quá! ơ, pờ, quờ, rờ, sờ, tờ, u.": a1499,
+  "Giỏi quá! mờ, nờ, o, ô, ơ, pờ, quờ.": a1500,
+  "Giỏi quá! ê, gờ, hờ, i, ca, lờ, mờ.": a1501,
+  "Giỏi quá! rờ, sờ, tờ, u, ư, vờ, xờ.": a1502,
+  "Giỏi quá! i, ca, lờ, mờ, nờ, o, ô.": a1503,
+  "Giỏi quá! ô, ơ, pờ, quờ, rờ, sờ, tờ.": a1504,
+  "Giỏi quá! ớ, bờ, cờ, dờ, đờ, e, ê.": a1505,
+  "Giỏi quá! lờ, mờ, nờ, o, ô, ơ, pờ.": a1506,
+  "Giỏi quá! cờ, dờ, đờ, e, ê, gờ, hờ.": a1507,
+  "Giỏi quá! e, ê, gờ, hờ, i, ca, lờ.": a1508,
+  "Giỏi quá! pờ, quờ, rờ, sờ, tờ, u, ư.": a1509,
+  "Giỏi quá! hờ, i, ca, lờ, mờ, nờ, o.": a1510,
+  "Giỏi quá! á, ớ, bờ, cờ, dờ, đờ, e.": a1511,
+  "Giỏi quá! bờ, cờ, dờ, đờ, e, ê, gờ.": a1512,
+  "Giỏi quá! đờ, e, ê, gờ, hờ, i, ca.": a1513,
+  "Giỏi quá! a, á, ớ, bờ, cờ, dờ, đờ.": a1514,
+  "Giỏi quá! quờ, rờ, sờ, tờ, u, ư, vờ.": a1515,
+  "Giỏi quá! o, ô, ơ, pờ, quờ, rờ, sờ.": a1516,
+  "Giỏi quá! nờ, o, ô, ơ, pờ, quờ, rờ.": a1517,
+  "Con kéo chữ đầu vào ô trống trước tranh nhé. Trò này sắp có nhé!": a1518,
+  "Trò Chữ đầu của tranh cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1519,
+  "Con chơi xong mức Khó trò Chữ đầu của tranh để nhận sticker này nhé.": a1520,
+  "Đây là con bò. Bò bắt đầu bằng chữ gì? Con kéo chữ vào ô trống nhé.": a1521,
+  "Đúng rồi! Bò bắt đầu bằng chữ bờ.": a1522,
+  "Đây là bông hoa. Hoa bắt đầu bằng chữ gì? Con kéo chữ vào ô trống nhé.": a1523,
+  "Đúng rồi! Hoa bắt đầu bằng chữ hờ.": a1524,
+  "Đây là quả táo. Táo bắt đầu bằng chữ gì? Con kéo chữ vào ô trống nhé.": a1525,
+  "Đúng rồi! Táo bắt đầu bằng chữ tờ.": a1526,
+  "Đây là con mèo. Mèo bắt đầu bằng chữ gì? Con kéo chữ vào ô trống nhé.": a1527,
+  "Đúng rồi! Mèo bắt đầu bằng chữ mờ.": a1528,
+  "Đây là chiếc lá. Lá bắt đầu bằng chữ gì? Con kéo chữ vào ô trống nhé.": a1529,
+  "Đúng rồi! Lá bắt đầu bằng chữ lờ.": a1530,
+  "Đây là con gà trống. Gà bắt đầu bằng chữ gì? Con kéo chữ vào ô trống nhé.": a1531,
+  "Đúng rồi! Gà bắt đầu bằng chữ gờ.": a1532,
+  "Đây là con cá. Cá bắt đầu bằng chữ gì? Con kéo chữ vào ô trống nhé.": a1533,
+  "Đúng rồi! Cá bắt đầu bằng chữ cờ.": a1534,
+  "Đây là con voi. Voi bắt đầu bằng chữ gì? Con kéo chữ vào ô trống nhé.": a1535,
+  "Đúng rồi! Voi bắt đầu bằng chữ vờ.": a1536,
+  "Con xếp các chữ theo đúng thứ tự nhé. Trò này sắp có nhé!": a1537,
+  "Trò Xếp bảng chữ cái cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1538,
+  "Con chơi xong mức Khó trò Xếp bảng chữ cái để nhận sticker này nhé.": a1539,
+  "Giỏi quá! mờ, nờ, o.": a1540,
+  "Giỏi quá! á, ớ, bờ.": a1541,
+  "Giỏi quá! lờ, mờ, nờ.": a1542,
+  "Giỏi quá! dờ, đờ, e.": a1543,
+  "Giỏi quá! i, ca, lờ.": a1544,
+  "Giỏi quá! ớ, bờ, cờ.": a1545,
+  "Giỏi quá! nờ, o, ô.": a1546,
+  "Giỏi quá! hờ, i, ca.": a1547,
+  "Giỏi quá! ô, ơ, pờ.": a1548,
+  "Giỏi quá! ư, vờ, xờ.": a1549,
+  "Giỏi quá! pờ, quờ, rờ.": a1550,
+  "Giỏi quá! e, ê, gờ.": a1551,
+  "Giỏi quá! tờ, u, ư.": a1552,
+  "Giỏi quá! sờ, tờ, u.": a1553,
+  "Giỏi quá! u, ư, vờ.": a1554,
+  "Giỏi quá! ê, gờ, hờ.": a1555,
+  "Giỏi quá! a, á, ớ.": a1556,
+  "Giỏi quá! ơ, pờ, quờ.": a1557,
+  "Giỏi quá! o, ô, ơ.": a1558,
+  "Giỏi quá! quờ, rờ, sờ.": a1559,
+  "Giỏi quá! bờ, cờ, dờ.": a1560,
+  "Giỏi quá! gờ, hờ, i.": a1561,
+  "Giỏi quá! đờ, e, ê.": a1562,
+  "Giỏi quá! rờ, sờ, tờ.": a1563,
+  "Giỏi quá! cờ, dờ, đờ.": a1564,
+  "Giỏi quá! ca, lờ, mờ.": a1565,
+  "Giỏi quá! i, ca, lờ, mờ.": a1566,
+  "Giỏi quá! ê, gờ, hờ, i.": a1567,
+  "Giỏi quá! hờ, i, ca, lờ.": a1568,
+  "Giỏi quá! cờ, dờ, đờ, e.": a1569,
+  "Giỏi quá! nờ, o, ô, ơ.": a1570,
+  "Giỏi quá! ô, ơ, pờ, quờ.": a1571,
+  "Giỏi quá! á, ớ, bờ, cờ.": a1572,
+  "Giỏi quá! u, ư, vờ, xờ.": a1573,
+  "Giỏi quá! bờ, cờ, dờ, đờ.": a1574,
+  "Giỏi quá! ơ, pờ, quờ, rờ.": a1575,
+  "Giỏi quá! a, á, ớ, bờ.": a1576,
+  "Giỏi quá! gờ, hờ, i, ca.": a1577,
+  "Giỏi quá! mờ, nờ, o, ô.": a1578,
+  "Giỏi quá! sờ, tờ, u, ư.": a1579,
+  "Giỏi quá! dờ, đờ, e, ê.": a1580,
+  "Giỏi quá! tờ, u, ư, vờ.": a1581,
+  "Giỏi quá! ớ, bờ, cờ, dờ.": a1582,
+  "Giỏi quá! lờ, mờ, nờ, o.": a1583,
+  "Giỏi quá! ca, lờ, mờ, nờ.": a1584,
+  "Giỏi quá! e, ê, gờ, hờ.": a1585,
+  "Giỏi quá! o, ô, ơ, pờ.": a1586,
+  "Giỏi quá! pờ, quờ, rờ, sờ.": a1587,
+  "Giỏi quá! quờ, rờ, sờ, tờ.": a1588,
+  "Giỏi quá! đờ, e, ê, gờ.": a1589,
+  "Giỏi quá! rờ, sờ, tờ, u.": a1590,
+  "Con lật hai thẻ. Nếu giống nhau thì giữ lại nhé. Trò này sắp có nhé!": a1591,
+  "Trò Lật thẻ tìm cặp cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1592,
+  "Con chơi xong mức Khó trò Lật thẻ tìm cặp để nhận sticker này nhé.": a1593,
+  "Con lật hai thẻ. Nếu hai tranh giống nhau thì thẻ được giữ lại nhé.": a1594,
+  "Giỏi quá! Con tìm được hết các cặp rồi.": a1595,
+  "Con lật tìm chữ và tranh đi cùng nhau nhé. Trò này sắp có nhé!": a1596,
+  "Trò Lật thẻ chữ và tranh cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1597,
+  "Con chơi xong mức Khó trò Lật thẻ chữ và tranh để nhận sticker này nhé.": a1598,
+  "Tuyệt vời! Con ghép đúng hết chữ và tranh rồi.": a1599,
+  "Con nghe tên màu, rồi chạm vào màu đó nhé.": a1600,
+  "Chạm đúng màu": a1601,
+  "Con nghe tên màu, rồi chạm vào màu đó nhé. Trò này sắp có nhé!": a1602,
+  "Trò Chạm đúng màu cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1603,
+  "Con chơi xong mức Khó trò Chạm đúng màu để nhận sticker này nhé.": a1604,
+  "Màu xanh dương đâu nhỉ? Con chạm vào màu xanh dương nhé.": a1605,
+  "Đúng rồi! Đây là màu xanh dương.": a1606,
+  "màu vàng": a1607,
+  "Đúng rồi, màu vàng!": a1608,
+  "màu xanh dương": a1609,
+  "Đúng rồi, màu xanh dương!": a1610,
+  "Màu đỏ đâu nhỉ? Con chạm vào màu đỏ nhé.": a1611,
+  "Đúng rồi! Đây là màu đỏ.": a1612,
+  "màu đỏ": a1613,
+  "Đúng rồi, màu đỏ!": a1614,
+  "màu xanh lá": a1615,
+  "Đúng rồi, màu xanh lá!": a1616,
+  "Màu vàng đâu nhỉ? Con chạm vào màu vàng nhé.": a1617,
+  "Đúng rồi! Đây là màu vàng.": a1618,
+  "Màu xanh lá đâu nhỉ? Con chạm vào màu xanh lá nhé.": a1619,
+  "Đúng rồi! Đây là màu xanh lá.": a1620,
+  "Màu hồng đâu nhỉ? Con chạm vào màu hồng nhé.": a1621,
+  "Đúng rồi! Đây là màu hồng.": a1622,
+  "màu tím": a1623,
+  "Đúng rồi, màu tím!": a1624,
+  "màu hồng": a1625,
+  "Đúng rồi, màu hồng!": a1626,
+  "Màu cam đâu nhỉ? Con chạm vào màu cam nhé.": a1627,
+  "Đúng rồi! Đây là màu cam.": a1628,
+  "màu cam": a1629,
+  "Đúng rồi, màu cam!": a1630,
+  "Màu tím đâu nhỉ? Con chạm vào màu tím nhé.": a1631,
+  "Đúng rồi! Đây là màu tím.": a1632,
+  "màu nâu": a1633,
+  "Đúng rồi, màu nâu!": a1634,
+  "Màu đen đâu nhỉ? Con chạm vào màu đen nhé.": a1635,
+  "Đúng rồi! Đây là màu đen.": a1636,
+  "màu đen": a1637,
+  "Đúng rồi, màu đen!": a1638,
+  "màu trắng": a1639,
+  "Đúng rồi, màu trắng!": a1640,
+  "Màu trắng đâu nhỉ? Con chạm vào màu trắng nhé.": a1641,
+  "Đúng rồi! Đây là màu trắng.": a1642,
+  "Màu nâu đâu nhỉ? Con chạm vào màu nâu nhé.": a1643,
+  "Đúng rồi! Đây là màu nâu.": a1644,
+  "Con chạm vào tất cả những thứ có cùng màu nhé.": a1645,
+  "Tìm đồ cùng màu": a1646,
+  "Con chạm vào tất cả những thứ có cùng màu nhé. Trò này sắp có nhé!": a1647,
+  "Trò Tìm đồ cùng màu cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1648,
+  "Con chơi xong mức Khó trò Tìm đồ cùng màu để nhận sticker này nhé.": a1649,
+  "Con chạm vào tất cả những thứ màu xanh dương nhé.": a1650,
+  "Giỏi quá! Con tìm đủ những thứ màu xanh dương rồi.": a1651,
+  "súp lơ xanh": a1652,
+  "Đúng rồi, súp lơ xanh!": a1653,
+  "cá voi": a1654,
+  "Đúng rồi, cá voi!": a1655,
+  "Con chạm vào tất cả những thứ màu đỏ nhé.": a1656,
+  "Giỏi quá! Con tìm đủ những thứ màu đỏ rồi.": a1657,
+  "quả dưa chuột": a1658,
+  "Đúng rồi, quả dưa chuột!": a1659,
+  "quả cà chua": a1660,
+  "Đúng rồi, quả cà chua!": a1661,
+  "Con chạm vào tất cả những thứ màu vàng nhé.": a1662,
+  "Giỏi quá! Con tìm đủ những thứ màu vàng rồi.": a1663,
+  "quả anh đào": a1664,
+  "Đúng rồi, quả anh đào!": a1665,
+  "bắp ngô": a1666,
+  "Đúng rồi, bắp ngô!": a1667,
+  "Con chạm vào tất cả những thứ màu xanh lá nhé.": a1668,
+  "Giỏi quá! Con tìm đủ những thứ màu xanh lá rồi.": a1669,
+  "quả chanh vàng": a1670,
+  "Đúng rồi, quả chanh vàng!": a1671,
+  "giọt nước": a1672,
+  "Đúng rồi, giọt nước!": a1673,
+  "Con chạm vào tất cả những thứ màu hồng nhé.": a1674,
+  "Giỏi quá! Con tìm đủ những thứ màu hồng rồi.": a1675,
+  "quả quýt": a1676,
+  "Đúng rồi, quả quýt!": a1677,
+  "chim hồng hạc": a1678,
+  "Đúng rồi, chim hồng hạc!": a1679,
+  "Con chạm vào tất cả những thứ màu cam nhé.": a1680,
+  "Giỏi quá! Con tìm đủ những thứ màu cam rồi.": a1681,
+  "củ cà rốt": a1682,
+  "Đúng rồi, củ cà rốt!": a1683,
+  "hoa đào": a1684,
+  "Đúng rồi, hoa đào!": a1685,
+  "Con chạm vào tất cả những thứ màu tím nhé.": a1686,
+  "Giỏi quá! Con tìm đủ những thứ màu tím rồi.": a1687,
+  "quả cà tím": a1688,
+  "Đúng rồi, quả cà tím!": a1689,
+  "hạt dẻ": a1690,
+  "Đúng rồi, hạt dẻ!": a1691,
+  "con gấu": a1692,
+  "Đúng rồi, con gấu!": a1693,
+  "Con chạm vào tất cả những thứ màu nâu nhé.": a1694,
+  "Giỏi quá! Con tìm đủ những thứ màu nâu rồi.": a1695,
+  "Con ghép mỗi tranh với màu của nó nhé.": a1696,
+  "Quả này màu gì?": a1697,
+  "Con ghép mỗi tranh với màu của nó nhé. Trò này sắp có nhé!": a1698,
+  "Trò Quả này màu gì? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1699,
+  "Con chơi xong mức Khó trò Quả này màu gì? để nhận sticker này nhé.": a1700,
+  "Con chạm một tranh ở trên, rồi chạm vào màu của nó ở dưới nhé.": a1701,
+  "Đúng rồi! giọt nước và màu xanh dương.": a1702,
+  "Đúng rồi! giọt nước và màu xanh dương. Con ghép xong rồi!": a1703,
+  "Đúng rồi! quả cà chua và màu đỏ.": a1704,
+  "Đúng rồi! quả cà chua và màu đỏ. Con ghép xong rồi!": a1705,
+  "Đúng rồi! con ếch và màu xanh lá.": a1706,
+  "Đúng rồi! con ếch và màu xanh lá. Con ghép xong rồi!": a1707,
+  "Đúng rồi! quả chanh vàng và màu vàng.": a1708,
+  "Đúng rồi! quả chanh vàng và màu vàng. Con ghép xong rồi!": a1709,
+  "Đúng rồi! quả dâu tây và màu đỏ.": a1710,
+  "Đúng rồi! quả dâu tây và màu đỏ. Con ghép xong rồi!": a1711,
+  "Đúng rồi! quả chuối và màu vàng.": a1712,
+  "Đúng rồi! quả chuối và màu vàng. Con ghép xong rồi!": a1713,
+  "Đúng rồi! súp lơ xanh và màu xanh lá.": a1714,
+  "Đúng rồi! súp lơ xanh và màu xanh lá. Con ghép xong rồi!": a1715,
+  "Đúng rồi! gà con và màu vàng.": a1716,
+  "Đúng rồi! gà con và màu vàng. Con ghép xong rồi!": a1717,
+  "Đúng rồi! chiếc lá và màu xanh lá.": a1718,
+  "Đúng rồi! chiếc lá và màu xanh lá. Con ghép xong rồi!": a1719,
+  "Đúng rồi! chim hồng hạc và màu hồng.": a1720,
+  "Đúng rồi! chim hồng hạc và màu hồng. Con ghép xong rồi!": a1721,
+  "Đúng rồi! củ cà rốt và màu cam.": a1722,
+  "Đúng rồi! củ cà rốt và màu cam. Con ghép xong rồi!": a1723,
+  "Đúng rồi! quả cà tím và màu tím.": a1724,
+  "Đúng rồi! quả cà tím và màu tím. Con ghép xong rồi!": a1725,
+  "Đúng rồi! hạt dẻ và màu nâu.": a1726,
+  "Đúng rồi! hạt dẻ và màu nâu. Con ghép xong rồi!": a1727,
+  "Đúng rồi! con gấu và màu nâu.": a1728,
+  "Đúng rồi! con gấu và màu nâu. Con ghép xong rồi!": a1729,
+  "Hai màu trộn với nhau thì ra màu gì? Con kéo màu vào ô trống nhé.": a1730,
+  "Pha màu": a1731,
+  "Hai màu trộn với nhau thì ra màu gì? Con kéo màu vào ô trống nhé. Trò này sắp có nhé!": a1732,
+  "Trò Pha màu cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1733,
+  "Con chơi xong mức Khó trò Pha màu để nhận sticker này nhé.": a1734,
+  "Màu đỏ trộn với màu xanh dương thì ra màu gì? Con kéo màu vào ô trống nhé.": a1735,
+  "Đúng rồi! Đỏ trộn với xanh dương ra màu tím.": a1736,
+  "Màu đỏ trộn với màu vàng thì ra màu gì? Con kéo màu vào ô trống nhé.": a1737,
+  "Đúng rồi! Đỏ trộn với vàng ra màu cam.": a1738,
+  "Màu vàng trộn với màu xanh dương thì ra màu gì? Con kéo màu vào ô trống nhé.": a1739,
+  "Đúng rồi! Vàng trộn với xanh dương ra màu xanh lá.": a1740,
+  "Màu đỏ trộn với màu trắng thì ra màu gì? Con kéo màu vào ô trống nhé.": a1741,
+  "Đúng rồi! Đỏ trộn với trắng ra màu hồng.": a1742,
+  "Con nghe tên người trong nhà, rồi chạm vào người đó nhé.": a1743,
+  "Ai đây nhỉ?": a1744,
+  "Con nghe tên người trong nhà, rồi chạm vào người đó nhé. Trò này sắp có nhé!": a1745,
+  "Trò Ai đây nhỉ? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1746,
+  "Con chơi xong mức Khó trò Ai đây nhỉ? để nhận sticker này nhé.": a1747,
+  "Bà đâu nhỉ? Con chạm vào bà nhé.": a1748,
+  "Đúng rồi! Đây là bà.": a1749,
+  "bà": a1750,
+  "Đúng rồi, bà!": a1751,
+  "mẹ": a1752,
+  "Đúng rồi, mẹ!": a1753,
+  "Em bé đâu nhỉ? Con chạm vào em bé nhé.": a1754,
+  "Đúng rồi! Đây là em bé.": a1755,
+  "em bé": a1756,
+  "Đúng rồi, em bé!": a1757,
+  "Bố đâu nhỉ? Con chạm vào bố nhé.": a1758,
+  "Đúng rồi! Đây là bố.": a1759,
+  "bố": a1760,
+  "Đúng rồi, bố!": a1761,
+  "ông": a1762,
+  "Đúng rồi, ông!": a1763,
+  "Mẹ đâu nhỉ? Con chạm vào mẹ nhé.": a1764,
+  "Đúng rồi! Đây là mẹ.": a1765,
+  "Ông đâu nhỉ? Con chạm vào ông nhé.": a1766,
+  "Đúng rồi! Đây là ông.": a1767,
+  "Chị gái đâu nhỉ? Con chạm vào chị gái nhé.": a1768,
+  "Đúng rồi! Đây là chị gái.": a1769,
+  "chị gái": a1770,
+  "Đúng rồi, chị gái!": a1771,
+  "anh trai": a1772,
+  "Đúng rồi, anh trai!": a1773,
+  "Anh trai đâu nhỉ? Con chạm vào anh trai nhé.": a1774,
+  "Đúng rồi! Đây là anh trai.": a1775,
+  "Con xếp mọi người từ nhỏ tuổi nhất đến lớn tuổi nhất nhé.": a1776,
+  "Từ bé đến lớn": a1777,
+  "Con xếp mọi người từ nhỏ tuổi nhất đến lớn tuổi nhất nhé. Trò này sắp có nhé!": a1778,
+  "Trò Từ bé đến lớn cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1779,
+  "Con chơi xong mức Khó trò Từ bé đến lớn để nhận sticker này nhé.": a1780,
+  "Ai nhỏ tuổi nhất? Con xếp từ người nhỏ nhất đến người lớn tuổi nhất nhé.": a1781,
+  "Đúng rồi! em bé, chị gái, ông.": a1782,
+  "Ông": a1783,
+  "Chị gái": a1784,
+  "Em bé": a1785,
+  "Giỏi quá! em bé, chị gái, bà.": a1786,
+  "Bà": a1787,
+  "Đúng rồi! em bé, chị gái, bà.": a1788,
+  "Giỏi quá! em bé, chị gái, ông.": a1789,
+  "Giỏi quá! em bé, anh trai, ông.": a1790,
+  "Anh trai": a1791,
+  "Đúng rồi! em bé, anh trai, ông.": a1792,
+  "Đúng rồi! em bé, chị gái, bố, ông.": a1793,
+  "Bố": a1794,
+  "Giỏi quá! em bé, chị gái, mẹ, bà.": a1795,
+  "Mẹ": a1796,
+  "Đúng rồi! em bé, chị gái, mẹ, bà.": a1797,
+  "Giỏi quá! em bé, chị gái, bố, ông.": a1798,
+  "Giỏi quá! em bé, anh trai, mẹ, ông.": a1799,
+  "Đúng rồi! em bé, anh trai, mẹ, ông.": a1800,
+  "Con lật hai thẻ. Nếu là cùng một người thì giữ lại nhé.": a1801,
+  "Lật thẻ cả nhà": a1802,
+  "Con lật hai thẻ. Nếu là cùng một người thì giữ lại nhé. Trò này sắp có nhé!": a1803,
+  "Trò Lật thẻ cả nhà cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1804,
+  "Con chơi xong mức Khó trò Lật thẻ cả nhà để nhận sticker này nhé.": a1805,
+  "Con lật hai thẻ. Nếu là cùng một người thì thẻ được giữ lại nhé.": a1806,
+  "Giỏi quá! Con tìm đủ cả nhà rồi.": a1807,
+  "Con chọn màu, rồi chạm vào tranh để tô cho đúng màu nhé.": a1808,
+  "Tô màu cho tranh": a1809,
+  "Con chọn màu, rồi chạm vào tranh để tô cho đúng màu nhé. Trò này sắp có nhé!": a1810,
+  "Trò Tô màu cho tranh cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1811,
+  "Con chơi xong mức Khó trò Tô màu cho tranh để nhận sticker này nhé.": a1812,
+  "Con chạm vào một màu, rồi chạm vào tranh cần tô màu đó nhé.": a1813,
+  "Đúng rồi! màu xanh lá và chiếc lá.": a1814,
+  "Đúng rồi! màu xanh lá và chiếc lá. Con ghép xong rồi!": a1815,
+  "Đúng rồi! màu vàng và quả chuối.": a1816,
+  "Đúng rồi! màu vàng và quả chuối. Con ghép xong rồi!": a1817,
+  "Đúng rồi! màu xanh dương và giọt nước.": a1818,
+  "Đúng rồi! màu xanh dương và giọt nước. Con ghép xong rồi!": a1819,
+  "Đúng rồi! màu đỏ và quả dâu tây.": a1820,
+  "Đúng rồi! màu đỏ và quả dâu tây. Con ghép xong rồi!": a1821,
+  "Đúng rồi! màu vàng và gà con.": a1822,
+  "Đúng rồi! màu vàng và gà con. Con ghép xong rồi!": a1823,
+  "Đúng rồi! màu đỏ và quả cà chua.": a1824,
+  "Đúng rồi! màu đỏ và quả cà chua. Con ghép xong rồi!": a1825,
+  "Đúng rồi! màu cam và củ cà rốt.": a1826,
+  "Đúng rồi! màu cam và củ cà rốt. Con ghép xong rồi!": a1827,
+  "Đúng rồi! màu hồng và chim hồng hạc.": a1828,
+  "Đúng rồi! màu hồng và chim hồng hạc. Con ghép xong rồi!": a1829,
+  "Đúng rồi! màu tím và quả cà tím.": a1830,
+  "Đúng rồi! màu tím và quả cà tím. Con ghép xong rồi!": a1831,
+  "Đúng rồi! màu nâu và hạt dẻ.": a1832,
+  "Đúng rồi! màu nâu và hạt dẻ. Con ghép xong rồi!": a1833,
+  "Con nghe tên nhạc cụ, rồi chạm vào nhạc cụ đó nhé.": a1834,
+  "Nhạc cụ tên gì?": a1835,
+  "Con nghe tên nhạc cụ, rồi chạm vào nhạc cụ đó nhé. Trò này sắp có nhé!": a1836,
+  "Trò Nhạc cụ tên gì? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1837,
+  "Con chơi xong mức Khó trò Nhạc cụ tên gì? để nhận sticker này nhé.": a1838,
+  "Cái kèn đâu nhỉ? Con chạm vào cái kèn nhé.": a1839,
+  "Đúng rồi! Đây là cái kèn.": a1840,
+  "đàn ghi-ta": a1841,
+  "Đúng rồi, đàn ghi-ta!": a1842,
+  "cái kèn": a1843,
+  "Đúng rồi, cái kèn!": a1844,
+  "Cái trống đâu nhỉ? Con chạm vào cái trống nhé.": a1845,
+  "Đúng rồi! Đây là cái trống.": a1846,
+  "đàn pi-a-nô": a1847,
+  "Đúng rồi, đàn pi-a-nô!": a1848,
+  "Đàn ghi-ta đâu nhỉ? Con chạm vào đàn ghi-ta nhé.": a1849,
+  "Đúng rồi! Đây là đàn ghi-ta.": a1850,
+  "Đàn pi-a-nô đâu nhỉ? Con chạm vào đàn pi-a-nô nhé.": a1851,
+  "Đúng rồi! Đây là đàn pi-a-nô.": a1852,
+  "Đàn vi-ô-lông đâu nhỉ? Con chạm vào đàn vi-ô-lông nhé.": a1853,
+  "Đúng rồi! Đây là đàn vi-ô-lông.": a1854,
+  "lục lạc": a1855,
+  "Đúng rồi, lục lạc!": a1856,
+  "đàn vi-ô-lông": a1857,
+  "Đúng rồi, đàn vi-ô-lông!": a1858,
+  "Cây sáo đâu nhỉ? Con chạm vào cây sáo nhé.": a1859,
+  "Đúng rồi! Đây là cây sáo.": a1860,
+  "cây sáo": a1861,
+  "Đúng rồi, cây sáo!": a1862,
+  "Lục lạc đâu nhỉ? Con chạm vào lục lạc nhé.": a1863,
+  "Đúng rồi! Đây là lục lạc.": a1864,
+  "Con nhìn các hạt màu, rồi xâu tiếp hạt cho đúng quy luật nhé.": a1865,
+  "Xâu vòng hạt màu": a1866,
+  "Con nhìn các hạt màu, rồi xâu tiếp hạt cho đúng quy luật nhé. Trò này sắp có nhé!": a1867,
+  "Trò Xâu vòng hạt màu cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1868,
+  "Con chơi xong mức Khó trò Xâu vòng hạt màu để nhận sticker này nhé.": a1869,
+  "Hạt tiếp theo màu gì? Con xâu tiếp cho đúng quy luật nhé.": a1870,
+  "Đẹp quá! Con xâu đúng quy luật rồi.": a1871,
+  "Con xâu tiếp hai hạt cho đúng quy luật nhé.": a1872,
+  "Màu sắc! Con chọn một trò để chơi nhé.": a1873,
+  "Gia đình! Con chọn một trò để chơi nhé.": a1874,
+  "Nghệ thuật & sáng tạo! Con chọn một trò để chơi nhé.": a1875,
+  "Mình chơi mức Dễ nhé!": a1876,
+  "Mình chơi mức Vừa nhé!": a1877,
+  "Mình chơi mức Khó nhé!": a1878,
+  "Con có 1 sticker rồi. Giỏi quá!": a1879,
+  "Con có 2 sticker rồi. Giỏi quá!": a1880,
+  "Con có 3 sticker rồi. Giỏi quá!": a1881,
+  "Con có 4 sticker rồi. Giỏi quá!": a1882,
+  "Con có 5 sticker rồi. Giỏi quá!": a1883,
+  "Con có 6 sticker rồi. Giỏi quá!": a1884,
+  "Con có 7 sticker rồi. Giỏi quá!": a1885,
+  "Con có 8 sticker rồi. Giỏi quá!": a1886,
+  "Con có 9 sticker rồi. Giỏi quá!": a1887,
+  "Con có 10 sticker rồi. Giỏi quá!": a1888,
+  "Con có 11 sticker rồi. Giỏi quá!": a1889,
+  "Con có 12 sticker rồi. Giỏi quá!": a1890,
+  "Con có 13 sticker rồi. Giỏi quá!": a1891,
+  "Con có 14 sticker rồi. Giỏi quá!": a1892,
+  "Con có 15 sticker rồi. Giỏi quá!": a1893,
+  "Con có 16 sticker rồi. Giỏi quá!": a1894,
+  "Con có 17 sticker rồi. Giỏi quá!": a1895,
+  "Con có 18 sticker rồi. Giỏi quá!": a1896,
+  "Con có 19 sticker rồi. Giỏi quá!": a1897,
+  "Con có 20 sticker rồi. Giỏi quá!": a1898,
+  "Con có 21 sticker rồi. Giỏi quá!": a1899,
+  "Con có 22 sticker rồi. Giỏi quá!": a1900,
+  "Con có 23 sticker rồi. Giỏi quá!": a1901,
+  "Con có 24 sticker rồi. Giỏi quá!": a1902,
+  "Con có 25 sticker rồi. Giỏi quá!": a1903,
+  "Con có 26 sticker rồi. Giỏi quá!": a1904,
+  "Con có 27 sticker rồi. Giỏi quá!": a1905,
+  "Con có 28 sticker rồi. Giỏi quá!": a1906,
+  "Con có 29 sticker rồi. Giỏi quá!": a1907,
+  "Con có 30 sticker rồi. Giỏi quá!": a1908,
+  "Chào con! Hôm nay mình khám phá gì nhỉ?": a1909,
 };
