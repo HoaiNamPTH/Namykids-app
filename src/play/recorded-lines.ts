@@ -1915,6 +1915,19 @@ import a1906 from "../assets/audio/vita-v3/l_9ba626984f.mp3";
 import a1907 from "../assets/audio/vita-v3/l_c42e58c049.mp3";
 import a1908 from "../assets/audio/vita-v3/l_3a7fcc9036.mp3";
 import a1909 from "../assets/audio/vita-v3/l_59f61ab476.mp3";
+import a1910 from "../assets/audio/vita-v3/l_b5758111f8.mp3";
+import a1911 from "../assets/audio/vita-v3/l_18de39a48e.mp3";
+import a1912 from "../assets/audio/vita-v3/l_7963e354b4.mp3";
+import a1913 from "../assets/audio/vita-v3/l_efc343df50.mp3";
+import a1914 from "../assets/audio/vita-v3/l_dec511e5f0.mp3";
+import a1915 from "../assets/audio/vita-v3/l_486be69ff4.mp3";
+import a1916 from "../assets/audio/vita-v3/l_210a12b3d8.mp3";
+import a1917 from "../assets/audio/vita-v3/l_132dbcbb5a.mp3";
+import a1918 from "../assets/audio/vita-v3/l_2d8b0b8aac.mp3";
+import a1919 from "../assets/audio/vita-v3/l_78a2eb4968.mp3";
+import a1920 from "../assets/audio/vita-v3/l_1efa503d67.mp3";
+import a1921 from "../assets/audio/vita-v3/l_c8d6a6ac42.mp3";
+import a1922 from "../assets/audio/vita-v3/l_e3795fb165.mp3";
 
 export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Bé tìm đồ vật": a0,
@@ -3827,4 +3840,17 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Con có 29 sticker rồi. Giỏi quá!": a1907,
   "Con có 30 sticker rồi. Giỏi quá!": a1908,
   "Chào con! Hôm nay mình khám phá gì nhỉ?": a1909,
+  "Đúng rồi, ngôi sao!": a1910,
+  "Đúng rồi, ngôi sao! Con ghép xong rồi!": a1911,
+  "Đúng rồi, con vịt! Con ghép xong rồi!": a1912,
+  "Đúng rồi, quả táo! Con ghép xong rồi!": a1913,
+  "Đúng rồi, con cá! Con ghép xong rồi!": a1914,
+  "Đúng rồi, quả bóng! Con ghép xong rồi!": a1915,
+  "Đúng rồi, quả chuối! Con ghép xong rồi!": a1916,
+  "Đúng rồi, ô tô! Con ghép xong rồi!": a1917,
+  "Đúng rồi, con diều! Con ghép xong rồi!": a1918,
+  "Đúng rồi, bóng bay! Con ghép xong rồi!": a1919,
+  "Đúng rồi, cái trống! Con ghép xong rồi!": a1920,
+  "Đúng rồi, con mèo! Con ghép xong rồi!": a1921,
+  "Đúng rồi, gấu bông! Con ghép xong rồi!": a1922,
 };

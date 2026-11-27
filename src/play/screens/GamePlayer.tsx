@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View, type LayoutChangeEvent } from "react-native";
 import duo from "../../assets/play/ui/home_duo.png";
 import { playType } from "../../ui/typography";
@@ -13,6 +13,7 @@ import { MatchBoard } from "../templates/MatchBoard";
 import { play } from "../theme";
 import { foundationAssets } from "../../ui/foundation-assets";
 import { PlayScreen, RoundButton } from "../ui";
+import { openingLines } from "../speech-lines";
 import { speak, stopSpeaking } from "../voice";
 
 /** Spoken when a game is finished. Warm, short, about effort as much as result. */
@@ -36,12 +37,17 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   // Nam 25/11/2026: every game explains itself out loud first, so the child never has to guess.
   // The intro is said once when the game opens, then each round's instruction follows.
   const [intro, setIntro] = useState(true);
+  const promptSaid = useRef(false);
   const [levelOpen, setLevelOpen] = useState(false);
   useEffect(() => {
     if (!round || won) return;
     let live = true;
     const t = setTimeout(() => {
-      if (intro) void speak(game.intro).then(() => { if (live) { setIntro(false); } });
+      if (intro) {
+        // Nam 27/11/2026: when the first prompt repeats the intro, say it once.
+        const lines = openingLines(game.intro, round.prompt);
+        void speak(lines[0] ?? game.intro).then(() => { if (live) { promptSaid.current = lines.length === 1; setIntro(false); } });
+      } else if (promptSaid.current) promptSaid.current = false;
       else void speak(round.prompt);
     }, 350);
     return () => { live = false; clearTimeout(t); };

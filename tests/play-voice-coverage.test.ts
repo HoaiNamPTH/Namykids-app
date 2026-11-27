@@ -7,6 +7,7 @@ import { AREAS } from "../src/play/areas";
 import { STICKERS } from "../src/play/stickers";
 import { LEVEL_NAMES } from "../src/play/engine/types";
 import { RECORDED_LINES } from "../src/play/recorded-lines";
+import { matchLine } from "../src/play/speech-lines";
 
 // Nam 27/11/2026: every line the app can say must have a Vita recording (the web preview has no device voice).
 it("has a recording for every line the app can say", () => {
@@ -30,8 +31,8 @@ it("has a recording for every line the app can say", () => {
           for (const cd of [...r.top, ...r.bottom]) add(cd.say, "say");
           for (const [a, b] of Object.entries(r.pairs)) {
             const top = r.top.find((x) => x.id === a), bot = r.bottom.find((x) => x.id === b);
-            add(`Đúng rồi! ${top?.say} và ${bot?.say}.`, "match:" + g.id);
-            add(`Đúng rồi! ${top?.say} và ${bot?.say}. Con ghép xong rồi!`, "match:" + g.id);
+            add(matchLine(top?.say ?? "", bot?.say ?? "", false), "match:" + g.id);
+            add(matchLine(top?.say ?? "", bot?.say ?? "", true), "match:" + g.id);
           }
         }
       }
