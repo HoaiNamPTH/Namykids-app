@@ -39,11 +39,14 @@ export function FillBoard({ round, width, height, onSolved }: Props) {
     }
     const next = { ...filled, [cellIndex]: cardId };
     setFilled(next);
+    // Nam 27/11/2026: no word twice in a row. The last card goes straight to the praise (which names it),
+    // and a card already named when it was picked up is not named again when it lands.
+    const alreadySaid = selected === cardId;
     setSelected(null);
     if (fillDone(round, next) && !doneRef.current) {
       doneRef.current = true;
-      void speak(card?.say ?? "").then(() => speak(round.praise)).then(onSolved);
-    } else if (card) {
+      void speak(round.praise).then(onSolved);
+    } else if (card && !alreadySaid) {
       void speak(card.say);
     }
     return true;

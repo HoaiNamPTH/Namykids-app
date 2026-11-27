@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Animated, Pressable, StyleSheet, View } from "react-native";
 import { matchResult } from "../engine/judge";
 import type { Card, MatchRound } from "../engine/types";
+import { matchLine } from "../speech-lines";
 import { speak } from "../voice";
 import { CardFace, useWiggle } from "./common";
 
@@ -37,8 +38,9 @@ export function MatchBoard({ round, width, height, onSolved }: Props) {
     setMatched(next);
     const top = round.top.find((c) => c.id === topId);
     const bottom = round.bottom.find((c) => c.id === bottomId);
-    if (result === "done") void speak(`Đúng rồi! ${top?.say} và ${bottom?.say}. Con ghép xong rồi!`).then(onSolved);
-    else void speak(`Đúng rồi! ${top?.say} và ${bottom?.say}.`);
+    const line = matchLine(top?.say ?? "", bottom?.say ?? "", result === "done");
+    if (result === "done") void speak(line).then(onSolved);
+    else void speak(line);
     return false;
   };
 

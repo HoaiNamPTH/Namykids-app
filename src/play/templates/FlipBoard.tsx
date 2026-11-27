@@ -23,9 +23,11 @@ export function FlipBoard({ round, width, height, onSolved }: Props) {
 
   const tap = (card: FlipCard) => {
     if (busy.current || kept.includes(card.id) || open.includes(card.id)) return;
-    void speak(card.say);
-    if (open.length === 0) { setOpen([card.id]); return; }
     const first = open[0] ?? "";
+    // Nam 27/11/2026: two cards with the same name are named once.
+    const firstSay = round.cards.find((c) => c.id === first)?.say;
+    if (open.length === 0 || firstSay !== card.say) void speak(card.say);
+    if (open.length === 0) { setOpen([card.id]); return; }
     const both = [first, card.id];
     setOpen(both);
     const result = flipResult(round, kept, first, card.id);
