@@ -9,9 +9,8 @@ export const VOICE_RATE = 0.7;
 export const VOICE_PITCH = 1;
 
 /**
- * PO decision 23/11/2026: lines that have a recording play in the ElevenLabs "Alice" voice;
- * every other line still uses the device voice. INTERNAL TESTING ONLY: the recordings come from
- * the free plan and must be re-rendered on a paid plan (or this switched off) before release.
+ * PO decision 27/11/2026: lines that have a recording play in the ElevenLabs "Vita" voice
+ * (rendered on a paid plan, commercial use allowed); every other line still uses the device voice.
  */
 export const USE_RECORDED_VOICE = true;
 
