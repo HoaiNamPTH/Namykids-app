@@ -3,7 +3,7 @@ import { Animated, Image, Pressable, StyleSheet, View } from "react-native";
 import { foundationAssets } from "../../ui/foundation-assets";
 import { chooseResult } from "../engine/judge";
 import type { Card, ChooseRound } from "../engine/types";
-import { speak } from "../voice";
+import { sayThenSound, speak } from "../voice";
 import { CardFace, PicView, useWiggle } from "./common";
 
 type Props = { round: ChooseRound; width: number; height: number; listen: boolean; onSolved: () => void };
@@ -25,11 +25,11 @@ export function ChooseBoard({ round, width, height, listen, onSolved }: Props) {
     if (locked) return null;
     const result = chooseResult(round, found, card.id);
     if (result === "wrong") {
-      void speak("Chưa đúng rồi. Con thử lại nhé.").then(() => speak(round.prompt));
+      void speak("Chưa đúng rồi. Con thử lại nhé.").then(() => sayThenSound(round.prompt, round.sound));
     } else if (result === "done") {
       setFound([...found, card.id]);
       setLocked(true);
-      void speak(round.praise).then(onSolved);
+      void sayThenSound(round.praise, round.sound).then(onSolved);
     } else if (result === "correct") {
       setFound([...found, card.id]);
       void speak(`Đúng rồi, ${card.say}!`);
@@ -38,10 +38,10 @@ export function ChooseBoard({ round, width, height, listen, onSolved }: Props) {
   };
 
   return <View style={styles.wrap}>
-    {round.scene ? <Pressable accessibilityRole="button" accessibilityLabel="Nghe lại" onPress={() => void speak(round.prompt)}
+    {round.scene ? <Pressable accessibilityRole="button" accessibilityLabel="Nghe lại" onPress={() => void sayThenSound(round.prompt, round.sound)}
       style={({ pressed }) => [styles.bigSpeaker, styles.scene, { width: side - 24, height: side - 24, borderRadius: (side - 24) * 0.2 }, pressed && styles.pressed]}>
       <PicView pic={round.scene} size={side - 40} />
-    </Pressable> : listen ? <Pressable accessibilityRole="button" accessibilityLabel="Nghe lại" onPress={() => void speak(round.prompt)}
+    </Pressable> : listen ? <Pressable accessibilityRole="button" accessibilityLabel="Nghe lại" onPress={() => void sayThenSound(round.prompt, round.sound)}
       style={({ pressed }) => [styles.bigSpeaker, { width: side - 24, height: side - 24, borderRadius: side }, pressed && styles.pressed]}>
       <Image accessible={false} source={foundationAssets.speaker} resizeMode="contain" style={styles.fill} />
     </Pressable> : null}

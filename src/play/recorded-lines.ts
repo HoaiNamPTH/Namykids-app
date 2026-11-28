@@ -371,7 +371,6 @@ import a362 from "../assets/audio/vita-v3/l_4e2d37e140.mp3";
 import a363 from "../assets/audio/vita-v3/l_357b9afa73.mp3";
 import a364 from "../assets/audio/vita-v3/l_c7261a4d01.mp3";
 import a365 from "../assets/audio/vita-v3/l_be63277377.mp3";
-import a366 from "../assets/audio/vita-v3/l_310d4fe421.mp3";
 import a367 from "../assets/audio/vita-v3/l_d9af4c8ee8.mp3";
 import a368 from "../assets/audio/vita-v3/l_9a50c98e25.mp3";
 import a369 from "../assets/audio/vita-v3/l_88af772e7e.mp3";
@@ -381,14 +380,12 @@ import a372 from "../assets/audio/vita-v3/l_59fe727705.mp3";
 import a373 from "../assets/audio/vita-v3/l_55a41c5e96.mp3";
 import a374 from "../assets/audio/vita-v3/l_52bb67d515.mp3";
 import a375 from "../assets/audio/vita-v3/l_1902965b0a.mp3";
-import a376 from "../assets/audio/vita-v3/l_0e81adfb87.mp3";
 import a377 from "../assets/audio/vita-v3/l_3edaa3915a.mp3";
 import a378 from "../assets/audio/vita-v3/l_8d19ef3134.mp3";
 import a379 from "../assets/audio/vita-v3/l_a1b55868ef.mp3";
 import a380 from "../assets/audio/vita-v3/l_4c138fd86e.mp3";
 import a381 from "../assets/audio/vita-v3/l_112623b131.mp3";
 import a382 from "../assets/audio/vita-v3/l_22c9671616.mp3";
-import a383 from "../assets/audio/vita-v3/l_7a5ede8f42.mp3";
 import a384 from "../assets/audio/vita-v3/l_5cc4aeb300.mp3";
 import a385 from "../assets/audio/vita-v3/l_703a25c1a2.mp3";
 import a386 from "../assets/audio/vita-v3/l_cc15562970.mp3";
@@ -454,14 +451,12 @@ import a445 from "../assets/audio/vita-v3/l_c2b1f7f644.mp3";
 import a446 from "../assets/audio/vita-v3/l_205c417bc2.mp3";
 import a447 from "../assets/audio/vita-v3/l_9212ad0ef6.mp3";
 import a448 from "../assets/audio/vita-v3/l_ba6096feb9.mp3";
-import a449 from "../assets/audio/vita-v3/l_b12828e000.mp3";
 import a450 from "../assets/audio/vita-v3/l_0d985bb803.mp3";
 import a451 from "../assets/audio/vita-v3/l_5fd11ecb9d.mp3";
 import a452 from "../assets/audio/vita-v3/l_d7f936f304.mp3";
 import a453 from "../assets/audio/vita-v3/l_4c5305d36e.mp3";
 import a454 from "../assets/audio/vita-v3/l_eca6b6340f.mp3";
 import a455 from "../assets/audio/vita-v3/l_5b8ed2b018.mp3";
-import a456 from "../assets/audio/vita-v3/l_b9cd3bc5ca.mp3";
 import a457 from "../assets/audio/vita-v3/l_4dd5c0e3f8.mp3";
 import a458 from "../assets/audio/vita-v3/l_30582f5e5f.mp3";
 import a459 from "../assets/audio/vita-v3/l_dbe5392bc2.mp3";
@@ -480,7 +475,6 @@ import a471 from "../assets/audio/vita-v3/l_6869cc0cc4.mp3";
 import a472 from "../assets/audio/vita-v3/l_b14ead40e2.mp3";
 import a473 from "../assets/audio/vita-v3/l_ae7d598c13.mp3";
 import a474 from "../assets/audio/vita-v3/l_b8868f98e7.mp3";
-import a475 from "../assets/audio/vita-v3/l_aca854b20f.mp3";
 import a476 from "../assets/audio/vita-v3/l_0690825e8f.mp3";
 import a477 from "../assets/audio/vita-v3/l_d0d05ef475.mp3";
 import a478 from "../assets/audio/vita-v3/l_c66bb7a226.mp3";
@@ -501,11 +495,9 @@ import a492 from "../assets/audio/vita-v3/l_4576f3cbce.mp3";
 import a493 from "../assets/audio/vita-v3/l_d497d4dbc1.mp3";
 import a494 from "../assets/audio/vita-v3/l_893d6ca8af.mp3";
 import a495 from "../assets/audio/vita-v3/l_9a87dc01cc.mp3";
-import a496 from "../assets/audio/vita-v3/l_52126a0090.mp3";
 import a497 from "../assets/audio/vita-v3/l_1a8bc6e0d7.mp3";
 import a498 from "../assets/audio/vita-v3/l_e328aeb6f5.mp3";
 import a499 from "../assets/audio/vita-v3/l_63cd381e0b.mp3";
-import a500 from "../assets/audio/vita-v3/l_e6668e4f33.mp3";
 import a501 from "../assets/audio/vita-v3/l_e96d2093d9.mp3";
 import a502 from "../assets/audio/vita-v3/l_214658f156.mp3";
 import a503 from "../assets/audio/vita-v3/l_e6a885b20d.mp3";
@@ -546,7 +538,6 @@ import a537 from "../assets/audio/vita-v3/l_66848dd5b7.mp3";
 import a538 from "../assets/audio/vita-v3/l_b54ba5d8ee.mp3";
 import a539 from "../assets/audio/vita-v3/l_202b207c5e.mp3";
 import a540 from "../assets/audio/vita-v3/l_2a2b6f106c.mp3";
-import a541 from "../assets/audio/vita-v3/l_888fe5ab69.mp3";
 import a542 from "../assets/audio/vita-v3/l_e41f6ed92c.mp3";
 import a543 from "../assets/audio/vita-v3/l_ab414171aa.mp3";
 import a544 from "../assets/audio/vita-v3/l_36329a3ccf.mp3";
@@ -557,8 +548,6 @@ import a548 from "../assets/audio/vita-v3/l_401d8f38ca.mp3";
 import a549 from "../assets/audio/vita-v3/l_1ec4c7f4f8.mp3";
 import a550 from "../assets/audio/vita-v3/l_964ee761b8.mp3";
 import a551 from "../assets/audio/vita-v3/l_84c6e4d9b4.mp3";
-import a552 from "../assets/audio/vita-v3/l_a50d062789.mp3";
-import a553 from "../assets/audio/vita-v3/l_486bbe0ce1.mp3";
 import a554 from "../assets/audio/vita-v3/l_7779dfdc04.mp3";
 import a555 from "../assets/audio/vita-v3/l_7e897d56c8.mp3";
 import a556 from "../assets/audio/vita-v3/l_4207b3eeff.mp3";
@@ -647,7 +636,6 @@ import a638 from "../assets/audio/vita-v3/l_d270e78174.mp3";
 import a639 from "../assets/audio/vita-v3/l_296a3b631c.mp3";
 import a640 from "../assets/audio/vita-v3/l_3276e01870.mp3";
 import a641 from "../assets/audio/vita-v3/l_cbd427a3f3.mp3";
-import a642 from "../assets/audio/vita-v3/l_8f8a6f8d41.mp3";
 import a643 from "../assets/audio/vita-v3/l_3efb84bac9.mp3";
 import a644 from "../assets/audio/vita-v3/l_24c90820af.mp3";
 import a645 from "../assets/audio/vita-v3/l_8cf490bf22.mp3";
@@ -773,14 +761,12 @@ import a764 from "../assets/audio/vita-v3/l_eae12b7815.mp3";
 import a765 from "../assets/audio/vita-v3/l_f2f2fe544e.mp3";
 import a766 from "../assets/audio/vita-v3/l_1cd2b8205a.mp3";
 import a767 from "../assets/audio/vita-v3/l_58ffdcf694.mp3";
-import a768 from "../assets/audio/vita-v3/l_6477cb5a7c.mp3";
 import a769 from "../assets/audio/vita-v3/l_8492d58009.mp3";
 import a770 from "../assets/audio/vita-v3/l_0391aa5686.mp3";
 import a771 from "../assets/audio/vita-v3/l_f7f730886c.mp3";
 import a772 from "../assets/audio/vita-v3/l_eca8f61e26.mp3";
 import a773 from "../assets/audio/vita-v3/l_a8f915d6f4.mp3";
 import a774 from "../assets/audio/vita-v3/l_f7cbb8adfa.mp3";
-import a775 from "../assets/audio/vita-v3/l_3cb8f55df4.mp3";
 import a776 from "../assets/audio/vita-v3/l_760e3b0986.mp3";
 import a777 from "../assets/audio/vita-v3/l_60bf4abcd4.mp3";
 import a778 from "../assets/audio/vita-v3/l_563646050d.mp3";
@@ -960,13 +946,11 @@ import a951 from "../assets/audio/vita-v3/l_33869ed8c6.mp3";
 import a952 from "../assets/audio/vita-v3/l_8b7f228122.mp3";
 import a953 from "../assets/audio/vita-v3/l_5f9b22dfe8.mp3";
 import a954 from "../assets/audio/vita-v3/l_feef671282.mp3";
-import a955 from "../assets/audio/vita-v3/l_8ce51724ae.mp3";
 import a956 from "../assets/audio/vita-v3/l_18acb628ea.mp3";
 import a957 from "../assets/audio/vita-v3/l_f6cecb123f.mp3";
 import a958 from "../assets/audio/vita-v3/l_bb542eb4e0.mp3";
 import a959 from "../assets/audio/vita-v3/l_53a33eff10.mp3";
 import a960 from "../assets/audio/vita-v3/l_113c81b4d6.mp3";
-import a961 from "../assets/audio/vita-v3/l_c8edf09d58.mp3";
 import a962 from "../assets/audio/vita-v3/l_3fed043d5a.mp3";
 import a963 from "../assets/audio/vita-v3/l_3751e8c9ac.mp3";
 import a964 from "../assets/audio/vita-v3/l_fe0e01bde3.mp3";
@@ -1001,24 +985,6 @@ import a992 from "../assets/audio/vita-v3/l_a3b2384dfb.mp3";
 import a993 from "../assets/audio/vita-v3/l_2910715e04.mp3";
 import a994 from "../assets/audio/vita-v3/l_6efd733381.mp3";
 import a995 from "../assets/audio/vita-v3/l_8687f1430a.mp3";
-import a996 from "../assets/audio/vita-v3/l_b6758cc9be.mp3";
-import a997 from "../assets/audio/vita-v3/l_7a550f1486.mp3";
-import a998 from "../assets/audio/vita-v3/l_c97962713f.mp3";
-import a999 from "../assets/audio/vita-v3/l_ccff08317d.mp3";
-import a1000 from "../assets/audio/vita-v3/l_cffc7482ea.mp3";
-import a1001 from "../assets/audio/vita-v3/l_9b0b09b10c.mp3";
-import a1002 from "../assets/audio/vita-v3/l_289761cd03.mp3";
-import a1003 from "../assets/audio/vita-v3/l_3f60b0e784.mp3";
-import a1004 from "../assets/audio/vita-v3/l_0f1e79b7c7.mp3";
-import a1005 from "../assets/audio/vita-v3/l_1353da1417.mp3";
-import a1006 from "../assets/audio/vita-v3/l_3799fe8ccb.mp3";
-import a1007 from "../assets/audio/vita-v3/l_8809d19108.mp3";
-import a1008 from "../assets/audio/vita-v3/l_67de329508.mp3";
-import a1009 from "../assets/audio/vita-v3/l_009cd5d91d.mp3";
-import a1010 from "../assets/audio/vita-v3/l_e926854179.mp3";
-import a1011 from "../assets/audio/vita-v3/l_f6443f9631.mp3";
-import a1012 from "../assets/audio/vita-v3/l_383540c4c6.mp3";
-import a1013 from "../assets/audio/vita-v3/l_bb5371a093.mp3";
 import a1014 from "../assets/audio/vita-v3/l_e48b7f9768.mp3";
 import a1015 from "../assets/audio/vita-v3/l_03d3eb0494.mp3";
 import a1016 from "../assets/audio/vita-v3/l_5f6bbbe102.mp3";
@@ -1928,6 +1894,15 @@ import a1919 from "../assets/audio/vita-v3/l_78a2eb4968.mp3";
 import a1920 from "../assets/audio/vita-v3/l_1efa503d67.mp3";
 import a1921 from "../assets/audio/vita-v3/l_c8d6a6ac42.mp3";
 import a1922 from "../assets/audio/vita-v3/l_e3795fb165.mp3";
+import a2000 from "../assets/audio/vita-v3/l_ef37f18ff7.mp3";
+import a2001 from "../assets/audio/vita-v3/l_195f6fddf6.mp3";
+import a2002 from "../assets/audio/vita-v3/l_76854c8098.mp3";
+import a2003 from "../assets/audio/vita-v3/l_c870c523e1.mp3";
+import a2004 from "../assets/audio/vita-v3/l_4ef370d426.mp3";
+import a2005 from "../assets/audio/vita-v3/l_006eac4bcf.mp3";
+import a2006 from "../assets/audio/vita-v3/l_f51c333697.mp3";
+import a2007 from "../assets/audio/vita-v3/l_c1d13b1a5a.mp3";
+import a2008 from "../assets/audio/vita-v3/l_259b53d3f9.mp3";
 
 export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Bé tìm đồ vật": a0,
@@ -2296,7 +2271,6 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Bờ, bờ.": a363,
   "Chào con!": a364,
   "Chìa khóa dùng để mở khóa.": a365,
-  "Chíp chíp, chíp chíp!": a366,
   "Chùm nho không cùng nhóm con vật.": a367,
   "Chùm nho không cùng nhóm xe.": a368,
   "Chùm nho không cùng nhóm đồ chơi.": a369,
@@ -2306,14 +2280,12 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Con bò không cùng nhóm quả.": a373,
   "Con bò không cùng nhóm xe.": a374,
   "Con bò không cùng nhóm đồ chơi.": a375,
-  "Con bò kêu ùm ùm.": a376,
   "Con chim ở bên cạnh cái cây.": a377,
   "Con chim ở dưới cái cây.": a378,
   "Con chim ở trên cái cây.": a379,
   "Con chó không cùng nhóm quả.": a380,
   "Con chó không cùng nhóm xe.": a381,
   "Con chó không cùng nhóm đồ chơi.": a382,
-  "Con chó kêu gâu gâu.": a383,
   "Con chạm bạn mẹ ở trên, rồi tìm em bé của bạn ấy ở dưới nhé.": a384,
   "Con chạm chữ hoa ở trên, rồi tìm chữ thường của nó ở dưới nhé.": a385,
   "Con chạm một chữ, rồi chạm tranh bắt đầu bằng chữ đó nhé.": a386,
@@ -2379,14 +2351,12 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Con ghép hai tranh có tên bắt đầu bằng cùng một âm nhé.": a446,
   "Con ghép hai tranh có tên nghe vần với nhau nhé.": a447,
   "Con ghép đúng hết chữ và tranh rồi.": a448,
-  "Con gà trống kêu ò ó o.": a449,
   "Con kéo chữ vào ô trống nhé.": a450,
   "Con lật hai thẻ.": a451,
   "Con lật tìm một chữ và một tranh bắt đầu bằng chữ đó nhé.": a452,
   "Con lợn không cùng nhóm quả.": a453,
   "Con lợn không cùng nhóm xe.": a454,
   "Con lợn không cùng nhóm đồ chơi.": a455,
-  "Con lợn kêu ụt ịt.": a456,
   "Con mèo không cùng nhóm quả.": a457,
   "Con mèo không cùng nhóm xe.": a458,
   "Con mèo không cùng nhóm đồ chơi.": a459,
@@ -2405,7 +2375,6 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Con nghe nhé: xe đạp.": a472,
   "Con nghe nhé: ô tô.": a473,
   "Con nghe nhé: đồng hồ báo thức.": a474,
-  "Con ong kêu vo ve.": a475,
   "Con thuyền không cùng nhóm con vật.": a476,
   "Con thuyền không cùng nhóm quả.": a477,
   "Con thuyền không cùng nhóm đồ chơi.": a478,
@@ -2426,11 +2395,9 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Con vịt không cùng nhóm quả.": a493,
   "Con vịt không cùng nhóm xe.": a494,
   "Con vịt không cùng nhóm đồ chơi.": a495,
-  "Con vịt kêu cạp cạp.": a496,
   "Con xếp các bước theo thứ tự nhé.": a497,
   "Con xếp các chữ theo đúng thứ tự bảng chữ cái nhé.": a498,
   "Con xếp theo thứ tự nhé.": a499,
-  "Con ếch kêu ộp ộp.": a500,
   "Cua bắt đầu bằng âm cờ.": a501,
   "Cá bắt đầu bằng âm cờ.": a502,
   "Cá với lá, nghe giống nhau đó!": a503,
@@ -2471,7 +2438,6 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Cây mầm lớn lên rồi nở hoa.": a538,
   "Cây mầm lớn thành cây to.": a539,
   "Có mấy tiếng?": a540,
-  "Cạp cạp, cạp cạp!": a541,
   "Cờ, cờ.": a542,
   "Củ cà rốt có ba tiếng.": a543,
   "Củ...": a544,
@@ -2482,8 +2448,6 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Gà bắt đầu bằng chữ gì?": a549,
   "Gà bắt đầu bằng chữ gờ.": a550,
   "Gà bắt đầu bằng âm gờ.": a551,
-  "Gà con kêu chíp chíp.": a552,
-  "Gâu gâu, gâu gâu!": a553,
   "Gấu bông có hai tiếng.": a554,
   "Gấu bông không cùng nhóm con vật.": a555,
   "Gấu bông không cùng nhóm quả.": a556,
@@ -2572,7 +2536,6 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Táo bắt đầu bằng chữ tờ.": a639,
   "Táo bắt đầu bằng âm tờ.": a640,
   "Tờ, tờ.": a641,
-  "Vo ve, vo ve!": a642,
   "Voi bắt đầu bằng chữ gì?": a643,
   "Voi bắt đầu bằng chữ vờ.": a644,
   "Voi bắt đầu bằng âm vờ.": a645,
@@ -2698,14 +2661,12 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "tờ, u, ư.": a765,
   "u, ư, vờ, xờ.": a766,
   "u, ư, vờ.": a767,
-  "Ò ó o, ò ó o!": a768,
   "Ô tô có hai tiếng.": a769,
   "Ô tô không cùng nhóm con vật.": a770,
   "Ô tô không cùng nhóm quả.": a771,
   "Ô tô không cùng nhóm đồ chơi.": a772,
   "Ô tô đâu nhỉ?": a773,
   "Ô...": a774,
-  "Ùm ùm, ùm ùm!": a775,
   "á, ớ, bờ, cờ, dờ, đờ, e.": a776,
   "á, ớ, bờ, cờ, dờ, đờ.": a777,
   "á, ớ, bờ, cờ, dờ.": a778,
@@ -2885,13 +2846,11 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "ơ, pờ, quờ, rờ.": a952,
   "ơ, pờ, quờ.": a953,
   "ư, vờ, xờ.": a954,
-  "Ộp ộp, ộp ộp!": a955,
   "ớ, bờ, cờ, dờ, đờ, e, ê.": a956,
   "ớ, bờ, cờ, dờ, đờ, e.": a957,
   "ớ, bờ, cờ, dờ, đờ.": a958,
   "ớ, bờ, cờ, dờ.": a959,
   "ớ, bờ, cờ.": a960,
-  "Ụt ịt, ụt ịt!": a961,
   "Con nghe tên đồ vật, rồi chạm vào tranh đúng nhé. Trò này sắp có nhé!": a962,
   "Trò Bé tìm đồ vật cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a963,
   "Con chơi xong mức Khó trò Bé tìm đồ vật để nhận sticker này nhé.": a964,
@@ -2926,24 +2885,6 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Con nghe tiếng kêu, rồi chạm vào bạn kêu như thế nhé. Trò này sắp có nhé!": a993,
   "Trò Ai kêu thế nhỉ? cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a994,
   "Con chơi xong mức Khó trò Ai kêu thế nhỉ? để nhận sticker này nhé.": a995,
-  "Ai kêu thế nhỉ? Gâu gâu, gâu gâu!": a996,
-  "Đúng rồi! Con chó kêu gâu gâu.": a997,
-  "Ai kêu thế nhỉ? Ộp ộp, ộp ộp!": a998,
-  "Đúng rồi! Con ếch kêu ộp ộp.": a999,
-  "Ai kêu thế nhỉ? Ò ó o, ò ó o!": a1000,
-  "Đúng rồi! Con gà trống kêu ò ó o.": a1001,
-  "Ai kêu thế nhỉ? Chíp chíp, chíp chíp!": a1002,
-  "Đúng rồi! Gà con kêu chíp chíp.": a1003,
-  "Ai kêu thế nhỉ? Ụt ịt, ụt ịt!": a1004,
-  "Đúng rồi! Con lợn kêu ụt ịt.": a1005,
-  "Ai kêu thế nhỉ? Vo ve, vo ve!": a1006,
-  "Đúng rồi! Con ong kêu vo ve.": a1007,
-  "Ai kêu thế nhỉ? Ùm ùm, ùm ùm!": a1008,
-  "Đúng rồi! Con bò kêu ùm ùm.": a1009,
-  "Ai kêu thế nhỉ? Meo meo, meo meo!": a1010,
-  "Đúng rồi! Con mèo kêu meo meo.": a1011,
-  "Ai kêu thế nhỉ? Cạp cạp, cạp cạp!": a1012,
-  "Đúng rồi! Con vịt kêu cạp cạp.": a1013,
   "Con chạm hai tranh giống hệt nhau nhé. Trò này sắp có nhé!": a1014,
   "Trò Tìm bạn giống hệt cần bố mẹ mở thêm nhé. Con chơi các trò khác trước nha.": a1015,
   "Con chơi xong mức Khó trò Tìm bạn giống hệt để nhận sticker này nhé.": a1016,
@@ -3853,4 +3794,13 @@ export const RECORDED_LINES: Readonly<Record<string, number>> = {
   "Đúng rồi, cái trống! Con ghép xong rồi!": a1920,
   "Đúng rồi, con mèo! Con ghép xong rồi!": a1921,
   "Đúng rồi, gấu bông! Con ghép xong rồi!": a1922,
+  "Đúng rồi! Đây là con mèo.": a2000,
+  "Đúng rồi! Đây là con chó.": a2001,
+  "Đúng rồi! Đây là con bò.": a2002,
+  "Đúng rồi! Đây là con gà trống.": a2003,
+  "Đúng rồi! Đây là con vịt.": a2004,
+  "Đúng rồi! Đây là con lợn.": a2005,
+  "Đúng rồi! Đây là gà con.": a2006,
+  "Đúng rồi! Đây là con ếch.": a2007,
+  "Đúng rồi! Đây là con ong.": a2008,
 };

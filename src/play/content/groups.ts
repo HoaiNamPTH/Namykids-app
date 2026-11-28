@@ -296,6 +296,7 @@ const xauVong: GameContent = {
       return {
         kind: "fill",
         prompt: gaps === 2 ? "Con xâu tiếp hai hạt cho đúng quy luật nhé." : "Hạt tiếp theo màu gì? Con xâu tiếp cho đúng quy luật nhé.",
+        short: gaps === 2 ? "Xâu tiếp hai hạt" : "Hạt tiếp theo màu gì?",
         cells,
         strung: true,
         tray: shuffle([...answers, ...extra], rng).map((c) => colorCard(c)),
