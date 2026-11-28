@@ -30,6 +30,8 @@ export type ChooseRound = {
   scene?: Pic;
   /** Spoken after the round is solved. */
   praise: string;
+  /** A real sound (e.g. the animal's call) played right after the prompt and again after the praise. */
+  sound?: ItemId;
 };
 
 /** Match pairs: tap a top card, then its partner in the bottom row. */

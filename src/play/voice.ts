@@ -1,6 +1,8 @@
 import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from "expo-audio";
 import * as Speech from "expo-speech";
 import { Platform } from "react-native";
+import { ANIMAL_SOUNDS } from "./animal-sounds";
+import type { ItemId } from "./items";
 import { RECORDED_LINES } from "./recorded-lines";
 import { chooseFemaleVietnamese } from "./voice-pick";
 
@@ -80,6 +82,18 @@ export async function speak(text: string): Promise<void> {
     setTimeout(done, estimate * 1.6);
     Speech.speak(text, { language: "vi-VN", rate: VOICE_RATE, pitch: VOICE_PITCH, voice: voice?.identifier, onDone: done, onStopped: done, onError: done });
   });
+}
+
+/** Play a real sound (e.g. an animal's call). Plays even when the guide's voice is off: it is part of the game, not the guide. */
+export function playSound(id: ItemId | undefined): Promise<void> {
+  const source = id ? ANIMAL_SOUNDS[id] : undefined;
+  if (source === undefined) return Promise.resolve();
+  return playRecording(source, 3500);
+}
+
+/** Say a line, then play its sound (if any). */
+export function sayThenSound(text: string, sound?: ItemId): Promise<void> {
+  return speak(text).then(() => playSound(sound));
 }
 
 let player: AudioPlayer | null = null;

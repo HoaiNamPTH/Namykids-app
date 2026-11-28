@@ -14,7 +14,7 @@ import { play } from "../theme";
 import { foundationAssets } from "../../ui/foundation-assets";
 import { PlayScreen, RoundButton } from "../ui";
 import { openingLines } from "../speech-lines";
-import { speak, stopSpeaking } from "../voice";
+import { sayThenSound, speak, stopSpeaking } from "../voice";
 
 /** Spoken when a game is finished. Warm, short, about effort as much as result. */
 const PRAISE = [
@@ -41,14 +41,16 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   const [levelOpen, setLevelOpen] = useState(false);
   useEffect(() => {
     if (!round || won) return;
+    const sound = round.kind === "choose" ? round.sound : undefined;
     let live = true;
     const t = setTimeout(() => {
       if (intro) {
         // Nam 27/11/2026: when the first prompt repeats the intro, say it once.
         const lines = openingLines(game.intro, round.prompt);
-        void speak(lines[0] ?? game.intro).then(() => { if (live) { promptSaid.current = lines.length === 1; setIntro(false); } });
+        const merged = lines.length === 1;
+        void (merged ? sayThenSound(round.prompt, sound) : speak(lines[0] ?? game.intro)).then(() => { if (live) { promptSaid.current = merged; setIntro(false); } });
       } else if (promptSaid.current) promptSaid.current = false;
-      else void speak(round.prompt);
+      else void sayThenSound(round.prompt, sound);
     }, 350);
     return () => { live = false; clearTimeout(t); };
   }, [round, won, intro, game.intro]);
@@ -76,7 +78,7 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   return <PlayScreen>
     <View style={styles.top}>
       <RoundButton kind="back" label="Quay lại" onPress={onBack} />
-      <Pressable accessibilityRole="button" accessibilityLabel={`Nghe lại: ${said}`} onPress={() => said && void speak(said)} style={({ pressed }) => [styles.question, pressed && { opacity: 0.85 }]}>
+      <Pressable accessibilityRole="button" accessibilityLabel={`Nghe lại: ${said}`} onPress={() => said && void (intro ? speak(said) : sayThenSound(said, round?.kind === "choose" ? round.sound : undefined))} style={({ pressed }) => [styles.question, pressed && { opacity: 0.85 }]}>
         <Text numberOfLines={1} adjustsFontSizeToFit style={styles.questionText}>{shown}</Text>
       </Pressable>
     </View>

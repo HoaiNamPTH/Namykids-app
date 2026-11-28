@@ -1,5 +1,6 @@
 import type { ItemId } from "../items";
 import { ITEMS } from "../items";
+import { ANIMAL_SOUNDS } from "../animal-sounds";
 import { pick, pickOne, shuffle } from "../engine/random";
 import type { Card, ChooseRound, FillRound, FlipCard, FlipRound, GameContent, Level, MatchRound, Pic, Rng, Where } from "../engine/types";
 import { ALPHABET, letterName, LOOK_ALIKE } from "./letters";
@@ -44,14 +45,13 @@ const timDoVat: GameContent = {
 
 /* ---------- 2. Ai kêu thế nhỉ? (never names the animal before the child chooses) ---------- */
 
-const SOUNDS: Partial<Record<ItemId, string>> = {
-  cat: "meo meo", dog: "gâu gâu", cow: "ùm ùm", rooster: "ò ó o", duck: "cạp cạp", pig: "ụt ịt", chick: "chíp chíp", frog: "ộp ộp", bee: "vo ve",
-};
-const SOUND_ANIMALS = Object.keys(SOUNDS) as ItemId[];
+// Nam 28/11/2026: the child hears the animal's real call, never Vita imitating it ("meo meo" read aloud sounded odd).
+// Vita asks "Ai kêu thế nhỉ?", the real sound plays; once solved Vita names the animal and the sound plays again.
+const SOUND_ANIMALS = Object.keys(ANIMAL_SOUNDS) as ItemId[];
 
 const aiKeuThe: GameContent = {
-  rounds: (level, rng) => listenRounds(SOUND_ANIMALS, level, rng, (id) => `Ai kêu thế nhỉ? ${cap(SOUNDS[id] ?? "")}, ${SOUNDS[id]}!`, (id) => `Đúng rồi! ${cap(name(id))} kêu ${SOUNDS[id]}.`)
-    .map((r) => ({ ...r, short: `${cap(SOUNDS[r.answers[0] as ItemId] ?? "")}?` })),
+  rounds: (level, rng) => listenRounds(SOUND_ANIMALS, level, rng, () => "Ai kêu thế nhỉ?", (id) => `Đúng rồi! Đây là ${name(id)}.`)
+    .map((r) => ({ ...r, sound: r.answers[0] as ItemId })),
 };
 
 /* ---------- 3. Tìm bạn giống hệt ---------- */
