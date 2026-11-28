@@ -1,4 +1,4 @@
-/* Generated. Pictures: Microsoft Fluent Emoji 3D (MIT), see src/assets/play/items/LICENSE.md. */
+/* Generated. Pictures: NamyKids Soft CGI set (11 unused ones still Fluent Emoji 3D, MIT); see src/assets/play/items/LICENSE.md. */
 import airplaneImg from "../assets/play/items/airplane.png";
 import alarmImg from "../assets/play/items/alarm.png";
 import angryImg from "../assets/play/items/angry.png";
