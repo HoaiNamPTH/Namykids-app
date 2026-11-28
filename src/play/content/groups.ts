@@ -155,12 +155,10 @@ const phaMau: GameContent = {
 const FAMILY_EASY: ItemId[] = ["dad", "mom", "grandpa", "grandma", "baby"];
 const FAMILY_ALL: ItemId[] = [...FAMILY_EASY, "brother", "sister"];
 const familyPool = (level: Level) => (level === 0 ? FAMILY_EASY : FAMILY_ALL);
-/** The interim pictures of "anh trai" and "bố" are too alike to be told apart side by side. */
-const lookAlike = (a: ItemId, b: ItemId) => (a === "brother" && b === "dad") || (a === "dad" && b === "brother");
-/** The target plus distractors, never two look-alike pictures in the same round. */
+/** The target plus distinct distractors. */
 function pickApart(pool: readonly ItemId[], target: ItemId, n: number, rng: Rng): ItemId[] {
   const out: ItemId[] = [target];
-  for (const p of shuffle(pool, rng)) if (out.length < n && !out.some((o) => o === p || lookAlike(o, p))) out.push(p);
+  for (const p of shuffle(pool, rng)) if (out.length < n && !out.includes(p)) out.push(p);
   return out;
 }
 
@@ -188,10 +186,7 @@ const S = {
   baby: { item: "baby", say: "Em bé" }, sister: { item: "sister", say: "Chị gái" }, brother: { item: "brother", say: "Anh trai" },
   mom: { item: "mom", say: "Mẹ" }, dad: { item: "dad", say: "Bố" }, grandma: { item: "grandma", say: "Bà" }, grandpa: { item: "grandpa", say: "Ông" },
 } satisfies Record<string, Step>;
-/**
- * Age lines. The interim pictures of "anh trai" and "bố" look alike, so they never appear in the same line;
- * the 3-step lines skip one middle generation and keep only very different ages.
- */
+/** Age lines; the 3-step lines skip one middle generation and keep only very different ages. */
 const LINES: readonly (readonly Step[])[] = [
   [S.baby, S.sister, S.mom, S.grandma],
   [S.baby, S.brother, S.mom, S.grandpa],
@@ -224,7 +219,7 @@ const latTheCaNha: GameContent = {
     return [0, 1].map((): FlipRound => ({
       kind: "flip",
       prompt: "Con lật hai thẻ. Nếu là cùng một người thì thẻ được giữ lại nhé.",
-      cards: shuffle(pick(familyPool(level).filter((p) => p !== "brother"), n, rng).flatMap((id): FlipCard[] => [{ ...itemCard(id, `${id}-1`), pair: id }, { ...itemCard(id, `${id}-2`), pair: id }]), rng),
+      cards: shuffle(pick(familyPool(level), n, rng).flatMap((id): FlipCard[] => [{ ...itemCard(id, `${id}-1`), pair: id }, { ...itemCard(id, `${id}-2`), pair: id }]), rng),
       praise: "Giỏi quá! Con tìm đủ cả nhà rồi.",
     }));
   },

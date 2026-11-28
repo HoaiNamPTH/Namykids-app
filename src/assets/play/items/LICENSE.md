@@ -1,8 +1,9 @@
 # Item pictures
 
-Source: Microsoft Fluent Emoji, 3D style (https://github.com/microsoft/fluentui-emoji), resized to 192 px.
+111 of these pictures are NamyKids' own Soft CGI set (made 27/11/2026 from the prompt sheet
+"NamyKids_Cau_lenh_hinh_SoftCGI" on Drive). The white background was removed and each picture
+was trimmed and centred on a 256 x 256 transparent canvas.
 
-Licence: MIT. Copyright (c) Microsoft Corporation.
-
-These are interim game pictures until NamyKids has its own Soft CGI object set. Nami, Niko, the
-background and the controls stay on the PO-approved 24/09/2026 Soft CGI assets.
+These 11 are not used by any game yet and are still Microsoft Fluent Emoji 3D (MIT, Copyright (c)
+Microsoft Corporation, https://github.com/microsoft/fluentui-emoji): butterfly, cake, caterpillar,
+egg, gift, hat, heart, lion, mushroom, rainbow, tshirt. Replace them before any game uses them.
