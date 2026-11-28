@@ -74,7 +74,7 @@ export function GamePlayer({ game, content, startLevel, onBack, onOtherGame }: {
   // tapping the words or the speaker plays them again.
   const said = round ? (intro ? game.intro : round.prompt) : "";
   // Nam 25/11/2026: the screen shows only a few key words; the voice reads the whole sentence.
-  // Nam 28/11/2026: the words name this round's question ("Cái gì bắt đầu bằng âm b?"), not just the game,
+  // Nam 28/11/2026: the words name this round's question ("Âm đầu: b (bờ)"), not just the game,
   // so a parent who joins mid-game, or a muted phone, still shows what the child is asked.
   const shown = round ? (intro ? game.short : round.short ?? game.short) : "";
   return <PlayScreen>

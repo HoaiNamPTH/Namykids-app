@@ -7,6 +7,7 @@ import type { Level, Round } from "../src/play/engine/types";
 
 // Nam 28/11/2026: every round shows its question as text, so a parent who joins mid-game
 // (or plays on a muted phone) sees what the child is asked without listening.
+// Nam 28/11/2026 (later): the text stays short; Vita still reads the full sentence.
 const CONTENT = { ...LANGUAGE_CONTENT, ...GROUP_CONTENT };
 const LEVELS: Level[] = [0, 1, 2];
 const shownText = (round: Round, fallback: string) => round.short ?? fallback;
@@ -22,7 +23,7 @@ describe("on-screen question text", () => {
         for (const r of rounds) {
           const text = shownText(r, game.short);
           expect(text.length).toBeGreaterThan(2);
-          expect(text.length).toBeLessThanOrEqual(60);
+          expect(text.length).toBeLessThanOrEqual(30);
           expect(text).not.toMatch(/vần [a-zđ](?!\p{L})/iu);
           byPrompt.set(r.prompt, text);
         }
@@ -32,8 +33,8 @@ describe("on-screen question text", () => {
     });
   }
 
-  it("Âm đầu shows the sound of the round, e.g. 'âm b (bờ)'", () => {
+  it("Âm đầu shows the sound of the round, e.g. 'Âm đầu: b (bờ)'", () => {
     const rounds = LANGUAGE_CONTENT["am-dau"]!.rounds(1, seeded(3));
-    for (const r of rounds) expect(r.short).toMatch(/^Cái gì bắt đầu bằng âm [a-zđ] \(\p{L}+\)\?$/u);
+    for (const r of rounds) expect(r.short).toMatch(/^Âm đầu: [a-zđ] \(\p{L}+\)$/u);
   });
 });
