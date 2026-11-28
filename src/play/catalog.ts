@@ -43,13 +43,13 @@ const GROUP_OF: Record<string, AreaId> = {
 
 /** Short on-screen line per Language game (the voice reads the full intro and prompts). */
 const SHORT: Record<string, string> = {
-  "tim-do-vat": "Tìm đồ vật", "ai-keu-the": "Ai kêu thế?", "ban-giong-het": "Hai tranh giống hệt", "me-oi-con-dau": "Mẹ và em bé",
-  "doi-ban-than": "Đôi bạn thân", "be-gom-nhom": "Tìm cùng nhóm", "khac-nhom": "Bạn nào khác nhóm?", "de-lam-gi": "Để làm gì?",
-  "cam-xuc": "Bạn thấy thế nào?", "tren-duoi-trong": "Trên, dưới, trong", "nguoc-nhau": "Ghép hai tranh ngược nhau",
+  "tim-do-vat": "Tìm đồ vật", "ai-keu-the": "Ai kêu thế?", "ban-giong-het": "Ghép hai tranh giống hệt", "me-oi-con-dau": "Tìm em bé cho mẹ",
+  "doi-ban-than": "Ghép đồ hay đi cùng nhau", "be-gom-nhom": "Tìm cùng nhóm", "khac-nhom": "Bạn nào khác nhóm?", "de-lam-gi": "Để làm gì?",
+  "cam-xuc": "Bạn thấy thế nào?", "tren-duoi-trong": "Trên, dưới, trong", "nguoc-nhau": "Ghép tranh ngược nhau",
   "chuyen-cay-con": "Cây lớn lên", "mot-ngay-cua-be": "Việc nào trước?", "be-rua-tay": "Các bước rửa tay", "am-dau": "Âm đầu",
-  "cung-am-dau": "Cùng âm đầu", "van-voi-nhau": "Vần với nhau", "vo-tay-dem-tieng": "Mấy tiếng?", "nghe-chon-chu": "Nghe và chọn chữ",
-  "chu-va-tranh": "Chữ và tranh", "chu-hoa-thuong": "Chữ hoa, chữ thường", "chu-con-thieu": "Chữ nào còn thiếu?",
-  "chu-dau-cua-tranh": "Chữ đầu của tranh", "xep-bang-chu": "Xếp bảng chữ cái", "lat-the-tim-cap": "Lật tìm cặp", "lat-the-chu-tranh": "Lật tìm chữ và tranh",
+  "cung-am-dau": "Ghép tranh cùng âm đầu", "van-voi-nhau": "Ghép tranh vần với nhau", "vo-tay-dem-tieng": "Mấy tiếng?", "nghe-chon-chu": "Nghe và chọn chữ",
+  "chu-va-tranh": "Ghép chữ với tranh", "chu-hoa-thuong": "Ghép chữ hoa với chữ thường", "chu-con-thieu": "Chữ nào còn thiếu?",
+  "chu-dau-cua-tranh": "Chữ đầu của tranh", "xep-bang-chu": "Xếp chữ theo thứ tự", "lat-the-tim-cap": "Lật tìm hai tranh giống nhau", "lat-the-chu-tranh": "Lật tìm chữ và tranh",
 };
 
 const g = (no: number, id: string, title: string, template: TemplateId, ages: string, icon: GameIcon, intro: string, milestone: 2 | 3 | 4): GameMeta =>
@@ -96,7 +96,7 @@ export const GROUP_GAMES: readonly GameMeta[] = [
   n(30, "pha-mau", "mau-sac", "Pha màu", "drag-fill", "5–6", { item: "paintbrush" }, "Hai màu trộn với nhau thì ra màu gì? Con kéo màu vào ô trống nhé.", "Pha màu"),
   n(31, "ai-day-nhi", "gia-dinh", "Ai đây nhỉ?", "listen-choose", "2–4", { item: "grandma" }, "Con nghe tên người trong nhà, rồi chạm vào người đó nhé.", "Ai đây nhỉ?"),
   n(32, "tu-be-den-lon", "gia-dinh", "Từ bé đến lớn", "sequence", "4–5", { item: "baby" }, "Con xếp mọi người từ nhỏ tuổi nhất đến lớn tuổi nhất nhé.", "Từ bé đến lớn"),
-  n(33, "lat-the-ca-nha", "gia-dinh", "Lật thẻ cả nhà", "flip-cards", "3–6", { item: "mom" }, "Con lật hai thẻ. Nếu là cùng một người thì giữ lại nhé.", "Lật tìm cặp"),
+  n(33, "lat-the-ca-nha", "gia-dinh", "Lật thẻ cả nhà", "flip-cards", "3–6", { item: "mom" }, "Con lật hai thẻ. Nếu là cùng một người thì giữ lại nhé.", "Lật tìm hai thẻ cùng người"),
   n(34, "to-mau-cho-tranh", "nghe-thuat", "Tô màu cho tranh", "match-pairs", "3–5", { item: "palette" }, "Con chọn màu, rồi chạm vào tranh để tô cho đúng màu nhé.", "Tô màu cho tranh"),
   n(35, "nhac-cu", "nghe-thuat", "Nhạc cụ tên gì?", "listen-choose", "3–5", { item: "guitar" }, "Con nghe tên nhạc cụ, rồi chạm vào nhạc cụ đó nhé.", "Nhạc cụ"),
   n(36, "xau-vong", "nghe-thuat", "Xâu vòng hạt màu", "drag-fill", "4–6", { item: "flower" }, "Con nhìn các hạt màu, rồi xâu tiếp hạt cho đúng quy luật nhé.", "Hạt nào tiếp theo?"),
