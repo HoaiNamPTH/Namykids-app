@@ -47,7 +47,7 @@ const SHORT: Record<string, string> = {
   "doi-ban-than": "Đôi bạn thân", "be-gom-nhom": "Tìm cùng nhóm", "khac-nhom": "Bạn nào khác nhóm?", "de-lam-gi": "Để làm gì?",
   "cam-xuc": "Bạn thấy thế nào?", "tren-duoi-trong": "Trên, dưới, trong", "nguoc-nhau": "Ghép hai tranh ngược nhau",
   "chuyen-cay-con": "Cây lớn lên", "mot-ngay-cua-be": "Việc nào trước?", "be-rua-tay": "Các bước rửa tay", "am-dau": "Âm đầu",
-  "cung-am-dau": "Cùng âm đầu", "van-voi-nhau": "Vần với nhau", "vo-tay-dem-tieng": "Mấy tiếng?", "nghe-chon-chu": "Nghe và chọn chữ",
+  "cung-am-dau": "Cùng âm đầu", "van-voi-nhau": "Vần với nhau", "vo-tay-dem-tieng": "Mấy tiếng?", "nghe-chon-chu": "Nghe rồi chọn chữ cái",
   "chu-va-tranh": "Chữ và tranh", "chu-hoa-thuong": "Chữ hoa, chữ thường", "chu-con-thieu": "Chữ nào còn thiếu?",
   "chu-dau-cua-tranh": "Chữ đầu của tranh", "xep-bang-chu": "Xếp bảng chữ cái", "lat-the-tim-cap": "Lật tìm cặp", "lat-the-chu-tranh": "Lật tìm chữ và tranh",
 };

@@ -209,6 +209,8 @@ const amDau: GameContent = {
 
 /* ---------- 19. Nghe rồi chọn chữ ---------- */
 
+// Nam 28/11/2026: the screen never shows the letter to find (the child could match its shape without listening);
+// it keeps the game line "Nghe rồi chọn chữ cái" while Vita says the letter name.
 const ngheChonChu: GameContent = {
   rounds: (level, rng) => {
     const n = byLevel(level, [2, 3, 4] as const);
@@ -219,7 +221,7 @@ const ngheChonChu: GameContent = {
       const extra = pick(ALPHABET.map((l) => l.toLowerCase()).filter((l) => !base.includes(l)), n - base.length, rng);
       const letters = shuffle([...base, ...extra], rng);
       const target = pickOne(base, rng);
-      return { kind: "choose", prompt: `Con chạm vào chữ ${letterName(target)}.`, short: `Tìm chữ: ${letterName(target)}`, cards: letters.map((l) => glyphCard(l, l, `chữ ${letterName(l)}`)), answers: [target], praise: `Đúng rồi! Đây là chữ ${letterName(target)}.` };
+      return { kind: "choose", prompt: `Con chạm vào chữ ${letterName(target)}.`, cards: letters.map((l) => glyphCard(l, l, `chữ ${letterName(l)}`)), answers: [target], praise: `Đúng rồi! Đây là chữ ${letterName(target)}.` };
     });
   },
 };

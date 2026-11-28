@@ -10,6 +10,7 @@ import type { Level, Round } from "../src/play/engine/types";
 // Nam 28/11/2026 (later): the text stays short; Vita still reads the full sentence.
 const CONTENT = { ...LANGUAGE_CONTENT, ...GROUP_CONTENT };
 const LEVELS: Level[] = [0, 1, 2];
+const HIDES_ANSWER = new Set(["nghe-chon-chu"]);
 const shownText = (round: Round, fallback: string) => round.short ?? fallback;
 
 describe("on-screen question text", () => {
@@ -27,11 +28,16 @@ describe("on-screen question text", () => {
           expect(text).not.toMatch(/vần [a-zđ](?!\p{L})/iu);
           byPrompt.set(r.prompt, text);
         }
-        // Two different spoken questions never share the same on-screen line.
-        expect(new Set(byPrompt.values()).size).toBe(byPrompt.size);
+        // Two different spoken questions never share the same on-screen line,
+        // except where the line would give the answer away (the child must listen).
+        if (!HIDES_ANSWER.has(game.id)) expect(new Set(byPrompt.values()).size).toBe(byPrompt.size);
       }
     });
   }
+
+  it("Nghe rồi chọn chữ never prints the letter to find", () => {
+    for (const r of LANGUAGE_CONTENT["nghe-chon-chu"]!.rounds(2, seeded(5))) expect(r.short).toBeUndefined();
+  });
 
   it("Âm đầu shows the sound of the round, e.g. 'Âm đầu: b (bờ)'", () => {
     const rounds = LANGUAGE_CONTENT["am-dau"]!.rounds(1, seeded(3));
