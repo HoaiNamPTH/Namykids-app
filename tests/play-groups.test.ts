@@ -85,10 +85,10 @@ describe("Màu sắc, Gia đình, Nghệ thuật games", () => {
     }
   });
 
-  it("Ai đây nhỉ? never shows anh trai next to bố (the interim pictures look alike)", () => {
+  it("Ai đây nhỉ? shows each family member at most once per round", () => {
     for (const { rounds: rs } of rounds("ai-day-nhi")) for (const r of rs) if (r.kind === "choose") {
       const ids = r.cards.map((c) => c.id);
-      expect(ids.includes("brother") && ids.includes("dad")).toBe(false);
+      expect(new Set(ids).size).toBe(ids.length);
     }
   });
 
